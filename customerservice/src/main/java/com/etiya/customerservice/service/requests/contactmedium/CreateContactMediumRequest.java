@@ -39,4 +39,47 @@ public class CreateContactMediumRequest {
     @NotNull
     @Positive(message = "CityId must be positive")
     private UUID customerId;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public boolean isPrimary() {
+        return isPrimary;
+    }
+
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
+    public CreateContactMediumRequest() {
+    }
+
+
+    public CreateContactMediumRequest(String type, String value, boolean isPrimary, UUID customerId) {
+        this.type = type;
+        this.value = value;
+        this.isPrimary = isPrimary;
+        this.customerId = customerId;
+    }
 }

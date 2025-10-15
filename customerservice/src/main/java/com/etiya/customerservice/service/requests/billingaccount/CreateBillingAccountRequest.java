@@ -9,10 +9,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class CreateBillingAccountRequest {
 
 
@@ -32,6 +32,45 @@ public class CreateBillingAccountRequest {
     @Positive(message = "AddressId must be a positive")
     private UUID addressId;
 
+    public String getAccountName() {
+        return accountName;
+    }
 
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
 
+    public BillingAccountType getType() {
+        return type;
+    }
+
+    public void setType(BillingAccountType type) {
+        this.type = type;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
+    public UUID getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(UUID addressId) {
+        this.addressId = addressId;
+    }
+
+    public CreateBillingAccountRequest() {
+    }
+
+    public CreateBillingAccountRequest(String accountName, BillingAccountType type, UUID customerId, UUID addressId) {
+        this.accountName = accountName;
+        this.type = type;
+        this.customerId = customerId;
+        this.addressId = addressId;
+    }
 }

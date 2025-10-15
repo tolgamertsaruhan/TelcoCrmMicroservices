@@ -40,4 +40,55 @@ public class ContactMedium extends BaseEntity {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public ContactMediumType getType() {
+        return type;
+    }
+
+    public void setType(ContactMediumType type) {
+        this.type = type;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public boolean isPrimary() {
+        return isPrimary;
+    }
+
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public ContactMedium() {
+    }
+
+    public ContactMedium(UUID id, ContactMediumType type, String value, boolean isPrimary, Customer customer) {
+        this.id = id;
+        this.type = type;
+        this.value = value;
+        this.isPrimary = isPrimary;
+        this.customer = customer;
+    }
 }

@@ -4,6 +4,9 @@ import com.etiya.searchservice.domain.CustomerSearch;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CustomerSearchRepository extends ElasticsearchRepository<CustomerSearch, String> {
+
 }

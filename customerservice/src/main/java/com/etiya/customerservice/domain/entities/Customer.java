@@ -44,6 +44,39 @@ public class Customer extends BaseEntity {
         String randomPart = String.format("%04d",new java.util.Random().nextInt(10000));
         this.customerNumber = prefix + year + "-" + randomPart;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Customer() {
+    }
+
+    public Customer(UUID id, String customerNumber, List<Address> addresses) {
+        this.id = id;
+        this.customerNumber = customerNumber;
+        this.addresses = addresses;
+    }
 }
 
 

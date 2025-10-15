@@ -12,6 +12,9 @@ import com.etiya.customerservice.service.responses.individualcustomer.CreatedInd
 import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
 import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
 import com.etiya.customerservice.service.rules.IndividualCustomerBusinessRules;
+import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
+import com.etiya.customerservice.transport.kafka.producer.address.DeletedAddressProducer;
+import com.etiya.customerservice.transport.kafka.producer.address.UpdatedAddressProducer;
 import com.etiya.customerservice.transport.kafka.producer.customer.CreateCustomerProducer;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +28,12 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
     private final IndividualCustomerBusinessRules rules;
     private final CreateCustomerProducer createCustomerProducer;
 
-    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules,  CreateCustomerProducer createCustomerProducer) {
+
+    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer) {
         this.individualCustomerRepository = individualCustomerRepository; //Dependency injection
         this.rules = rules;
         this.createCustomerProducer = createCustomerProducer;
+
     }
 
     @Override
@@ -44,7 +49,6 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                         createdIndividualCustomer.getFirstName(),
                         createdIndividualCustomer.getLastName(),
                         createdIndividualCustomer.getNationalId(),
-                        createdIndividualCustomer.getDateOfBirth(),
                         createdIndividualCustomer.getMotherName(),
                         createdIndividualCustomer.getFatherName(),
                         createdIndividualCustomer.getGender());

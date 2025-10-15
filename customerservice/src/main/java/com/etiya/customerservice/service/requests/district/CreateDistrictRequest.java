@@ -11,10 +11,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class CreateDistrictRequest {
 
     @NotBlank(message = "Name is required")
@@ -22,6 +22,29 @@ public class CreateDistrictRequest {
     private String name;
 
     @NotNull(message = "CityId is required")
-    @Positive(message = "CityId must be positive")
     private UUID cityId;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UUID getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(UUID cityId) {
+        this.cityId = cityId;
+    }
+
+    public CreateDistrictRequest() {
+    }
+
+    public CreateDistrictRequest(String name, UUID cityId) {
+        this.name = name;
+        this.cityId = cityId;
+    }
 }

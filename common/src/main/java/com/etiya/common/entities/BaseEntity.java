@@ -11,7 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+//@Data
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -36,6 +36,36 @@ public abstract class BaseEntity {
     }
 
 
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
 
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
 
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public BaseEntity() {
+    }
+
+    public BaseEntity(LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate) {
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
+    }
 }

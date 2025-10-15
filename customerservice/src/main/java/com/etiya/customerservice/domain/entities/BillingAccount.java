@@ -13,10 +13,10 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Entity
 @Table(name = "billingAccounts") //-> billing_account
 @SQLRestriction("deleted_date IS NULL")
@@ -58,4 +58,72 @@ public class BillingAccount extends BaseEntity {
         this.accountNumber = prefix + year + "-" + randomPart;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public BillingAccountType getType() {
+        return type;
+    }
+
+    public void setType(BillingAccountType type) {
+        this.type = type;
+    }
+
+    public BillingAccountStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BillingAccountStatus status) {
+        this.status = status;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public BillingAccount() {
+    }
+
+    public BillingAccount(UUID id, BillingAccountType type, BillingAccountStatus status, String accountNumber, String accountName, Customer customer, Address address) {
+        this.id = id;
+        this.type = type;
+        this.status = status;
+        this.accountNumber = accountNumber;
+        this.accountName = accountName;
+        this.customer = customer;
+        this.address = address;
+    }
 }

@@ -20,7 +20,7 @@ public class CreatedCustomerConsumer {
     @KafkaListener(topics = "create-customer", groupId = "create-customer-group")
     public void consume(CreateCustomerEvent event){
         LOGGER.info(String.format("Consumed Customer => %s", event.customerId()));
-        CustomerSearch customerSearch = new CustomerSearch(event.customerId(), event.customerNumber(), event.firstName(), event.lastName(), event.nationalId(), event.dateOfBirth(), event.motherName(), event.fatherName(), event.gender());
+        CustomerSearch customerSearch = new CustomerSearch(event.customerId(), event.customerNumber(), event.firstName(), event.lastName(), event.nationalId(), event.motherName(), event.fatherName(), event.gender());
         customerSearchService.add(customerSearch);
     }
 }
