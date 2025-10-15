@@ -10,14 +10,15 @@ import com.etiya.customerservice.service.responses.district.GetListDistrictRespo
 import com.etiya.customerservice.service.responses.district.UpdatedDistrictResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface DistrictService {
     CreatedDistrictResponse add(CreateDistrictRequest request);
     List<GetListDistrictResponse> getAll();
     UpdatedDistrictResponse update(UpdateDistrictRequest request);
-    GetDistrictResponse getById(int id);
-    void deleteById(int id);
+    GetDistrictResponse getById(UUID id);
+    void deleteById(UUID id);
     List<GetListDistrictResponse> getByName(String name);
     List<GetListDistrictResponse> getByNameStartingWith(String name);
-    List<GetListDistrictResponse> getByCityId(int cityId);
+    List<GetListDistrictResponse> getByCityId(UUID cityId);
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,9 +22,9 @@ import java.util.List;
 public class Address extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private int id;
+    private UUID id;
 
     @Column(name = "street")
     private String street;

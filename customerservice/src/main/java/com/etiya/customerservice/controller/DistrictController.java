@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/districts")
@@ -44,7 +45,7 @@ public class DistrictController {
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GetDistrictResponse getById(@PathVariable int id) {
+    public GetDistrictResponse getById(@PathVariable UUID id) {
         return districtService.getById(id);
     }
 
@@ -62,13 +63,13 @@ public class DistrictController {
 
     @GetMapping("getByCityId/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<GetListDistrictResponse> getByCityId(@PathVariable int id) {
+    public List<GetListDistrictResponse> getByCityId(@PathVariable UUID id) {
         return districtService.getByCityId(id);
     }
 
     @DeleteMapping("{id}")//pathvariable ile anlaşsın diye, mapping yapsın diye
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@Valid @PathVariable int id) {
+    public void delete(@Valid @PathVariable UUID id) {
         districtService.deleteById(id);
     }
 }

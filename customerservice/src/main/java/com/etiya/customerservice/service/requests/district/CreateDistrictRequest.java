@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,5 +23,5 @@ public class CreateDistrictRequest {
 
     @NotNull(message = "CityId is required")
     @Positive(message = "CityId must be positive")
-    private Integer cityId;
+    private UUID cityId;
 }

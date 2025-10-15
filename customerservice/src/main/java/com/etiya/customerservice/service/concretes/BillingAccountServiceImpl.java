@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -92,14 +93,14 @@ public class BillingAccountServiceImpl implements BillingAccountService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(UUID id) {
         billingAccountBusinessRules.checkIfBillingAccountCanBeDeleted(id);
         BillingAccount billingAccount = billingAccountRepository.findById(id).orElseThrow(() -> new RuntimeException("Billing Account not found"));
         billingAccountRepository.delete(billingAccount);
     }
 
     @Override
-    public void softDelete(int id) {
+    public void softDelete(UUID id) {
         BillingAccount billingAccount = billingAccountRepository.findById(id).orElseThrow(() -> new RuntimeException("Billing Account not found"));
         billingAccount.setDeletedDate(LocalDateTime.now());
         billingAccountRepository.save(billingAccount);

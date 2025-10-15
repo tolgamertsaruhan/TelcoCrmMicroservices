@@ -8,6 +8,8 @@ import com.etiya.customerservice.repository.DistrictRepository;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class DistrictBusinessRoles {
     private final DistrictRepository districtRepository;
@@ -18,7 +20,7 @@ public class DistrictBusinessRoles {
         this.localizationService = localizationService;
     }
 
-    public void checkIfAddressExists(int id){
+    public void checkIfAddressExists(UUID id){
         District district = districtRepository.findById(id).orElseThrow(() -> new BusinessException(localizationService.getMessage(Messages.DistrictIdDoesntExist)));
         if (!district.getAddresses().isEmpty()){
             throw new BusinessException(localizationService.getMessage(Messages.DistrictHasAddress));

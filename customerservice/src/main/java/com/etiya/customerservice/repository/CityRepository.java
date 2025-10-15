@@ -5,9 +5,11 @@ import com.etiya.customerservice.domain.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CityRepository extends JpaRepository<City, Integer> {
+import java.util.UUID;
 
-    boolean existsById(int id);
+@Repository
+public interface CityRepository extends JpaRepository<City, UUID> {
+
+    boolean existsById(UUID id);
 
 }

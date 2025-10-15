@@ -6,14 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetContactMediumResponse {
-    private int id;
+    private UUID id;
     private ContactMediumType type;
     private String value;
     private boolean isPrimary;
-    private int customerId;
+    private UUID customerId;
 }

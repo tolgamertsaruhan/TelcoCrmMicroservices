@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface AddressRepository extends JpaRepository<Address, Integer> {
+public interface AddressRepository extends JpaRepository<Address, UUID> {
     // 1️ JPQL Query
     @Query("SELECT a FROM Address a WHERE a.isDefault = true")
     List<Address> findDefaultAddresses();
@@ -19,7 +20,7 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     // 3️ Derived Query (hazır method)
     List<Address> findByStreetContaining(String streetPart);
 
-    void deleteById(int id);
+    void deleteById(UUID id);
 
-    boolean existsByCustomerId(int customerId);
+    boolean existsByCustomerId(UUID customerId);
 }

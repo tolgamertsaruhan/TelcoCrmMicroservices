@@ -9,6 +9,8 @@ import com.etiya.customerservice.repository.CustomerRepository;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AddressBusinessRules {
     private final AddressRepository addressRepository;
@@ -25,7 +27,7 @@ public class AddressBusinessRules {
 //        }
 //    }
 
-    public void checkIfBillingAccountExists(int id) {
+    public void checkIfBillingAccountExists(UUID id) {
         Address address = addressRepository.findById(id).orElseThrow(() -> new BusinessException(localizationService.getMessage(Messages.AddressIdDoesntExist)));
         if (!address.billingAccounts.isEmpty()) {
             throw new BusinessException(localizationService.getMessage(Messages.AddressMustHaveBillingAccount));

@@ -15,6 +15,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper
 public interface DistrictMapper {
@@ -52,7 +53,7 @@ public interface DistrictMapper {
 //        return city;
 //    } Bunun yerine @MappingTarget'siz de bir mapper fonksiyonu oluşturuyoruz.
 
-    default Integer map(Address address) {
+    default UUID map(Address address) {
         return address.getId();
     }
 }

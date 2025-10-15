@@ -9,13 +9,14 @@ import com.etiya.customerservice.service.responses.billingaccount.GetListBilling
 import com.etiya.customerservice.service.responses.billingaccount.UpdatedBillingAccountResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface BillingAccountService {
     public CreatedBillingAccountResponse add(CreateBillingAccountRequest request);
     public UpdatedBillingAccountResponse update(UpdateBillingAccountRequest request);
     List<GetListBillingAccountResponse> getList();
 
-    void delete(int id);
+    void delete(UUID id);
 
-    void softDelete(int id);
+    void softDelete(UUID id);
 }

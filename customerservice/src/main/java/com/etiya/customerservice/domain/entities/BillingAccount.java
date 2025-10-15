@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,9 +23,9 @@ import org.hibernate.annotations.SQLRestriction;
 
 public class BillingAccount extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private int id;
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")

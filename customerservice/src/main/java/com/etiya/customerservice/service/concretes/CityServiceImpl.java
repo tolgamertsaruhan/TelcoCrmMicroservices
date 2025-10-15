@@ -8,6 +8,7 @@ import com.etiya.customerservice.service.rules.CityBusinessRules;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -31,7 +32,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public City existsById(int id) {
+    public City existsById(UUID id) {
         cityBusinessRules.checkIfCityExists(id);
         return cityRepository.findById(id).get();
     }

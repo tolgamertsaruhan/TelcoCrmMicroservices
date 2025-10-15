@@ -7,13 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateCityRequest {
 
-    private int id;
+    private UUID id;
     @NotBlank(message = "Name is required")
     @Pattern(regexp = "^[a-zA-ZçÇşŞğĞıİüÜöÖ]+", message = "Name must contain only letters.")
     private String name;

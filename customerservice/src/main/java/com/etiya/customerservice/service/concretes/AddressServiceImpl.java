@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -49,7 +50,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void delete(int id) { //kalıcı silme- hard delete
+    public void delete(UUID id) { //kalıcı silme- hard delete
 
         addressBusinessRules.checkIfBillingAccountExists(id);
         addressRepository.deleteById(id);
@@ -57,7 +58,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void softDelete(int id) {
+    public void softDelete(UUID id) {
         Address address = addressRepository.findById(id).orElseThrow(() -> new RuntimeException("Address not found"));
         address.setDeletedDate(LocalDateTime.now());
         addressRepository.save(address);
@@ -75,7 +76,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public GetAddressResponse getById(int id) {
+    public GetAddressResponse getById(UUID id) {
         Address address = addressRepository.findById(id).orElseThrow(() -> new RuntimeException("Address not found"));
         GetAddressResponse response = AddressMapper.INSTANCE.getAddressResponseFromAddress(address);
         return response;

@@ -7,12 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateAddressRequest {
-    private int id;
+    private UUID id;
     @NotBlank(message = "Street is required")
     private String street;
     @NotBlank(message = "House number is required")
@@ -20,5 +22,5 @@ public class UpdateAddressRequest {
     @Size(max = 255, message = "Description can't be longer than 255 characters")
     private String description;
     private Boolean isDefault;
-    private int districtId;
+    private UUID districtId;
 }

@@ -16,6 +16,7 @@ import com.etiya.customerservice.service.rules.DistrictBusinessRoles;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DistrictServiceImpl implements DistrictService {
@@ -66,14 +67,14 @@ public class DistrictServiceImpl implements DistrictService {
 
 
     @Override
-    public GetDistrictResponse getById(int id) {
+    public GetDistrictResponse getById(UUID id) {
         District district = districtRepository.findById(id).orElseThrow(() -> new RuntimeException("District not found"));
         GetDistrictResponse response = DistrictMapper.INSTANCE.getDistrictResponseFromDistrict(district);
         return response;
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         districtBusinessRoles.checkIfAddressExists(id);
         districtRepository.deleteById(id);
     }
@@ -94,7 +95,7 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
-    public List<GetListDistrictResponse> getByCityId(int cityId) {
+    public List<GetListDistrictResponse> getByCityId(UUID cityId) {
         List<District> districts = districtRepository.findByCityId(cityId);
 
         List<GetListDistrictResponse> responses = DistrictMapper.INSTANCE.getListDistrictResponseFromDistrict(districts);

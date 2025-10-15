@@ -13,6 +13,8 @@ import com.etiya.customerservice.service.abstracts.CustomerService;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class BillingAccountBusinessRules {
     private final BillingAccountRepository billingAccountRepository;
@@ -28,14 +30,14 @@ public class BillingAccountBusinessRules {
         this.localizationService = localizationService;
     }
 
-    public void checkIfBillingAccountCanBeDeleted(int id){
+    public void checkIfBillingAccountCanBeDeleted(UUID id){
         BillingAccount billingAccount = billingAccountRepository.findById(id).orElseThrow(() -> new RuntimeException(localizationService.getMessage(Messages.BillingAccountIdDoesntExist) + " " + id));
         if(billingAccount.getStatus() == BillingAccountStatus.ACTIVE){
             throw new BusinessException(localizationService.getMessage(Messages.ActiveBillingAccountDeleting));
         }
     }
 
-    public void checkIfTypeCanBeChanged(int id, BillingAccountType newType){
+    public void checkIfTypeCanBeChanged(UUID id, BillingAccountType newType){
         BillingAccount existingBillingAccount = billingAccountRepository.findById(id).orElseThrow(() -> new RuntimeException(localizationService.getMessage(Messages.BillingAccountIdDoesntExist) + " " + id));
 
         if(existingBillingAccount.getType() != newType){
@@ -43,14 +45,14 @@ public class BillingAccountBusinessRules {
         }
     }
 
-    public void checkIfAddressBelongsToCustomer(int addressId, int customerId){
+    public void checkIfAddressBelongsToCustomer(UUID addressId, UUID customerId){
         Address address = addressRepository.findById(addressId).orElseThrow(() -> new BusinessException(localizationService.getMessage(Messages.AddressIdDoesntExist)));
-        if(address.getCustomer().getId() != customerId){
+        if(!address.getCustomer().getId().equals(customerId)){
             throw new BusinessException(localizationService.getMessage(Messages.AddressBelongsToCustomer));
         }
     }
 
-    public void checkIfStatusTransitionIsValid(int id, BillingAccountStatus newStatus){
+    public void checkIfStatusTransitionIsValid(UUID id, BillingAccountStatus newStatus){
        BillingAccount existingBillingAccount = billingAccountRepository.findById(id).orElseThrow(() -> new RuntimeException(localizationService.getMessage(Messages.BillingAccountIdDoesntExist) + " " + id));
          BillingAccountStatus currentStatus = existingBillingAccount.getStatus();
 
@@ -64,7 +66,7 @@ public class BillingAccountBusinessRules {
 
     }
 
-    public void checkIfCustomerTypeMatchesAccountType(int customerId, BillingAccountType accountType) {
+    public void checkIfCustomerTypeMatchesAccountType(UUID customerId, BillingAccountType accountType) {
         String customerType = customerService.getCustomerType(customerId);
 
         if (customerType.equals("INDIVIDUAL") && accountType != BillingAccountType.INDIVIDUAL) {
@@ -81,7 +83,7 @@ public class BillingAccountBusinessRules {
     }
 
 
-    public void checkIfCustomerHasAddress(int customerId) {
+    public void checkIfCustomerHasAddress(UUID customerId) {
         if (!addressRepository.existsByCustomerId(customerId)) {
             throw new BusinessException(
                     localizationService.getMessage(Messages.CustomerMustHaveAnAddressForOpeningBillingAccount)

@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -36,5 +38,5 @@ public class CreateContactMediumRequest {
     private boolean isPrimary;
     @NotNull
     @Positive(message = "CityId must be positive")
-    private Integer customerId;
+    private UUID customerId;
 }

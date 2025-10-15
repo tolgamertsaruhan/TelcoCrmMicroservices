@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class GetIndividualCustomerResponse {
 
-    private int id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private String middleName;

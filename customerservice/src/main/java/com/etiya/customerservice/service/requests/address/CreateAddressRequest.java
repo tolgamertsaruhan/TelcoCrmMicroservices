@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,7 +22,7 @@ public class CreateAddressRequest {
     @Size(max = 255, message = "Description can't be longer than 255 characters")
     private String description;
     private boolean isDefault;
-    private int districtId;
-    private int customerId;
+    private UUID districtId;
+    private UUID customerId;
 }
 

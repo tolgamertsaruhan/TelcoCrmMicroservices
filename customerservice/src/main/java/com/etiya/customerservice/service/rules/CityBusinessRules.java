@@ -8,6 +8,8 @@ import com.etiya.customerservice.repository.CustomerRepository;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class CityBusinessRules {
     private final CityRepository cityRepository;
@@ -18,7 +20,7 @@ public class CityBusinessRules {
         this.localizationService = localizationService;
     }
 
-    public void checkIfCityExists(int id){
+    public void checkIfCityExists(UUID id){
         if (!cityRepository.existsById(id)){
             throw new BusinessException(localizationService.getMessage(Messages.CityNotFound));
         }

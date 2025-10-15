@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface DistrictRepository extends JpaRepository<District, Integer> {
+public interface DistrictRepository extends JpaRepository<District, UUID> {
 
     List<District> findDistrictByName(String name);
 
@@ -19,8 +20,8 @@ public interface DistrictRepository extends JpaRepository<District, Integer> {
 
     //Native Query
     @Query(value = "select * from districts d where d.city_id = :cityId",nativeQuery = true)
-    List<District> findByCityId(@Param("cityId") int cityId);
+    List<District> findByCityId(@Param("cityId") UUID cityId);
 
-    void deleteById(int id);
+    void deleteById(UUID id);
 
 }

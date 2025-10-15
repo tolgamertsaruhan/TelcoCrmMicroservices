@@ -2,6 +2,7 @@ package com.etiya.customerservice.service.concretes;
 
 
 
+import com.etiya.common.events.CreateCustomerEvent;
 import com.etiya.customerservice.domain.entities.IndividualCustomer;
 import com.etiya.customerservice.repository.IndividualCustomerRepository;
 import com.etiya.customerservice.service.abstracts.IndividualCustomerService;
@@ -11,6 +12,7 @@ import com.etiya.customerservice.service.responses.individualcustomer.CreatedInd
 import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
 import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
 import com.etiya.customerservice.service.rules.IndividualCustomerBusinessRules;
+import com.etiya.customerservice.transport.kafka.producer.customer.CreateCustomerProducer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +23,12 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
     //Repo kullanımı
     private IndividualCustomerRepository individualCustomerRepository;
     private final IndividualCustomerBusinessRules rules;
+    private final CreateCustomerProducer createCustomerProducer;
 
-    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules) {
+    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules,  CreateCustomerProducer createCustomerProducer) {
         this.individualCustomerRepository = individualCustomerRepository; //Dependency injection
         this.rules = rules;
+        this.createCustomerProducer = createCustomerProducer;
     }
 
     @Override
@@ -34,6 +38,17 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
 
         IndividualCustomer individualCustomer = IndividualCustomerMapper.INSTANCE.individualCustomerFromCreateIndividualCustomerRequest(request);
         IndividualCustomer createdIndividualCustomer = individualCustomerRepository.save(individualCustomer);
+        CreateCustomerEvent event =
+                new CreateCustomerEvent(createdIndividualCustomer.getId().toString(),
+                        createdIndividualCustomer.getCustomerNumber(),
+                        createdIndividualCustomer.getFirstName(),
+                        createdIndividualCustomer.getLastName(),
+                        createdIndividualCustomer.getNationalId(),
+                        createdIndividualCustomer.getDateOfBirth(),
+                        createdIndividualCustomer.getMotherName(),
+                        createdIndividualCustomer.getFatherName(),
+                        createdIndividualCustomer.getGender());
+        createCustomerProducer.produceCustomerCreated(event);
         CreatedIndividualCustomerResponse response =
                 IndividualCustomerMapper.INSTANCE.createdIndividualCustomerResponseFromIndividualCustomer(createdIndividualCustomer);
         return response;

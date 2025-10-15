@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,11 +26,11 @@ public class CreateBillingAccountRequest {
 
     @NotNull(message = "CustomerId cannot be null")
     @Positive(message = "CustomerId must be a positive")
-    private int customerId;
+    private UUID customerId;
 
     @NotNull(message = "AddressId cannot be null")
     @Positive(message = "AddressId must be a positive")
-    private int addressId;
+    private UUID addressId;
 
 
 

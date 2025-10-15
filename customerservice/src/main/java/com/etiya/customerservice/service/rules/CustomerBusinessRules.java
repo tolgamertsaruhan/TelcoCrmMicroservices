@@ -8,6 +8,8 @@ import com.etiya.customerservice.repository.CustomerRepository;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public abstract class CustomerBusinessRules<T extends Customer> {
 
@@ -20,7 +22,7 @@ public abstract class CustomerBusinessRules<T extends Customer> {
     }
 
 
-    public void checkIfCustomerExists(int id){
+    public void checkIfCustomerExists(UUID id){
         if (!customerRepository.existsById(id)){
             throw new BusinessException(localizationService.getMessage(Messages.CustomerIdDoesntExist));
         }

@@ -10,18 +10,19 @@ import com.etiya.customerservice.service.responses.contactmedium.GetListContactM
 import com.etiya.customerservice.service.responses.contactmedium.UpdatedContactMediumResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ContactMediumService {
     CreatedContactMediumResponse add(CreateContactMediumRequest request);
     UpdatedContactMediumResponse update(UpdateContactMediumRequest request);
     List<GetListContactMediumResponse> getList();
 
-    void delete(int id);
+    void delete(UUID id);
 
-    void softDelete(int id);
+    void softDelete(UUID id);
 
-    GetContactMediumResponse getById(int id);
+    GetContactMediumResponse getById(UUID id);
     GetContactMediumResponse getByValue(String value);
     List<GetListContactMediumResponse> getListByType(String type);
-    List<GetListContactMediumResponse> getListByCustomerId(int customerId);
+    List<GetListContactMediumResponse> getListByCustomerId(UUID customerId);
 }

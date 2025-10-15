@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ContactMediumServiceImpl implements ContactMediumService {
@@ -66,7 +67,7 @@ public class ContactMediumServiceImpl implements ContactMediumService {
     }
 
     @Override
-    public void delete(int id) { //kalıcı silme- hard delete
+    public void delete(UUID id) { //kalıcı silme- hard delete
         ContactMedium contactMedium = contactMediumRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
         contactMediumBusinessRules.checkIsPrimary(contactMedium);
         contactMediumRepository.delete(contactMedium);
@@ -74,7 +75,7 @@ public class ContactMediumServiceImpl implements ContactMediumService {
     }
 
     @Override
-    public void softDelete(int id) {
+    public void softDelete(UUID id) {
         ContactMedium contactMedium = contactMediumRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
         contactMediumBusinessRules.checkIsPrimary(contactMedium);
         contactMedium.setDeletedDate(LocalDateTime.now());
@@ -82,7 +83,8 @@ public class ContactMediumServiceImpl implements ContactMediumService {
     }
 
     @Override
-    public GetContactMediumResponse getById(int id) {
+    public GetContactMediumResponse getById(UUID id) {
+
         ContactMedium contactMedium = contactMediumRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
         GetContactMediumResponse response = ContactMediumMapper.INSTANCE.getContactMediumResponseFromContactMedium(contactMedium);
         return response;
@@ -106,7 +108,7 @@ public class ContactMediumServiceImpl implements ContactMediumService {
     }
 
     @Override
-    public List<GetListContactMediumResponse> getListByCustomerId(int id) {
+    public List<GetListContactMediumResponse> getListByCustomerId(UUID id) {
         List<ContactMedium> contactMediums = contactMediumRepository.findByCustomerId(id);
         List<GetListContactMediumResponse> responses = ContactMediumMapper.INSTANCE.getListContactMediumResponsesFromContactMedium(contactMediums);
         return responses;

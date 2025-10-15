@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/billingAccounts")
@@ -43,13 +44,13 @@ public class BillingAccountController {
 
     @DeleteMapping("{id}/soft")
     @ResponseStatus(HttpStatus.OK)
-    public void softDelete(@PathVariable int id){
+    public void softDelete(@PathVariable UUID id){
         billingAccountService.softDelete(id);
     }
 
     @DeleteMapping("{id}")//pathvariable ile anlaşsın diye, mapping yapsın diye
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable UUID id) {
         billingAccountService.delete(id);
     }
 }
