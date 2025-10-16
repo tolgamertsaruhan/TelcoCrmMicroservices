@@ -80,4 +80,9 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
     public List<CustomerSearch> fuzzyTerm(String keyword) {
         return customerSearchRepository.fuzzyTerm(keyword);
     }
+
+    @Override
+    public List<CustomerSearch> filterSurnameWithCitiesBool(String districtId, String lastName) {
+        return customerSearchRepository.filterSurnameWithCitiesBool(districtId, lastName);
+    }
 }

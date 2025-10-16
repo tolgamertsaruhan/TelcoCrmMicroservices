@@ -10,10 +10,19 @@ public class Address {
 
     @Id
     String addressId;
+    String districtId;
     String street;
     String houseNumber;
     String description;
     boolean isDefault;
+
+    public String getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(String districtId) {
+        this.districtId = districtId;
+    }
 
     public String getAddressId() {
         return addressId;
@@ -59,8 +68,15 @@ public class Address {
     public Address() {
     }
 
-    public Address(String addressId,  String street, String houseNumber, String description, boolean isDefault) {
-
+    public Address(String addressId, String districtId, String street, String houseNumber, String description, boolean isDefault) {
+        this.addressId = addressId;
+        this.districtId = districtId;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.description = description;
+        this.isDefault = isDefault;
+    }
+    public Address(String addressId, String street, String houseNumber, String description, boolean isDefault) {
         this.addressId = addressId;
 
         this.street = street;
@@ -68,6 +84,4 @@ public class Address {
         this.description = description;
         this.isDefault = isDefault;
     }
-
-
 }

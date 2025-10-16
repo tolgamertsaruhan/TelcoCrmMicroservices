@@ -52,4 +52,24 @@ public interface CustomerSearchRepository extends ElasticsearchRepository<Custom
     }
     """)
     List<CustomerSearch> fuzzyTerm(String keyword);
+
+    @Query("""
+    {
+      "bool": {
+        "must": [
+          {
+            "term": {
+              "districtId": "?0"
+            }
+          },
+          {
+            "match": {
+              "lastName": "?1"
+            }
+          }
+        ]
+      }
+    }
+    """)
+    List<CustomerSearch> filterSurnameWithCitiesBool(String districtId, String lastName);
 }

@@ -51,4 +51,10 @@ public class CustomerSearchController {
     public List<CustomerSearch> fuzzyTerm(@RequestParam String keyword) {
         return customerSearchService.fuzzyTerm(keyword);
     }
+
+    @GetMapping("filterSurnameWithCities")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerSearch> filterSurnameWithCities(@RequestParam String districtId, @RequestParam String lastName) {
+        return customerSearchService.filterSurnameWithCitiesBool(districtId, lastName);
+    }
 }

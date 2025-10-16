@@ -19,6 +19,7 @@ public interface CustomerSearchService {
     List<CustomerSearch> firstNameMatch(String firstName);
     List<CustomerSearch> nationalIdTerm(String keyword);
     List<CustomerSearch> fuzzyTerm(String keyword);
+    List<CustomerSearch> filterSurnameWithCitiesBool(String districtId, String lastName);
 
     // ContactMedium ops
     //void addContactMedium(String customerId, ContactMedium contact);

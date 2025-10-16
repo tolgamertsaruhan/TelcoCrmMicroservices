@@ -62,6 +62,7 @@ public class AddressServiceImpl implements AddressService {
         CreateAddressEvent event =
                 new CreateAddressEvent(createdAddress.getId().toString(),
                         createdAddress.getCustomer().getId().toString(),
+                        createdAddress.getDistrict().getId().toString(),
                         createdAddress.getStreet(),
                         createdAddress.getHouseNumber(),
                         createdAddress.getDescription(),
