@@ -4,19 +4,16 @@ package com.etiya.customerservice.domain.entities;
 import com.etiya.common.entities.BaseEntity;
 import com.etiya.customerservice.domain.enums.ContactMediumType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Table(name = "contactmediums")
 @SQLRestriction("deleted_date IS NULL")
 

@@ -5,7 +5,6 @@ import com.etiya.common.crosscuttingconcerns.exceptions.types.BusinessException;
 import com.etiya.common.localization.LocalizationService;
 import com.etiya.customerservice.domain.entities.ContactMedium;
 import com.etiya.customerservice.repository.ContactMediumRepository;
-import com.etiya.customerservice.repository.CustomerRepository;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 

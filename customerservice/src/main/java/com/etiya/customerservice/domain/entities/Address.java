@@ -2,10 +2,7 @@ package com.etiya.customerservice.domain.entities;
 
 import com.etiya.common.entities.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;

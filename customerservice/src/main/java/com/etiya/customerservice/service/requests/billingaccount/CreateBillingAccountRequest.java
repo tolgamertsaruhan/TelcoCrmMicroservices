@@ -2,10 +2,7 @@ package com.etiya.customerservice.service.requests.billingaccount;
 
 import com.etiya.customerservice.domain.enums.BillingAccountType;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import java.util.UUID;
 

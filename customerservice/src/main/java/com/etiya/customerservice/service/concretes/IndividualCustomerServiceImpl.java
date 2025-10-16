@@ -12,9 +12,6 @@ import com.etiya.customerservice.service.responses.individualcustomer.CreatedInd
 import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
 import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
 import com.etiya.customerservice.service.rules.IndividualCustomerBusinessRules;
-import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
-import com.etiya.customerservice.transport.kafka.producer.address.DeletedAddressProducer;
-import com.etiya.customerservice.transport.kafka.producer.address.UpdatedAddressProducer;
 import com.etiya.customerservice.transport.kafka.producer.customer.CreateCustomerProducer;
 import org.springframework.stereotype.Service;
 

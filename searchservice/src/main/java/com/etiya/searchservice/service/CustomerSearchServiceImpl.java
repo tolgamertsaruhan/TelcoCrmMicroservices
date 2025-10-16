@@ -60,4 +60,24 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
         cs.getAddressSearchList().removeIf(a -> Objects.equals(a.getAddressId(), addressId));
         customerSearchRepository.save(cs);
     }
+
+    @Override
+    public List<CustomerSearch> searchAllFields(String keyword) {
+        return customerSearchRepository.searchAllFields(keyword);
+    }
+
+    @Override
+    public List<CustomerSearch> firstNameMatch(String firstName) {
+        return customerSearchRepository.firstNameMatch(firstName);
+    }
+
+    @Override
+    public List<CustomerSearch> nationalIdTerm(String keyword) {
+        return customerSearchRepository.nationalIdTerm(keyword);
+    }
+
+    @Override
+    public List<CustomerSearch> fuzzyTerm(String keyword) {
+        return customerSearchRepository.fuzzyTerm(keyword);
+    }
 }

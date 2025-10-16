@@ -15,6 +15,11 @@ public interface CustomerSearchService {
     void updateAddress(String customerId, Address address);
     void deleteAddress(String customerId, String addressId);
 
+    List<CustomerSearch> searchAllFields(String keyword);
+    List<CustomerSearch> firstNameMatch(String firstName);
+    List<CustomerSearch> nationalIdTerm(String keyword);
+    List<CustomerSearch> fuzzyTerm(String keyword);
+
     // ContactMedium ops
     //void addContactMedium(String customerId, ContactMedium contact);
     //void updateContactMedium(String customerId, ContactMedium contact);

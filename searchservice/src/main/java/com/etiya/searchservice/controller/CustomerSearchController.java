@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customer-search")
+@RequestMapping("/api/customer-search/")
 public class CustomerSearchController {
     private final CustomerSearchService customerSearchService;
 
@@ -28,5 +28,27 @@ public class CustomerSearchController {
         customerSearchService.delete(id);
     }
 
+    @GetMapping("fulltext")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerSearch> search(@RequestParam String keyword) {
+        return customerSearchService.searchAllFields(keyword);
+    }
 
+    @GetMapping("firstName/match")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerSearch> matchFirstName(@RequestParam String firstName) {
+        return customerSearchService.firstNameMatch(firstName);
+    }
+
+    @GetMapping("findNationalId")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerSearch> findNationalId(@RequestParam String keyword) {
+        return customerSearchService.nationalIdTerm(keyword);
+    }
+
+    @GetMapping("familierName/fuzzy")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerSearch> fuzzyTerm(@RequestParam String keyword) {
+        return customerSearchService.fuzzyTerm(keyword);
+    }
 }

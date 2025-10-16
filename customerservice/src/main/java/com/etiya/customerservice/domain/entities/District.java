@@ -2,7 +2,8 @@ package com.etiya.customerservice.domain.entities;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+//import lombok.ToString;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,7 @@ import java.util.UUID;
 //@NoArgsConstructor
 @Entity
 @Table(name = "districts")
-@ToString(exclude = "city")
+//@ToString(exclude = "city")
 public class District {
 
     @Id

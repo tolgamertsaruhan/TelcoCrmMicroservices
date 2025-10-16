@@ -5,10 +5,7 @@ import com.etiya.common.entities.BaseEntity;
 import com.etiya.customerservice.domain.enums.BillingAccountStatus;
 import com.etiya.customerservice.domain.enums.BillingAccountType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;

@@ -2,18 +2,14 @@ package com.etiya.customerservice.domain.entities;
 
 import com.etiya.common.entities.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "customers")
 @Inheritance(strategy = InheritanceType.JOINED)
