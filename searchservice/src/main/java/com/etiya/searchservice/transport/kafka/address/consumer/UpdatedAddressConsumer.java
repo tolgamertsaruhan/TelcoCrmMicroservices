@@ -30,7 +30,7 @@ public class UpdatedAddressConsumer {
     public Consumer<UpdatedAddressEvent> addressUpdated() {
         return event -> {
             Address addressSearch = new Address(event.addressId(),  event.street(), event.houseNumber(), event.description(), event.isDefault());
-            customerSearchService.updateAddress(event.customerId(), addressSearch);
+            customerSearchService.updateAddress(addressSearch);
             LOGGER.info(String.format("Updated address => %s", event.addressId()));
         };
     }

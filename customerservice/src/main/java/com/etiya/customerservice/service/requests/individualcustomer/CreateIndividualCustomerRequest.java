@@ -24,13 +24,13 @@ public class CreateIndividualCustomerRequest {
     private String fatherName;
     private String gender;
 
-    private LocalDateTime dateOfBirth;
+    private String dateOfBirth;
 
-    public LocalDateTime getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -93,7 +93,7 @@ public class CreateIndividualCustomerRequest {
     public CreateIndividualCustomerRequest() {
     }
 
-    public CreateIndividualCustomerRequest(String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender, LocalDateTime dateOfBirth) {
+    public CreateIndividualCustomerRequest(String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;

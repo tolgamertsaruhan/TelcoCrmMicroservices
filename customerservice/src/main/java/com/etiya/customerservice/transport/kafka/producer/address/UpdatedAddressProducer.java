@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class UpdatedAddressProducer {
 
     //private final KafkaTemplate<String, UpdatedAddressEvent> updateKafkaTemplate;
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateAddressProducer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdatedAddressProducer.class);
     private final StreamBridge streamBridge;
 
     public UpdatedAddressProducer(StreamBridge streamBridge) {

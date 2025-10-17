@@ -74,6 +74,11 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
+    public District findById(UUID id) {
+        return districtRepository.findById(id).get();
+    }
+
+    @Override
     public void deleteById(UUID id) {
         districtBusinessRoles.checkIfAddressExists(id);
         districtRepository.deleteById(id);

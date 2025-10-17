@@ -10,19 +10,15 @@ public class Address {
 
     @Id
     String addressId;
-    String districtId;
+    String customerId;
+    String districtName;
+    @Field(type = FieldType.Keyword)
+    String cityName;
     String street;
     String houseNumber;
     String description;
     boolean isDefault;
 
-    public String getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(String districtId) {
-        this.districtId = districtId;
-    }
 
     public String getAddressId() {
         return addressId;
@@ -68,14 +64,42 @@ public class Address {
     public Address() {
     }
 
-    public Address(String addressId, String districtId, String street, String houseNumber, String description, boolean isDefault) {
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public Address(String addressId, String customerId, String districtName, String cityName, String street, String houseNumber, String description, boolean isDefault) {
         this.addressId = addressId;
-        this.districtId = districtId;
+        this.customerId = customerId;
+        this.districtName = districtName;
+        this.cityName = cityName;
         this.street = street;
         this.houseNumber = houseNumber;
         this.description = description;
         this.isDefault = isDefault;
     }
+
     public Address(String addressId, String street, String houseNumber, String description, boolean isDefault) {
         this.addressId = addressId;
 
@@ -83,5 +107,10 @@ public class Address {
         this.houseNumber = houseNumber;
         this.description = description;
         this.isDefault = isDefault;
+    }
+
+    public Address(String addressId, String customerId) {
+        this.addressId = addressId;
+        this.customerId = customerId;
     }
 }

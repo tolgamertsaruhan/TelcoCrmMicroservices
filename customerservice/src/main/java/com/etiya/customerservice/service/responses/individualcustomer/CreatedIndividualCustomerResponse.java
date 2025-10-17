@@ -15,8 +15,18 @@ public class CreatedIndividualCustomerResponse {
     private String lastName;
     private String middleName;
     private String nationalId;
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     private String motherName;
     private String fatherName;
+    private String dateOfBirth;
     private String gender;
 
     public UUID getId() {
@@ -86,7 +96,7 @@ public class CreatedIndividualCustomerResponse {
     public CreatedIndividualCustomerResponse() {
     }
 
-    public CreatedIndividualCustomerResponse(UUID id, String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender) {
+    public CreatedIndividualCustomerResponse(UUID id, String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String dateOfBirth, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,6 +104,7 @@ public class CreatedIndividualCustomerResponse {
         this.nationalId = nationalId;
         this.motherName = motherName;
         this.fatherName = fatherName;
+        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
     }
 }

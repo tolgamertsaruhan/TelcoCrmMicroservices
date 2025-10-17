@@ -1,6 +1,7 @@
 package com.etiya.searchservice.service;
 
 import com.etiya.searchservice.domain.Address;
+import com.etiya.searchservice.domain.ContactMedium;
 import com.etiya.searchservice.domain.CustomerSearch;
 import com.etiya.searchservice.repository.CustomerSearchRepository;
 import org.springframework.stereotype.Service;
@@ -34,9 +35,9 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
     }
 
     @Override
-    public void addAddress(String customerId, Address address) {
+    public void addAddress(Address address) {
 
-        var cs = customerSearchRepository.findById(customerId).orElseThrow();
+        var cs = customerSearchRepository.findById(address.getCustomerId()).orElseThrow();
         cs.getAddressSearchList().removeIf(a -> Objects.equals(a.getAddressId(), address.getAddressId())); // idempotent
 
          cs.getAddressSearchList().add(address);
@@ -46,18 +47,18 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
     }
 
     @Override
-    public void updateAddress(String customerId, Address address) {
-        var cs = customerSearchRepository.findById(customerId).orElseThrow();
+    public void updateAddress(Address address) {
+        var cs = customerSearchRepository.findById(address.getCustomerId()).orElseThrow();
         cs.getAddressSearchList().removeIf(a -> Objects.equals(a.getAddressId(), address.getAddressId())); // idempotent
         cs.getAddressSearchList().add(address);
         customerSearchRepository.save(cs);
     }
 
     @Override
-    public void deleteAddress(String customerId, String addressId) {
+    public void deleteAddress(Address address) {
 
-        var cs = customerSearchRepository.findById(customerId).orElseThrow();
-        cs.getAddressSearchList().removeIf(a -> Objects.equals(a.getAddressId(), addressId));
+        var cs = customerSearchRepository.findById(address.getCustomerId()).orElseThrow();
+        cs.getAddressSearchList().removeIf(a -> Objects.equals(a.getAddressId(), address.getAddressId()));
         customerSearchRepository.save(cs);
     }
 
@@ -82,7 +83,36 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
     }
 
     @Override
-    public List<CustomerSearch> filterSurnameWithCitiesBool(String districtId, String lastName) {
-        return customerSearchRepository.filterSurnameWithCitiesBool(districtId, lastName);
+    public List<CustomerSearch> filterSurnameWithCitiesBool(String firstName, String cityName) {
+        return customerSearchRepository.filterSurnameWithCitiesBool(firstName, cityName);
+    }
+
+    @Override
+    public List<CustomerSearch> findByBirthYearRange(String startYear, String endYear) {
+        return  customerSearchRepository.findByBirthYearRange(startYear, endYear);
+    }
+
+    @Override
+    public void addContactMedium(ContactMedium contactMedium) {
+        var cs = customerSearchRepository.findById(contactMedium.getCustomerId()).orElseThrow();
+        cs.getContactMediumSearchList().removeIf(a -> Objects.equals(a.getContactMediumId(), contactMedium.getContactMediumId())); // idempotent
+
+        cs.getContactMediumSearchList().add(contactMedium);
+        customerSearchRepository.save(cs);
+    }
+
+    @Override
+    public void updateContactMedium(ContactMedium contactMedium) {
+        var cs = customerSearchRepository.findById(contactMedium.getCustomerId()).orElseThrow();
+        cs.getContactMediumSearchList().removeIf(a -> Objects.equals(a.getContactMediumId(), contactMedium.getContactMediumId()));
+        cs.getContactMediumSearchList().add(contactMedium);
+        customerSearchRepository.save(cs);
+    }
+
+    @Override
+    public void deleteContactMedium(ContactMedium contactMedium) {
+        var cs = customerSearchRepository.findById(contactMedium.getCustomerId()).orElseThrow();
+        cs.getContactMediumSearchList().removeIf(a -> Objects.equals(a.getContactMediumId(), contactMedium.getContactMediumId()));
+        customerSearchRepository.save(cs);
     }
 }

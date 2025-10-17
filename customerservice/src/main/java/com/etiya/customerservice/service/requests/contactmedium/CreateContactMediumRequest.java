@@ -34,7 +34,6 @@ public class CreateContactMediumRequest {
     @NotNull
     private boolean isPrimary;
     @NotNull
-    @Positive(message = "CityId must be positive")
     private UUID customerId;
 
     public String getType() {

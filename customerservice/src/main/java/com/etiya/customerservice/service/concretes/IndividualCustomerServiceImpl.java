@@ -48,7 +48,8 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                         createdIndividualCustomer.getNationalId(),
                         createdIndividualCustomer.getMotherName(),
                         createdIndividualCustomer.getFatherName(),
-                        createdIndividualCustomer.getGender());
+                        createdIndividualCustomer.getGender(),
+                        createdIndividualCustomer.getDateOfBirth());
         createCustomerProducer.produceCustomerCreated(event);
         CreatedIndividualCustomerResponse response =
                 IndividualCustomerMapper.INSTANCE.createdIndividualCustomerResponseFromIndividualCustomer(createdIndividualCustomer);

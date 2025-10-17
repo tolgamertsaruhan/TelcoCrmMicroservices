@@ -54,7 +54,13 @@ public class CustomerSearchController {
 
     @GetMapping("filterSurnameWithCities")
     @ResponseStatus(HttpStatus.OK)
-    public List<CustomerSearch> filterSurnameWithCities(@RequestParam String districtId, @RequestParam String lastName) {
-        return customerSearchService.filterSurnameWithCitiesBool(districtId, lastName);
+    public List<CustomerSearch> filterSurnameWithCities(@RequestParam String firstName, @RequestParam String cityName) {
+        return customerSearchService.filterSurnameWithCitiesBool(firstName, cityName);
+    }
+
+    @GetMapping("findByBirthYearRange")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerSearch> findByBirthYearRange(@RequestParam String startYear,  @RequestParam String endYear) {
+        return customerSearchService.findByBirthYearRange(startYear, endYear);
     }
 }

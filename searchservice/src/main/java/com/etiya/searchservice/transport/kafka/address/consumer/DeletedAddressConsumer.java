@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 public class DeletedAddressConsumer {
 
     private final CustomerSearchService customerSearchService;
-    private final Logger LOGGER = LoggerFactory.getLogger(UpdatedAddressConsumer.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DeletedAddressConsumer.class);
 
     public DeletedAddressConsumer(CustomerSearchService customerSearchService) {
         this.customerSearchService = customerSearchService;
@@ -26,7 +26,8 @@ public class DeletedAddressConsumer {
     @Bean
     public Consumer<DeletedAddressEvent> addressDeleted() {
         return event -> {
-            customerSearchService.deleteAddress(event.customerId(), event.addressId());
+            Address addressSearch = new Address(event.addressId(), event.customerId());
+            customerSearchService.deleteAddress(addressSearch);
             LOGGER.info(String.format("Deleted address => %s", event.addressId()));
         };
     }

@@ -29,7 +29,8 @@ public class District {
     @JoinColumn(name = "cityId")
     private City city;
 
-    @OneToMany(mappedBy = "district",fetch = FetchType.LAZY)
+    //fetch = FetchType.LAZY
+    @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
     private List<Address> addresses;
 
     public UUID getId() {

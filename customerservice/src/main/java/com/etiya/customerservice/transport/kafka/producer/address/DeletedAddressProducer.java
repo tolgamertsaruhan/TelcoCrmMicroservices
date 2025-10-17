@@ -16,7 +16,7 @@ public class DeletedAddressProducer {
     //private final KafkaTemplate<String, DeletedAddressEvent> deleteKafkaTemplate;
     private final StreamBridge streamBridge;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateAddressProducer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeletedAddressProducer.class);
 
     public DeletedAddressProducer(StreamBridge streamBridge) {
         this.streamBridge = streamBridge;

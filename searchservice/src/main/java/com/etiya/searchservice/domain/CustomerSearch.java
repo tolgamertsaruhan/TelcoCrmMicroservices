@@ -16,15 +16,36 @@ public class CustomerSearch {
     @Id
     private String id;
     private String customerNumber;
+    @Field(type = FieldType.Keyword)
     private String firstName;
     private String lastName;
     private String nationalId;
     private String motherName;
     private String fatherName;
     private String gender;
+    private String dateOfBirth;
 
     @Field(type = FieldType.Nested)
     List<Address> addressSearchList = new ArrayList<>();
+
+    @Field(type = FieldType.Nested)
+    List<ContactMedium> contactMediumSearchList = new ArrayList<>();
+
+    public List<ContactMedium> getContactMediumSearchList() {
+        return contactMediumSearchList;
+    }
+
+    public void setContactMediumSearchList(List<ContactMedium> contactMediumSearchList) {
+        this.contactMediumSearchList = contactMediumSearchList;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public List<Address> getAddressSearchList() {
         return addressSearchList;
@@ -101,7 +122,7 @@ public class CustomerSearch {
     public CustomerSearch() {
     }
 
-    public CustomerSearch(String id, String customerNumber, String firstName, String lastName, String nationalId, String motherName, String fatherName, String gender) {
+    public CustomerSearch(String id, String customerNumber, String firstName, String lastName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth) {
         this.id = id;
         this.customerNumber = customerNumber;
         this.firstName = firstName;
@@ -110,6 +131,6 @@ public class CustomerSearch {
         this.motherName = motherName;
         this.fatherName = fatherName;
         this.gender = gender;
-
+        this.dateOfBirth = dateOfBirth;
     }
 }

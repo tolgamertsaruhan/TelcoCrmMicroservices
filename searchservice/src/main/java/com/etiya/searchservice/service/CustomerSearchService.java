@@ -1,6 +1,7 @@
 package com.etiya.searchservice.service;
 
 import com.etiya.searchservice.domain.Address;
+import com.etiya.searchservice.domain.ContactMedium;
 import com.etiya.searchservice.domain.CustomerSearch;
 
 import java.util.List;
@@ -11,18 +12,18 @@ public interface CustomerSearchService {
     void delete(String id);
 
     // Address ops
-    void addAddress(String customerId, Address address);
-    void updateAddress(String customerId, Address address);
-    void deleteAddress(String customerId, String addressId);
+    void addAddress(Address address);
+    void updateAddress(Address address);
+    void deleteAddress(Address address);
 
     List<CustomerSearch> searchAllFields(String keyword);
     List<CustomerSearch> firstNameMatch(String firstName);
     List<CustomerSearch> nationalIdTerm(String keyword);
     List<CustomerSearch> fuzzyTerm(String keyword);
-    List<CustomerSearch> filterSurnameWithCitiesBool(String districtId, String lastName);
+    List<CustomerSearch> filterSurnameWithCitiesBool(String firstName, String cityName);
+    List<CustomerSearch> findByBirthYearRange(String startYear, String endYear);
 
-    // ContactMedium ops
-    //void addContactMedium(String customerId, ContactMedium contact);
-    //void updateContactMedium(String customerId, ContactMedium contact);
-    //void deleteContactMedium(String customerId, int contactId);
+    void addContactMedium(ContactMedium contactMedium);
+    void updateContactMedium(ContactMedium contactMedium);
+    void deleteContactMedium(ContactMedium contactMedium);
 }

@@ -18,8 +18,7 @@ public interface AddressMapper {
 
     AddressMapper INSTANCE = Mappers.getMapper(AddressMapper.class);
 
-    @Mapping(target = "districtName",source = "district.name") //manuel mapping burada yapılıyor
-    @Mapping(target = "cityName",source = "district.city.name")
+
     @Mapping(target = "customerId",source = "customer.id")
     @Mapping(target = "districtId",source = "district.id")
     GetListAddressResponse getListAddressResponseFromAddress(Address address);
@@ -30,27 +29,55 @@ public interface AddressMapper {
     @Mapping(source = "districtId",target = "district.id")
     Address addressFromCreateAddressRequest(CreateAddressRequest createAddressRequest);
 
+
     @Mapping(target = "customerId",source = "customer.id")
     @Mapping(target = "districtId",source = "district.id")
     CreatedAddressResponse createdAddressResponseFromAddress(Address address);
 
     //----------
 
-    @Mapping(source = "districtId",target = "district.id")
+    @Mapping(target = "customer", ignore = true)
+    @Mapping(target = "district", ignore = true)
     Address addressFromUpdateAddressRequest(UpdateAddressRequest updateAddressRequest, @MappingTarget Address address);
 
-    @BeanMapping(nullValuePropertyMappingStrategy =
-            NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "customerId",source = "customer.id")
     @Mapping(target = "districtId",source = "district.id")
     UpdatedAddressResponse updatedAddressResponseFromAddress(Address address);
 
     List<GetListAddressResponse> getListAddressResponsesFromAddressList(List<Address> addressList);
 
-    @Mapping(target = "districtName",source = "district.name") //manuel mapping burada yapılıyor
-    @Mapping(target = "cityName",source = "district.city.name")
+
     @Mapping(target = "customerId",source = "customer.id")
-    @Mapping(target = "customerFirstName",source = "customer.customerNumber")
     @Mapping(target = "districtId",source = "district.id")
     GetAddressResponse getAddressResponseFromAddress(Address address);
+
+    //----------------------************************************************--------------------------------
+//    @Mapping(target = "customer.id", source = "customerId")
+//    @Mapping(target = "district.id", source = "districtId")
+//    Address addressFromCreateAddressRequest(CreateAddressRequest request);
+//
+//    @Mapping(target = "districtName", source = "district.name")
+//    @Mapping(target = "cityName", source = "district.city.name")
+//    @Mapping(target = "customerId", source = "customer.id")
+//    @Mapping(target = "districtId", source = "district.id")
+//    CreatedAddressResponse createdAddressResponseFromAddress(Address address);
+//
+//
+//    @Mapping(target = "customer", ignore = true)
+//    @Mapping(target = "district", ignore = true)
+//    Address addressFromUpdateAddressRequest(UpdateAddressRequest request, @MappingTarget Address address);
+//
+//    @Mapping(target = "customerId", source = "customer.id")
+//    @Mapping(target = "districtId", source = "district.id")
+//    UpdatedAddressResponse updatedAddressResponseFromAddress(Address address);
+//
+//    List<GetListAddressResponse> getListAddressResponsesFromAddresses(List<Address> addresses);
+//
+//    GetAddressResponse getAddressResponseFromAddress(Address address);
+//
+//    @Mapping(target = "districtName", source = "district.name")
+//    @Mapping(target = "cityName", source = "district.city.name")
+//    @Mapping(target = "customerId", source = "customer.id")
+//    @Mapping(target = "districtId", source = "district.id")
+//    GetListAddressResponse getListAddressResponseFromAddress(Address address);
 }

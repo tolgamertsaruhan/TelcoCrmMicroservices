@@ -7,6 +7,7 @@ import com.etiya.customerservice.repository.CityRepository;
 import com.etiya.customerservice.service.messages.Messages;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -22,6 +23,11 @@ public class CityBusinessRules {
     public void checkIfCityExists(UUID id){
         if (!cityRepository.existsById(id)){
             throw new BusinessException(localizationService.getMessage(Messages.CityNotFound));
+        }
+    }
+    public void checkExistsName(String name) {
+        if (cityRepository.existsByNameIgnoreCase(name.toLowerCase(new Locale("tr", "TR")))) {
+            throw new BusinessException("This city already exists");
         }
     }
 }

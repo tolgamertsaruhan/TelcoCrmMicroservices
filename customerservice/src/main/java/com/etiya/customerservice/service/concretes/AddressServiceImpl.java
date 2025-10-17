@@ -6,16 +6,22 @@ import com.etiya.common.events.CreateCustomerEvent;
 import com.etiya.common.events.DeletedAddressEvent;
 import com.etiya.common.events.UpdatedAddressEvent;
 import com.etiya.customerservice.domain.entities.Address;
+import com.etiya.customerservice.domain.entities.City;
 import com.etiya.customerservice.domain.entities.Customer;
+import com.etiya.customerservice.domain.entities.District;
 import com.etiya.customerservice.repository.AddressRepository;
+import com.etiya.customerservice.repository.DistrictRepository;
 import com.etiya.customerservice.service.abstracts.AddressService;
+import com.etiya.customerservice.service.abstracts.DistrictService;
 import com.etiya.customerservice.service.mappings.AddressMapper;
+import com.etiya.customerservice.service.mappings.CityMapper;
 import com.etiya.customerservice.service.requests.address.CreateAddressRequest;
 import com.etiya.customerservice.service.requests.address.UpdateAddressRequest;
 import com.etiya.customerservice.service.responses.address.CreatedAddressResponse;
 import com.etiya.customerservice.service.responses.address.GetAddressResponse;
 import com.etiya.customerservice.service.responses.address.GetListAddressResponse;
 import com.etiya.customerservice.service.responses.address.UpdatedAddressResponse;
+import com.etiya.customerservice.service.responses.district.GetDistrictResponse;
 import com.etiya.customerservice.service.rules.AddressBusinessRules;
 import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
 import com.etiya.customerservice.transport.kafka.producer.address.DeletedAddressProducer;
@@ -32,6 +38,7 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
     private final AddressBusinessRules addressBusinessRules;
+    private final DistrictService districtService;
 
     private final DeletedAddressProducer deletedAddressProducer;
 
@@ -40,13 +47,14 @@ public class AddressServiceImpl implements AddressService {
     private  final CreateAddressProducer createAddressProducer;
 
 
-    public AddressServiceImpl(AddressRepository addressRepository, AddressBusinessRules addressBusinessRules, DeletedAddressProducer deletedAddressProducer, UpdatedAddressProducer updatedAddressProducer, CreateAddressProducer createAddressProducer) {
+    public AddressServiceImpl(AddressRepository addressRepository, AddressBusinessRules addressBusinessRules, DeletedAddressProducer deletedAddressProducer, UpdatedAddressProducer updatedAddressProducer, CreateAddressProducer createAddressProducer, DistrictService districtService) {
 
         this.addressBusinessRules  = addressBusinessRules;
         this.addressRepository = addressRepository;
         this.deletedAddressProducer = deletedAddressProducer;
         this.updatedAddressProducer = updatedAddressProducer;
         this.createAddressProducer = createAddressProducer;
+        this.districtService = districtService;
     }
 
    // @Override
@@ -54,15 +62,20 @@ public class AddressServiceImpl implements AddressService {
    //     addressRepository.save(address);
    // }
 
+
     @Override
     public CreatedAddressResponse add(CreateAddressRequest request) {
        Address address = AddressMapper.INSTANCE.addressFromCreateAddressRequest(request);
 
         Address createdAddress = addressRepository.save(address);
+        District district = districtService.findById(request.getDistrictId());
+        City city = district.getCity();
+
         CreateAddressEvent event =
                 new CreateAddressEvent(createdAddress.getId().toString(),
                         createdAddress.getCustomer().getId().toString(),
-                        createdAddress.getDistrict().getId().toString(),
+                        district.getName(),
+                        city.getName(),
                         createdAddress.getStreet(),
                         createdAddress.getHouseNumber(),
                         createdAddress.getDescription(),

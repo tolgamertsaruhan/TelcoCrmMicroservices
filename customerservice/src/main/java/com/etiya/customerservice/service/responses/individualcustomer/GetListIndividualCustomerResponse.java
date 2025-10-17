@@ -21,7 +21,7 @@ public class GetListIndividualCustomerResponse {
     private String motherName;
     private String fatherName;
     private String gender;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 
     private List<GetListAddressResponse> addresses;
 
@@ -89,11 +89,11 @@ public class GetListIndividualCustomerResponse {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -108,7 +108,7 @@ public class GetListIndividualCustomerResponse {
     public GetListIndividualCustomerResponse() {
     }
 
-    public GetListIndividualCustomerResponse(UUID id, String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender, LocalDate dateOfBirth, List<GetListAddressResponse> addresses) {
+    public GetListIndividualCustomerResponse(UUID id, String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth, List<GetListAddressResponse> addresses) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
