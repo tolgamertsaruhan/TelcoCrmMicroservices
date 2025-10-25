@@ -6,10 +6,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class ContactMedium {
     private String contactMediumId;
     private String customerId;
-    @Field(type = FieldType.Keyword)
+    //@Field(type = FieldType.Keyword)
     private String type;
 
-    @Field(type = FieldType.Keyword)
+    //@Field(type = FieldType.Keyword)
     private String value;
     private boolean isPrimary;
 

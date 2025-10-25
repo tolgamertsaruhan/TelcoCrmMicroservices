@@ -27,5 +27,13 @@ public interface CustomerSearchService {
     void updateContactMedium(ContactMedium contactMedium);
     void deleteContactMedium(ContactMedium contactMedium);
 
-    public List<CustomerSearch> searchDynamic(CustomerSearch request);
+    //public List<CustomerSearch> searchDynamic(CustomerSearch request);
+    List<CustomerSearch> searchDynamic(
+            String id,
+            String customerNumber,
+            String nationalId,
+            String firstName,
+            String lastName,
+            String value
+    );
 }

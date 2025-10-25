@@ -63,6 +63,7 @@ public class ContactMediumServiceImpl implements ContactMediumService {
         createContactMediumProducer.produceContactMediumCreated(event);
 
         CreatedContactMediumResponse response = ContactMediumMapper.INSTANCE.getCreatedContactMediumResponseFromContactMedium(created);
+        response.setId(created.getId());
         return response;
     }
 

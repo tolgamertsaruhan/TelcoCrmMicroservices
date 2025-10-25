@@ -16,7 +16,7 @@ public class CustomerSearch {
     @Id
     private String id;
     private String customerNumber;
-    @Field(type = FieldType.Keyword)
+    //@Field(type = FieldType.Keyword)
     private String firstName;
     private String lastName;
     private String nationalId;
