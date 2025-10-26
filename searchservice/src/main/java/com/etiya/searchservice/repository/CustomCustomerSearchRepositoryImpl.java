@@ -1,6 +1,7 @@
 package com.etiya.searchservice.repository;
 
 import com.etiya.searchservice.domain.CustomerSearch;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -21,7 +22,7 @@ public class CustomCustomerSearchRepositoryImpl implements CustomCustomerSearchR
     }
 
     @Override
-    public List<CustomerSearch> searchDynamic(String id, String customerNumber, String nationalId, String firstName, String lastName, String value) {
+    public List<CustomerSearch> searchDynamic(String id, String customerNumber, String nationalId, String firstName, String  lastName, String value,int page, int size) {
         BoolQuery.Builder bool = QueryBuilders.bool();
 
         if (StringUtils.hasText(id)) {
@@ -52,6 +53,7 @@ public class CustomCustomerSearchRepositoryImpl implements CustomCustomerSearchR
         Query query = bool.build()._toQuery();
         NativeQuery nativeQuery = NativeQuery.builder()
                 .withQuery(query)
+                .withPageable(PageRequest.of(page, size))
                 .build();
 
         SearchHits<CustomerSearch> hits =

@@ -34,6 +34,7 @@ public interface CustomerSearchService {
             String nationalId,
             String firstName,
             String lastName,
-            String value
+            String value,
+            int page, int size
     );
 }
