@@ -34,4 +34,6 @@ public class LocalizationConfiguration {
         bean.setValidationMessageSource(bundleMessageSource());
         return bean;
     }
+
+
 }
