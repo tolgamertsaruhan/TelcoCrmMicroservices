@@ -1,13 +1,13 @@
 package com.etiya.common.validators.annotations;
 
 
-import com.etiya.common.validators.concretes.EnumValidatorImpl;
+//import com.etiya.common.validators.concretes.EnumValidatorImpl;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
-@Documented
+/*@Documented
 @Constraint(validatedBy = EnumValidatorImpl.class) // Bu anotasyonun mantığı EnumValidatorImpl sınıfındadır
 @Target({ElementType.METHOD, ElementType.FIELD})   // Bu anotasyonu metot ve alanlarda kullanabiliriz
 @Retention(RetentionPolicy.RUNTIME)              // Bu anotasyon program çalışırken de aktif olsun
@@ -26,4 +26,4 @@ public @interface EnumValidator {
     // Şimdilik içleri boş kalabilir.
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-}
+}*/

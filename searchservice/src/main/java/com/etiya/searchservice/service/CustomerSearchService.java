@@ -33,6 +33,7 @@ public interface CustomerSearchService {
             String customerNumber,
             String nationalId,
             String firstName,
+            String middleName,
             String lastName,
             String value,
             int page, int size

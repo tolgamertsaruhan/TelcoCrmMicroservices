@@ -23,6 +23,7 @@ public interface ContactMediumMapper {
     @Mapping(source = "customerId",target = "customer.id")
     ContactMedium getContactMediumFromCreateContactMediumRequest(CreateContactMediumRequest createContactMediumRequest);
 
+    @Mapping(target = "customerId",source = "customer.id")
     CreatedContactMediumResponse getCreatedContactMediumResponseFromContactMedium(ContactMedium contactMedium);
 
     @Mapping(source = "customer.id",target = "customerId")

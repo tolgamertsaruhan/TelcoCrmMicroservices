@@ -25,7 +25,7 @@ public class CreatedCustomerConsumer {
     @Bean
     public Consumer<CreateCustomerEvent> customerCreated(){
         return event -> {
-            CustomerSearch customerSearch = new CustomerSearch(event.customerId(), event.customerNumber(), event.firstName(), event.lastName(), event.nationalId(), event.motherName(), event.fatherName(), event.gender(), event.dateOfBirth());
+            CustomerSearch customerSearch = new CustomerSearch(event.customerId(), event.customerNumber(), event.firstName(), event.middleName(), event.lastName(), event.nationalId(), event.motherName(), event.fatherName(), event.gender(), event.dateOfBirth());
             customerSearchService.add(customerSearch);
             LOGGER.info(String.format("Consumed Customer => %s", event.customerId()));
         };

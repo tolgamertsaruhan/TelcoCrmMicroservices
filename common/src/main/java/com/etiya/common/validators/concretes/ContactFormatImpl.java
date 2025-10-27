@@ -1,17 +1,15 @@
 package com.etiya.common.validators.concretes;
 
 
-import com.etiya.common.validators.annotations.ContactFormat;
+/*import com.etiya.common.validators.annotations.ContactFormat;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
-/**
- * @ContactFormat anotasyonunun arkasındaki validasyon mantığını içerir.
- * Bu sınıf, bir nesnenin tamamını alarak, bir alanın değerine göre
- * başka bir alanın formatını kontrol eder.
- */
+import java.util.regex.Pattern;
+
+
 public class ContactFormatImpl implements ConstraintValidator<ContactFormat, Object> {
 
     // Regex'leri sabit (final) olarak tanımlıyoruz.
@@ -22,26 +20,21 @@ public class ContactFormatImpl implements ConstraintValidator<ContactFormat, Obj
     private static final String TURKISH_PHONE_REGEX =
             "^(?:\\+90|0)?\\s*?(?:\\(?([2-5][0-9]{2})\\)?\\s*?([0-9]{3})\\s*?([0-9]{2})\\s*?([0-9]{2})|([2-5][0-9]{9}))$";
 
+    private  static final String TURKISH_HOME_PHONE_REGEX = "^(?:\\+90|0)?(?:\\(?([2-5][0-9]{2})\\)?\\s*?([0-9]{3})\\s*?([0-9]{2})\\s*?([0-9]{2})|([2-5][0-9]{9}))$";
 
+    private static final String FAX_REGEX = "^(?:FAX\\:|\\+90|0)?(?:\\(?([2-5][0-9]{2})\\)?\\s*?([0-9]{3})\\s*?([0-9]{2})\\s*?([0-9]{2})|([2-5][0-9]{9}))$";
     // Anotasyondan gelen alan isimlerini tutacak değişkenler
     private String typeFieldName;
     private String valueFieldName;
 
-    /**
-     * Validator'ı hazırlama metodu. Anotasyondan alan isimlerini okur ve sınıf değişkenlerine atar.
-     */
+
     @Override
     public void initialize(ContactFormat constraintAnnotation) {
         this.typeFieldName = constraintAnnotation.typeField();
         this.valueFieldName = constraintAnnotation.valueField();
     }
 
-    /**
-     * Asıl validasyon mantığının çalıştığı metot.
-     * @param dtoObject DTO nesnesinin kendisi (örneğin CreateContactMediumRequest)
-     * @param context Validasyon context'i
-     * @return Alanlar arasındaki kurala göre geçerli ise true, değilse false
-     */
+
     @Override
     public boolean isValid(Object dtoObject, ConstraintValidatorContext context) {
         // Spring'in BeanWrapper'ını kullanarak DTO'nun alanlarına ismen güvenle erişeceğiz.
@@ -67,13 +60,19 @@ public class ContactFormatImpl implements ConstraintValidator<ContactFormat, Obj
             // Eğer tip EMAIL ise, value alanı EMAIL_REGEX'e uymalı.
             return valueString.matches(EMAIL_REGEX);
 
-        } else if (typeString.equalsIgnoreCase("PHONE")) {
+        } else if (typeString.equalsIgnoreCase("MOBILE_PHONE")) {
             // Eğer tip PHONE ise, value alanı TURKISH_PHONE_REGEX'e uymalı.
             return valueString.matches(TURKISH_PHONE_REGEX);
+        }
+        else if (typeString.equalsIgnoreCase("HOME_PHONE")) {
+            return valueString.matches(TURKISH_HOME_PHONE_REGEX);
+        }
+        else if (typeString.equalsIgnoreCase("FAX")) {
+            return valueString.matches(FAX_REGEX);
         }
 
         // Eğer tip ne EMAIL ne de PHONE ise, bu validator'ın görevi olmadığı için true dönüyoruz.
         // Bu tipin geçerli olup olmadığını @EnumValidator zaten kontrol ediyor. Herkes kendi işini yapar.
         return true;
     }
-}
+}*/

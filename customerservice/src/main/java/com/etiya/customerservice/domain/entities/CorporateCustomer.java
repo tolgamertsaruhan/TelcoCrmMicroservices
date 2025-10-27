@@ -60,8 +60,8 @@ public class CorporateCustomer extends Customer {
         this.companyType = companyType;
     }
 
-    public CorporateCustomer(UUID id, String customerNumber, List<Address> addresses, Customer customer, String companyName, String taxNumber, String companyType) {
-        super(id, customerNumber, addresses);
+    public CorporateCustomer(UUID id, String customerNumber, List<Address> addresses, List<ContactMedium> contactMediums, Customer customer, String companyName, String taxNumber, String companyType) {
+        super(id, customerNumber, addresses, contactMediums);
         this.customer = customer;
         this.companyName = companyName;
         this.taxNumber = taxNumber;
@@ -78,7 +78,7 @@ public class CorporateCustomer extends Customer {
     public CorporateCustomer() {
     }
 
-    public CorporateCustomer(UUID id, String customerNumber, List<Address> addresses) {
-        super(id, customerNumber, addresses);
+    public CorporateCustomer(UUID id, String customerNumber, List<Address> addresses, List<ContactMedium> contactMediums) {
+        super(id, customerNumber, addresses,  contactMediums);
     }
 }

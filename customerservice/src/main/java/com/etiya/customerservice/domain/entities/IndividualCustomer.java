@@ -117,8 +117,8 @@ public class IndividualCustomer extends Customer {
         this.gender = gender;
     }
 
-    public IndividualCustomer(UUID id, String customerNumber, List<Address> addresses, String firstName, String lastName, String middleName, String nationalId, String dateOfBirth, String motherName, String fatherName, String gender) {
-        super(id, customerNumber, addresses);
+    public IndividualCustomer(UUID id, String customerNumber, List<Address> addresses, List<ContactMedium> contactMediums, String firstName, String lastName, String middleName, String nationalId, String dateOfBirth, String motherName, String fatherName, String gender) {
+        super(id, customerNumber, addresses, contactMediums);
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -132,7 +132,8 @@ public class IndividualCustomer extends Customer {
     public IndividualCustomer() {
     }
 
-    public IndividualCustomer(UUID id, String customerNumber, List<Address> addresses) {
-        super(id, customerNumber, addresses);
+    public IndividualCustomer(UUID id, String customerNumber, List<Address> addresses, List<ContactMedium> contactMediums){
+        super(id, customerNumber, addresses, contactMediums);
     }
+
 }

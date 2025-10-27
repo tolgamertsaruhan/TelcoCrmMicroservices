@@ -66,8 +66,8 @@ public class ContactMedium extends BaseEntity {
         return isPrimary;
     }
 
-    public void setPrimary(boolean primary) {
-        isPrimary = primary;
+    public void setPrimary(boolean isPrimary) {
+        this.isPrimary = isPrimary;
     }
 
     public Customer getCustomer() {
@@ -88,4 +88,6 @@ public class ContactMedium extends BaseEntity {
         this.isPrimary = isPrimary;
         this.customer = customer;
     }
+
+
 }

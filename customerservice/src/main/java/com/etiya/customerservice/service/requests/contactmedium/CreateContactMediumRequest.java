@@ -1,7 +1,7 @@
 package com.etiya.customerservice.service.requests.contactmedium;
 
-import com.etiya.common.validators.annotations.ContactFormat;
-import com.etiya.common.validators.annotations.EnumValidator;
+//import com.etiya.common.validators.annotations.ContactFormat;
+//import com.etiya.common.validators.annotations.EnumValidator;
 import com.etiya.customerservice.domain.enums.ContactMediumType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,17 +15,17 @@ import java.util.UUID;
 //@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
-@ContactFormat( // 🎯 İŞTE YENİ ANOTASYONU BURADA KULLANIYORUZ
+/*@ContactFormat( // 🎯 İŞTE YENİ ANOTASYONU BURADA KULLANIYORUZ
         typeField = "type",
         valueField = "value",
         message = "Girilen değer, belirtilen iletişim tipiyle uyumlu formatta değil."
-)
+)*/
 public class CreateContactMediumRequest {
     @NotBlank(message = "Type couldn't be empty")
-    @EnumValidator(
-            enumClass = ContactMediumType.class,
-            message = "Geçersiz iletişim tipi. Lütfen şunlardan birini kullanın: EMAIL, PHONE, FAX, MOBILE"
-    )
+//    @EnumValidator(
+//            enumClass = ContactMediumType.class,
+//            message = "Geçersiz iletişim tipi. Lütfen şunlardan birini kullanın: EMAIL, PHONE, FAX, MOBILE"
+//    )
     private String type;
 
     @NotBlank

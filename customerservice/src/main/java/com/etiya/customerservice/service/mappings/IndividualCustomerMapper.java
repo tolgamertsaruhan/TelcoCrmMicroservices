@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {AddressMapper.class})
+@Mapper(uses = {AddressMapper.class, ContactMediumMapper.class})
 
 public interface IndividualCustomerMapper {
     IndividualCustomerMapper INSTANCE = Mappers.getMapper(IndividualCustomerMapper.class); //BURDA İNSTANCE AYAĞA KALDIRILIYOR

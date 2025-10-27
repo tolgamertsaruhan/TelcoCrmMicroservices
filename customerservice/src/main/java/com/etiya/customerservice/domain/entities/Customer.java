@@ -25,10 +25,10 @@ public class Customer extends BaseEntity {
     @Column(name = "customer_number")
     private String customerNumber;
 
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<ContactMedium> contactMediums;
 
-
-
-  @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
     private List<Address> addresses;
 
 
@@ -39,6 +39,14 @@ public class Customer extends BaseEntity {
         String year = String.valueOf(java.time.Year.now().getValue());
         String randomPart = String.format("%04d",new java.util.Random().nextInt(10000));
         this.customerNumber = prefix + year + "-" + randomPart;
+    }
+
+    public List<ContactMedium> getContactMediums() {
+        return contactMediums;
+    }
+
+    public void setContactMediums(List<ContactMedium> contactMediums) {
+        this.contactMediums = contactMediums;
     }
 
     public UUID getId() {
@@ -68,10 +76,11 @@ public class Customer extends BaseEntity {
     public Customer() {
     }
 
-    public Customer(UUID id, String customerNumber, List<Address> addresses) {
+    public Customer(UUID id, String customerNumber, List<Address> addresses, List<ContactMedium> contactMediums) {
         this.id = id;
         this.customerNumber = customerNumber;
         this.addresses = addresses;
+        this.contactMediums = contactMediums;
     }
 }
 

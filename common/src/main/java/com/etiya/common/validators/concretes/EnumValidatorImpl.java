@@ -1,7 +1,7 @@
 package com.etiya.common.validators.concretes;
 
 
-import com.etiya.common.validators.annotations.EnumValidator;
+/*import com.etiya.common.validators.annotations.EnumValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -14,10 +14,7 @@ public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, Cha
     // 2. Geçerli enum değerlerini ("PHONE", "EMAIL" gibi) tutacağımız bir liste (Set)
     private Set<String> acceptedValues;
 
-    /**
-     * Bu metot, validasyon işlemi başlamadan önce Spring tarafından SADECE BİR KEZ çalıştırılır.
-     * Görevi, hazırlık yapmaktır.
-     */
+
 
     @Override
     public void initialize(EnumValidator constraintAnnotation) {
@@ -32,10 +29,6 @@ public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, Cha
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * Bir API isteği geldiğinde, DTO'daki alanın değerini kontrol etmek için Spring BU METODU çalıştırır.
-     * Gelen değer geçerliyse 'true', geçersizse 'false' döndürür.
-     */
     @Override
     public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
         // DTO'dan gelen değer (örneğin "EMAIL" veya "WHATSAPP") bu 'value' değişkenine düşer.
@@ -52,4 +45,4 @@ public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, Cha
         return acceptedValues.contains(value.toString());
     }
 
-}
+}*/

@@ -2,6 +2,7 @@ package com.etiya.customerservice.service.responses.individualcustomer;
 
 
 import com.etiya.customerservice.service.responses.address.GetListAddressResponse;
+import com.etiya.customerservice.service.responses.contactmedium.GetContactMediumResponse;
 
 
 import java.time.LocalDate;
@@ -24,6 +25,16 @@ public class GetListIndividualCustomerResponse {
     private String dateOfBirth;
 
     private List<GetListAddressResponse> addresses;
+
+    private List<GetContactMediumResponse> contactMediums;
+
+    public List<GetContactMediumResponse> getContactMediums() {
+        return contactMediums;
+    }
+
+    public void setContactMediums(List<GetContactMediumResponse> contactMediums) {
+        this.contactMediums = contactMediums;
+    }
 
     public UUID getId() {
         return id;
@@ -108,7 +119,7 @@ public class GetListIndividualCustomerResponse {
     public GetListIndividualCustomerResponse() {
     }
 
-    public GetListIndividualCustomerResponse(UUID id, String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth, List<GetListAddressResponse> addresses) {
+    public GetListIndividualCustomerResponse(UUID id, String firstName, String lastName, String middleName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth, List<GetListAddressResponse> addresses, List<GetContactMediumResponse> contactMediums) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -119,5 +130,6 @@ public class GetListIndividualCustomerResponse {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.addresses = addresses;
+        this.contactMediums = contactMediums;
     }
 }

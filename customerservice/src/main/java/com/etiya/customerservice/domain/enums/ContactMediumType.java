@@ -1,6 +1,8 @@
 package com.etiya.customerservice.domain.enums;
 
 public enum ContactMediumType {
-    PHONE,
-    EMAIL
+    MOBILE_PHONE,
+    HOME_PHONE,
+    EMAIL,
+    FAX
 }

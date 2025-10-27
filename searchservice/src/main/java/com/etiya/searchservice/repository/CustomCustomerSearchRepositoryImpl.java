@@ -22,7 +22,7 @@ public class CustomCustomerSearchRepositoryImpl implements CustomCustomerSearchR
     }
 
     @Override
-    public List<CustomerSearch> searchDynamic(String id, String customerNumber, String nationalId, String firstName, String  lastName, String value,int page, int size) {
+    public List<CustomerSearch> searchDynamic(String id, String customerNumber, String nationalId, String firstName, String middleName, String  lastName, String value,int page, int size) {
         BoolQuery.Builder bool = QueryBuilders.bool();
 
         if (StringUtils.hasText(id)) {
@@ -37,6 +37,9 @@ public class CustomCustomerSearchRepositoryImpl implements CustomCustomerSearchR
         if (StringUtils.hasText(firstName)) {
             bool.must(m -> m.matchPhrase(mp -> mp.field("firstName").query(firstName)));
         }
+        if (StringUtils.hasText(middleName)) {
+            bool.must(m -> m.matchPhrase(mp -> mp.field("middleName").query(middleName)));
+        }
         if (StringUtils.hasText(lastName)) {
             bool.must(m -> m.matchPhrase(mp -> mp.field("lastName").query(lastName)));
         }
@@ -44,7 +47,7 @@ public class CustomCustomerSearchRepositoryImpl implements CustomCustomerSearchR
             bool.must(m -> m.nested(n -> n
                     .path("contactMediumSearchList")
                     .query(q -> q.bool(nb -> nb
-                            .must(mt -> mt.term(t -> t.field("contactMediumSearchList.type.keyword").value("PHONE"))) // sadece PHONE
+                            .must(mt -> mt.term(t -> t.field("contactMediumSearchList.type.keyword").value("MOBILE_PHONE"))) // sadece PHONE
                             .must(mt -> mt.term(t -> t.field("contactMediumSearchList.value.keyword").value(value)))
                     ))
             ));

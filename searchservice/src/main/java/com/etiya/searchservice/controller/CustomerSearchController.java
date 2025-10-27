@@ -111,11 +111,12 @@ public class CustomerSearchController {
             @RequestParam(required = false) String customerNumber,
             @RequestParam(required = false) String nationalId,
             @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String middleName,
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String value,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
-        return customerSearchService.searchDynamic(id, customerNumber, nationalId, firstName, lastName, value, page, size);
+        return customerSearchService.searchDynamic(id, customerNumber, nationalId, firstName, middleName, lastName, value, page, size);
     }
 }

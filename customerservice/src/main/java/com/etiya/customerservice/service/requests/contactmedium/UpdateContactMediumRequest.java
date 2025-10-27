@@ -17,6 +17,10 @@ public class UpdateContactMediumRequest {
     private boolean isPrimary;
     private UUID customerId;
 
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -43,10 +47,6 @@ public class UpdateContactMediumRequest {
 
     public boolean isPrimary() {
         return isPrimary;
-    }
-
-    public void setPrimary(boolean primary) {
-        isPrimary = primary;
     }
 
     public UUID getCustomerId() {

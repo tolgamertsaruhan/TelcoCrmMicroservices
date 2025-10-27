@@ -52,8 +52,8 @@ public class ContactMedium {
         return isPrimary;
     }
 
-    public void setPrimary(boolean primary) {
-        isPrimary = primary;
+    public void setPrimary(boolean isPrimary) {
+        this.isPrimary = isPrimary;
     }
 
     public ContactMedium(String contactMediumId, String customerId, String type, String value, boolean isPrimary) {

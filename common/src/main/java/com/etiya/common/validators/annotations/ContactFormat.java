@@ -1,7 +1,7 @@
 package com.etiya.common.validators.annotations;
 
 
-import com.etiya.common.validators.concretes.ContactFormatImpl;
+/*import com.etiya.common.validators.concretes.ContactFormatImpl;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -21,4 +21,4 @@ public @interface ContactFormat {
     String message() default "İletişim tipine göre format hatalıdır.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-}
+}*/

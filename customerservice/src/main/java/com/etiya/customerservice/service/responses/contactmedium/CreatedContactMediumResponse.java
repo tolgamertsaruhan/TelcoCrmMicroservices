@@ -11,9 +11,18 @@ import java.util.UUID;
 //@NoArgsConstructor
 public class CreatedContactMediumResponse {
     private UUID id;
+    private UUID customerId;
     private ContactMediumType type;
     private String value;
     private boolean isPrimary;
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
 
     public UUID getId() {
         return id;
@@ -50,8 +59,9 @@ public class CreatedContactMediumResponse {
     public CreatedContactMediumResponse() {
     }
 
-    public CreatedContactMediumResponse(UUID id, ContactMediumType type, String value, boolean isPrimary) {
+    public CreatedContactMediumResponse(UUID id, UUID customerId, ContactMediumType type, String value, boolean isPrimary) {
         this.id = id;
+        this.customerId = customerId;
         this.type = type;
         this.value = value;
         this.isPrimary = isPrimary;

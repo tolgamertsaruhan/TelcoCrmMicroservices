@@ -18,6 +18,7 @@ public class CustomerSearch {
     private String customerNumber;
     //@Field(type = FieldType.Keyword)
     private String firstName;
+    private String middleName;
     private String lastName;
     private String nationalId;
     private String motherName;
@@ -30,6 +31,14 @@ public class CustomerSearch {
 
     @Field(type = FieldType.Nested)
     List<ContactMedium> contactMediumSearchList = new ArrayList<>();
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
     public List<ContactMedium> getContactMediumSearchList() {
         return contactMediumSearchList;
@@ -122,10 +131,11 @@ public class CustomerSearch {
     public CustomerSearch() {
     }
 
-    public CustomerSearch(String id, String customerNumber, String firstName, String lastName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth) {
+    public CustomerSearch(String id, String customerNumber, String firstName, String middleName, String lastName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth) {
         this.id = id;
         this.customerNumber = customerNumber;
         this.firstName = firstName;
+        this.middleName = middleName;
         this.lastName = lastName;
         this.nationalId = nationalId;
         this.motherName = motherName;
