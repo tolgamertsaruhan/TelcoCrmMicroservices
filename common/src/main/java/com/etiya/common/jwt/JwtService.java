@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/*@Service
+@Service
 public class JwtService {
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
@@ -39,7 +39,7 @@ public class JwtService {
         return username.equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
-    private String extractUsername(String token) {
+    public String extractUsername(String token) {
         return getClaimsFromToken(token).getSubject();
     }
 
@@ -58,4 +58,4 @@ public class JwtService {
     private Claims getClaimsFromToken(String token) {
         return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
     }
-}*/
+}
