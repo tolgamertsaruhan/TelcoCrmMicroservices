@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController //api olduğu için
-@RequestMapping("/api/individual-customers") //bununla ilgili giden requesti neye maplediğimizi bildiriyoruz
+@RequestMapping("/api/individual-customers/") //bununla ilgili giden requesti neye maplediğimizi bildiriyoruz
 public class IndividualCustomerController {
     private final IndividualCustomerService individualCustomerService;
 
@@ -61,12 +61,19 @@ public class IndividualCustomerController {
         return individualCustomerService.getByCustomerNumberPattern(pattern);
     }
 
-    @PostMapping("/create-full")
+    @PostMapping("create-full")
     public ResponseEntity<CreateFullIndividualCustomerResponse> createFullCustomer(
             @RequestBody CreateFullIndividualCustomerRequest request) {
         CreateFullIndividualCustomerResponse response = individualCustomerService.createFullIndividualCustomer(request);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("existsByNationalId/{nationalId}")
+    public boolean existsByNationalId(@PathVariable String nationalId){
+        return individualCustomerService.existsByNationalId(nationalId);
+    }
+
+
 
 
     // full customer get id için controller

@@ -3,6 +3,7 @@ package com.etiya.customerservice.service.abstracts;
 
 
 import com.etiya.customerservice.domain.entities.City;
+import com.etiya.customerservice.domain.entities.District;
 import com.etiya.customerservice.service.requests.city.CreateCityRequest;
 import com.etiya.customerservice.service.requests.city.UpdateCityRequest;
 import com.etiya.customerservice.service.responses.city.CreatedCityResponse;
@@ -26,6 +27,9 @@ public interface CityService {
     List<GetListCityResponse> getByNameStartingWith(String prefix);
     GetCityResponse getById(UUID id);
     List<GetListCityResponse> getAll();
+
+
+
     //List<GetListCityResponse> getAll();
     //GetCityResponse getById(int id);
     //List<GetListCityResponse> findAllByOrderByNameAsc();

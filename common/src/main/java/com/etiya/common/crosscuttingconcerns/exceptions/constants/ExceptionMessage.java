@@ -9,6 +9,7 @@ public class ExceptionMessage {
     public static final String TYPE_BUSINESS = "https://example.com/probs/business";
     public static final String TYPE_VALIDATION = "https://example.com/probs/validation";
     public static final String TYPE_INTERNAL = "https://example.com/probs/internal";
+    public static final String TYPE_AUTH = "https://example.com/probs/auth";
 
     //Internal Server Messages
     public static final String INTERNAL_ERROR = "Internal Server Error";
@@ -16,4 +17,6 @@ public class ExceptionMessage {
     //Validation Message
     public static final String VALIDATION_ERROR = "Validation rule violation";
     public static final String VALIDATION_ERRORS = "Validation errors";
+
+    public static final String AUTH_ERROR = "Authentication/Authorization Error";
 }

@@ -23,4 +23,6 @@ public interface DistrictService {
     List<GetListDistrictResponse> getByName(String name);
     List<GetListDistrictResponse> getByNameStartingWith(String name);
     List<GetListDistrictResponse> getByCityId(UUID cityId);
+
+
 }

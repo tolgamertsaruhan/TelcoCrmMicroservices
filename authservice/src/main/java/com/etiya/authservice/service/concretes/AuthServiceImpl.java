@@ -1,9 +1,11 @@
 package com.etiya.authservice.service.concretes;
 
+import com.etiya.authservice.AuthValidator;
 import com.etiya.authservice.service.abstracts.AuthService;
 import com.etiya.authservice.service.abstracts.UserService;
 import com.etiya.authservice.service.dtos.LoginRequest;
 import com.etiya.authservice.service.dtos.RegisterUserRequest;
+import com.etiya.common.crosscuttingconcerns.exceptions.types.AuthException;
 import com.etiya.common.jwt.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +30,27 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void register(RegisterUserRequest request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+
+        // Email doğrulama
+        if (email == null || email.isBlank()) {
+            throw new AuthException("Email cannot be empty");
+        }
+        if (!email.matches(AuthValidator.EMAIL_REGEX)) {
+            throw new AuthException("Invalid email format");
+        }
+
+        // Password doğrulama
+        if (password == null || password.isBlank()) {
+            throw new AuthException("Password cannot be empty");
+        }
+        if (!password.matches(AuthValidator.STRONG_PASSWORD_REGEX)) {
+            throw new AuthException(
+                    "Password must be at least 8 characters and include uppercase, lowercase, digit, and special character"
+            );
+        }
+
         userService.add(request);
     }
 
@@ -35,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
     public String login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
         if(!authentication.isAuthenticated()) {
-            throw new RuntimeException("Invalid username and password");//RuntimeEx türü AuthanticateEx olacak.
+            throw new AuthException("Invalid username and password");//RuntimeEx türü AuthanticateEx olacak.
         }
         UserDetails user = userService.loadUserByUsername(request.getEmail());
         return jwtService.generateToken(user.getUsername(),user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());

@@ -2,6 +2,7 @@ package com.etiya.customerservice.controller;
 
 
 import com.etiya.customerservice.domain.entities.City;
+import com.etiya.customerservice.domain.entities.District;
 import com.etiya.customerservice.service.abstracts.CityService;
 import com.etiya.customerservice.service.requests.city.CreateCityRequest;
 import com.etiya.customerservice.service.requests.city.UpdateCityRequest;
@@ -36,6 +37,8 @@ public class CityController {
     public List<GetListCityResponse> getAll() {
         return cityService.getAll();
     }
+
+
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)

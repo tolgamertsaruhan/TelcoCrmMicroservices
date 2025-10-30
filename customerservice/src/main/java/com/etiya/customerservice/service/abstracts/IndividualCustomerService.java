@@ -26,5 +26,7 @@ public interface IndividualCustomerService {
 
     //CreateFullIndividualCustomerResponse getFullIndividualCustomer(UUID id);
 
+    boolean existsByNationalId(String nationalId);
+
 
 }

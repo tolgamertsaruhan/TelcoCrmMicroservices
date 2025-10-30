@@ -1,14 +1,11 @@
 package com.etiya.authservice;
 
 import com.etiya.common.annotations.EnableSecurity;
-import io.jsonwebtoken.io.Encoders;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
 @SpringBootApplication

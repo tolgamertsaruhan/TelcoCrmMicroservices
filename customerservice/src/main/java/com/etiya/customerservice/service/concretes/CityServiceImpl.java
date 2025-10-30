@@ -3,8 +3,11 @@ package com.etiya.customerservice.service.concretes;
 
 import com.etiya.common.crosscuttingconcerns.exceptions.types.BusinessException;
 import com.etiya.customerservice.domain.entities.City;
+import com.etiya.customerservice.domain.entities.District;
 import com.etiya.customerservice.repository.CityRepository;
+import com.etiya.customerservice.repository.DistrictRepository;
 import com.etiya.customerservice.service.abstracts.CityService;
+import com.etiya.customerservice.service.abstracts.DistrictService;
 import com.etiya.customerservice.service.mappings.AddressMapper;
 import com.etiya.customerservice.service.mappings.CityMapper;
 import com.etiya.customerservice.service.requests.city.CreateCityRequest;
@@ -25,9 +28,15 @@ public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
     private final CityBusinessRules cityBusinessRules;
 
-    public CityServiceImpl(CityRepository cityRepository, CityBusinessRules cityBusinessRules) {
+    private final DistrictRepository districtRepository;
+
+
+
+    public CityServiceImpl(CityRepository cityRepository, CityBusinessRules cityBusinessRules, DistrictRepository districtRepository) {
         this.cityRepository = cityRepository;
         this.cityBusinessRules = cityBusinessRules;
+        this.districtRepository = districtRepository;
+
     }
 
     @Override
@@ -89,7 +98,10 @@ public class CityServiceImpl implements CityService {
     @Override
     public List<GetListCityResponse> getAll() {
         List<City> cities = cityRepository.findAll();
+
         List<GetListCityResponse> response = CityMapper.INSTANCE.getListCityResponseFromCity(cities);
         return response;
     }
+
+
 }

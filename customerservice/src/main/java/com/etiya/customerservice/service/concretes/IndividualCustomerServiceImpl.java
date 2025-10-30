@@ -198,6 +198,11 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
 
     }
 
+    @Override
+    public boolean existsByNationalId(String nationalId) {
+        return individualCustomerRepository.existsByNationalId(nationalId);
+    }
+
 
     // controller da get full customer by id için service metodu
     /*@Override

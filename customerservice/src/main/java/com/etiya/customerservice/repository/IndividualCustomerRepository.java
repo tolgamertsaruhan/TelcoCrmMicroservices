@@ -39,7 +39,7 @@ public interface IndividualCustomerRepository extends CustomerRepository<Individ
     @Query(value = "Select * from individual_customers ic Join customers c on ic.customer_id = c.id Where c.customer_number like :pattern",nativeQuery = true)
     List<IndividualCustomer> findByCustomerNumberPattern(@Param("pattern") String pattern);
 
-    boolean existsByNationalId(String identityNumber);
+    boolean existsByNationalId(String nationalId);
 
 
 }
