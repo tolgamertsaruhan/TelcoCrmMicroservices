@@ -143,4 +143,16 @@ public class CustomerSearch {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public CustomerSearch(String id, String firstName, String middleName, String lastName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.nationalId = nationalId;
+        this.motherName = motherName;
+        this.fatherName = fatherName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+    }
 }

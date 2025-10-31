@@ -22,9 +22,11 @@ public interface AddressService {
 
     void delete(UUID id);
 
-    void softDelete(UUID id);
+    void softDelete(String id);
 
     UpdatedAddressResponse update(UpdateAddressRequest request);
 
     GetAddressResponse getById(UUID id);
+
+    List<GetAddressResponse> getByCustomerId(String id);
 }

@@ -136,4 +136,20 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
     public List<CustomerSearch> searchDynamic(String id, String customerNumber, String nationalId, String firstName, String middleName, String lastName, String value,int page, int size) {
         return customerSearchRepository.searchDynamic(id,customerNumber,nationalId,firstName,middleName,lastName,value,page, size);
     }
+
+    @Override
+    public void updateCustomer(CustomerSearch customerSearch) {
+        var cs = customerSearchRepository.findById(customerSearch.getId()).orElseThrow();
+        cs.setId(customerSearch.getId());
+        cs.setFirstName(customerSearch.getFirstName());
+        cs.setMiddleName(customerSearch.getMiddleName());
+        cs.setLastName(customerSearch.getLastName());
+        cs.setDateOfBirth(customerSearch.getDateOfBirth());
+        cs.setGender(customerSearch.getGender());
+        cs.setNationalId(customerSearch.getNationalId());
+        cs.setMotherName(customerSearch.getMotherName());
+        cs.setFatherName(customerSearch.getFatherName());
+
+        customerSearchRepository.save(cs);
+    }
 }

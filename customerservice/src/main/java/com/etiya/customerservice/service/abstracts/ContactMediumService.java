@@ -19,10 +19,12 @@ public interface ContactMediumService {
 
     void delete(UUID id);
 
-    void softDelete(UUID id);
+    void softDelete(String id);
 
     GetContactMediumResponse getById(UUID id);
     GetContactMediumResponse getByValue(String value);
     List<GetListContactMediumResponse> getListByType(String type);
     List<GetListContactMediumResponse> getListByCustomerId(UUID customerId);
+    //customer contactMedium info sayfasında kullanılıyor
+    List<GetContactMediumResponse> getByCustomerId(String customerId);
 }

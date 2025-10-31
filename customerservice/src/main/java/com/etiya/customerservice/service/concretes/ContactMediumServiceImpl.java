@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ContactMediumServiceImpl implements ContactMediumService {
@@ -114,8 +115,9 @@ public class ContactMediumServiceImpl implements ContactMediumService {
     }
 
     @Override
-    public void softDelete(UUID id) {
-        ContactMedium contactMedium = contactMediumRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
+    public void softDelete(String id) {
+        UUID uuid  = UUID.fromString(id);
+        ContactMedium contactMedium = contactMediumRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Contact not found"));
         contactMediumBusinessRules.checkIsPrimary(contactMedium);
         contactMedium.setDeletedDate(LocalDateTime.now());
         contactMediumRepository.save(contactMedium);
@@ -153,5 +155,22 @@ public class ContactMediumServiceImpl implements ContactMediumService {
         return responses;
     }
 
+    @Override
+    public List<GetContactMediumResponse> getByCustomerId(String customerId) {
+        UUID uuid = UUID.fromString(customerId);
+        List<ContactMedium> contactMediums = contactMediumRepository.findByCustomerId(uuid);
 
+        // Entity -> Response dönüşümü
+        return contactMediums.stream()
+                .map(cm -> {
+                    GetContactMediumResponse response = new GetContactMediumResponse();
+                    response.setId(cm.getId());
+                    response.setType(cm.getType());
+                    response.setValue(cm.getValue());
+                    response.setPrimary(cm.isPrimary());
+                    response.setCustomerId(cm.getCustomer().getId());
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
 }

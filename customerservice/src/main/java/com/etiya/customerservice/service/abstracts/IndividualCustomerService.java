@@ -4,10 +4,8 @@ package com.etiya.customerservice.service.abstracts;
 
 import com.etiya.customerservice.service.requests.individualcustomer.CreateFullIndividualCustomerRequest;
 import com.etiya.customerservice.service.requests.individualcustomer.CreateIndividualCustomerRequest;
-import com.etiya.customerservice.service.responses.individualcustomer.CreateFullIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.CreatedIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
+import com.etiya.customerservice.service.requests.individualcustomer.UpdateIndividualCustomerRequest;
+import com.etiya.customerservice.service.responses.individualcustomer.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,5 +26,9 @@ public interface IndividualCustomerService {
 
     boolean existsByNationalId(String nationalId);
 
+    GetIndividualCustomerResponse getById(String id);
 
+    void softDelete(String id);
+
+    UpdatedIndividualCustomerResponse update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest);
 }

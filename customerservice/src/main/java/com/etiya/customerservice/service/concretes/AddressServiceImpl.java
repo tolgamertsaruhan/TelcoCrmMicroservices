@@ -5,10 +5,7 @@ import com.etiya.common.events.CreateAddressEvent;
 import com.etiya.common.events.CreateCustomerEvent;
 import com.etiya.common.events.DeletedAddressEvent;
 import com.etiya.common.events.UpdatedAddressEvent;
-import com.etiya.customerservice.domain.entities.Address;
-import com.etiya.customerservice.domain.entities.City;
-import com.etiya.customerservice.domain.entities.Customer;
-import com.etiya.customerservice.domain.entities.District;
+import com.etiya.customerservice.domain.entities.*;
 import com.etiya.customerservice.repository.AddressRepository;
 import com.etiya.customerservice.repository.DistrictRepository;
 import com.etiya.customerservice.service.abstracts.AddressService;
@@ -22,6 +19,7 @@ import com.etiya.customerservice.service.responses.address.GetAddressResponse;
 import com.etiya.customerservice.service.responses.address.GetListAddressResponse;
 import com.etiya.customerservice.service.responses.address.UpdatedAddressResponse;
 import com.etiya.customerservice.service.responses.district.GetDistrictResponse;
+import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
 import com.etiya.customerservice.service.rules.AddressBusinessRules;
 import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
 import com.etiya.customerservice.transport.kafka.producer.address.DeletedAddressProducer;
@@ -32,6 +30,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -112,8 +111,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void softDelete(UUID id) {
-        Address address = addressRepository.findById(id).orElseThrow(() -> new RuntimeException("Address not found"));
+    public void softDelete(String id) {
+        UUID uuid = UUID.fromString(id);
+        Address address = addressRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Address not found"));
         address.setDeletedDate(LocalDateTime.now());
         addressRepository.save(address);
     }
@@ -144,6 +144,31 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressRepository.findById(id).orElseThrow(() -> new RuntimeException("Address not found"));
         GetAddressResponse response = AddressMapper.INSTANCE.getAddressResponseFromAddress(address);
         return response;
+    }
+
+    @Override
+    public List<GetAddressResponse> getByCustomerId(String customerId) {
+
+        try {
+            UUID uuid = UUID.fromString(customerId);
+            List<Address> addresses = addressRepository.findByCustomerId(uuid);
+
+            return addresses.stream().map(address -> {
+                GetAddressResponse response = new GetAddressResponse();
+                response.setId(address.getId());
+                response.setStreet(address.getStreet());
+                response.setHouseNumber(address.getHouseNumber());
+                response.setDescription(address.getDescription());
+                response.setDefault(address.isDefault());
+                response.setDistrictId(address.getDistrict().getId());
+                response.setCustomerId(address.getCustomer().getId());
+                response.setDistrictName(address.getDistrict().getName());
+                response.setCityName(address.getDistrict().getCity().getName());
+                return response;
+            }).collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("UUID Fail");
+        }
     }
 
 

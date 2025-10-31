@@ -38,4 +38,6 @@ public interface CustomerSearchService {
             String value,
             int page, int size
     );
+
+    void updateCustomer(CustomerSearch customerSearch);
 }

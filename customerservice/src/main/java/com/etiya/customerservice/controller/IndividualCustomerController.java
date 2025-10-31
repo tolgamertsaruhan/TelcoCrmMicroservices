@@ -2,12 +2,12 @@ package com.etiya.customerservice.controller;
 
 
 import com.etiya.customerservice.service.abstracts.IndividualCustomerService;
+import com.etiya.customerservice.service.requests.address.UpdateAddressRequest;
 import com.etiya.customerservice.service.requests.individualcustomer.CreateFullIndividualCustomerRequest;
 import com.etiya.customerservice.service.requests.individualcustomer.CreateIndividualCustomerRequest;
-import com.etiya.customerservice.service.responses.individualcustomer.CreateFullIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.CreatedIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
+import com.etiya.customerservice.service.requests.individualcustomer.UpdateIndividualCustomerRequest;
+import com.etiya.customerservice.service.responses.address.UpdatedAddressResponse;
+import com.etiya.customerservice.service.responses.individualcustomer.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +73,23 @@ public class IndividualCustomerController {
         return individualCustomerService.existsByNationalId(nationalId);
     }
 
+    @GetMapping("getById/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public GetIndividualCustomerResponse getById(@PathVariable String id){
+        return individualCustomerService.getById(id);
+    }
 
+    @DeleteMapping("{id}/soft")
+    @ResponseStatus(HttpStatus.OK)
+    public void softDelete(@PathVariable String id){
+        individualCustomerService.softDelete(id);
+    }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public UpdatedIndividualCustomerResponse update(@RequestBody UpdateIndividualCustomerRequest request){
+        return individualCustomerService.update(request);
+    }
 
     // full customer get id için controller
     /*

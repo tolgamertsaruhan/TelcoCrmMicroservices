@@ -3,9 +3,7 @@ package com.etiya.customerservice.service.concretes;
 
 
 import com.etiya.common.crosscuttingconcerns.exceptions.types.BusinessException;
-import com.etiya.common.events.CreateAddressEvent;
-import com.etiya.common.events.CreateContactMediumEvent;
-import com.etiya.common.events.CreateCustomerEvent;
+import com.etiya.common.events.*;
 import com.etiya.customerservice.domain.entities.*;
 import com.etiya.customerservice.domain.enums.ContactMediumType;
 import com.etiya.customerservice.repository.AddressRepository;
@@ -13,22 +11,24 @@ import com.etiya.customerservice.repository.ContactMediumRepository;
 import com.etiya.customerservice.repository.IndividualCustomerRepository;
 import com.etiya.customerservice.service.abstracts.DistrictService;
 import com.etiya.customerservice.service.abstracts.IndividualCustomerService;
+import com.etiya.customerservice.service.mappings.AddressMapper;
 import com.etiya.customerservice.service.mappings.IndividualCustomerMapper;
 import com.etiya.customerservice.service.requests.individualcustomer.CreateFullIndividualCustomerRequest;
 import com.etiya.customerservice.service.requests.individualcustomer.CreateIndividualCustomerRequest;
+import com.etiya.customerservice.service.requests.individualcustomer.UpdateIndividualCustomerRequest;
 import com.etiya.customerservice.service.responses.address.CreatedAddressResponse;
+import com.etiya.customerservice.service.responses.address.UpdatedAddressResponse;
 import com.etiya.customerservice.service.responses.contactmedium.CreatedContactMediumResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.CreateFullIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.CreatedIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
-import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
+import com.etiya.customerservice.service.responses.individualcustomer.*;
 import com.etiya.customerservice.service.rules.IndividualCustomerBusinessRules;
 import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
 import com.etiya.customerservice.transport.kafka.producer.contactMedium.CreateContactMediumProducer;
 import com.etiya.customerservice.transport.kafka.producer.customer.CreateCustomerProducer;
+import com.etiya.customerservice.transport.kafka.producer.customer.UpdateCustomerProducer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,8 +49,10 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
     private final CreateAddressProducer createAddressProducer;
     private final CreateContactMediumProducer createContactMediumProducer;
 
+    private final UpdateCustomerProducer updateCustomerProducer;
 
-    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer, AddressRepository addressRepository, ContactMediumRepository contactMediumRepository, DistrictService districtService, CreateAddressProducer createAddressProducer, CreateContactMediumProducer createContactMediumProducer) {
+
+    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer, AddressRepository addressRepository, ContactMediumRepository contactMediumRepository, DistrictService districtService, CreateAddressProducer createAddressProducer, CreateContactMediumProducer createContactMediumProducer, UpdateCustomerProducer updateCustomerProducer) {
         this.individualCustomerRepository = individualCustomerRepository; //Dependency injection
         this.rules = rules;
         this.createCustomerProducer = createCustomerProducer;
@@ -60,6 +62,7 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
         this.districtService = districtService;
         this.createAddressProducer = createAddressProducer;
         this.createContactMediumProducer = createContactMediumProducer;
+        this.updateCustomerProducer = updateCustomerProducer;
     }
 
     @Override
@@ -111,6 +114,7 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                 IndividualCustomerMapper.INSTANCE.getListIndividualCustomerResponseFromIndividualCustomers(individualCustomers);
         return responses;
     }
+
 
     @Override
     public List<GetListIndividualCustomerResponse> getByCustomerNumberPattern(String pattern) {
@@ -246,6 +250,61 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
     @Override
     public boolean existsByNationalId(String nationalId) {
         return individualCustomerRepository.existsByNationalId(nationalId);
+    }
+
+    @Override
+    public GetIndividualCustomerResponse getById(String id) {
+        try {
+            UUID uuid = UUID.fromString(id);
+            GetIndividualCustomerResponse individualCustomerResponse = new GetIndividualCustomerResponse();
+            if (individualCustomerRepository.findById(uuid).isPresent()) {
+                IndividualCustomer customer = individualCustomerRepository.findById(uuid).get();
+                individualCustomerResponse.setId(customer.getId());
+                individualCustomerResponse.setFirstName(customer.getFirstName());
+                individualCustomerResponse.setLastName(customer.getLastName());
+                individualCustomerResponse.setMiddleName(customer.getMiddleName());
+                individualCustomerResponse.setNationalId(customer.getNationalId());
+                individualCustomerResponse.setDateOfBirth(customer.getDateOfBirth());
+                individualCustomerResponse.setGender(customer.getGender());
+                individualCustomerResponse.setFatherName(customer.getFatherName());
+                individualCustomerResponse.setMotherName(customer.getMotherName());
+            }
+            return individualCustomerResponse;
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("UUID Fail");
+        }
+    }
+
+    @Override
+    public void softDelete(String id) {
+        UUID uuid  = UUID.fromString(id);
+        IndividualCustomer individualCustomer = individualCustomerRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Individual customer not found"));
+        individualCustomer.setDeletedDate(LocalDateTime.now());
+        individualCustomerRepository.save(individualCustomer);
+    }
+
+    @Override
+    public UpdatedIndividualCustomerResponse update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
+        IndividualCustomer oldIndividualCustomer = individualCustomerRepository.findById(updateIndividualCustomerRequest.getId()).orElseThrow(() -> new RuntimeException("Individual customer not found"));
+        IndividualCustomer individualCustomer =  IndividualCustomerMapper.INSTANCE.individualCustomerFromUpdateIndividualCustomerRequest(updateIndividualCustomerRequest,oldIndividualCustomer);
+        IndividualCustomer updatedIndividualCustomer = individualCustomerRepository.save(individualCustomer);
+
+        UpdatedIndividualCustomerEvent event =
+                new UpdatedIndividualCustomerEvent(updatedIndividualCustomer.getId().toString(),
+                        updatedIndividualCustomer.getNationalId(),
+                        updatedIndividualCustomer.getDateOfBirth(),
+                        updatedIndividualCustomer.getFatherName(),
+                        updatedIndividualCustomer.getMotherName(),
+                        updatedIndividualCustomer.getFirstName(),
+                        updatedIndividualCustomer.getMiddleName(),
+                        updatedIndividualCustomer.getLastName(),
+                        updatedIndividualCustomer.getGender()
+                );
+
+        updateCustomerProducer.produceCustomerUpdated(event);
+
+        UpdatedIndividualCustomerResponse response = IndividualCustomerMapper.INSTANCE.updatedIndividualCustomerResponseFromIndividualCustomer(updatedIndividualCustomer);
+        return response;
     }
 
 

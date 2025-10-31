@@ -10,6 +10,7 @@ import com.etiya.customerservice.service.responses.address.GetListAddressRespons
 import com.etiya.customerservice.service.responses.address.UpdatedAddressResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class AddressController {
 
     @DeleteMapping("{id}/soft")
     @ResponseStatus(HttpStatus.OK)
-    public void softDelete(@PathVariable UUID id){
+    public void softDelete(@PathVariable String id){
         addressService.softDelete(id);
     }
 
@@ -73,5 +74,11 @@ public class AddressController {
     @ResponseStatus(HttpStatus.OK)
     public GetAddressResponse getById(@PathVariable UUID id) {
         return addressService.getById(id);
+    }
+
+    @GetMapping("/by-customer/{customerId}")
+    public ResponseEntity<List<GetAddressResponse>> getByCustomerId(@PathVariable String customerId) {
+        List<GetAddressResponse> responses = addressService.getByCustomerId(customerId);
+        return ResponseEntity.ok(responses);
     }
 }

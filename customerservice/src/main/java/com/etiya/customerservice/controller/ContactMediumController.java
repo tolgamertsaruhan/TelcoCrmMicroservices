@@ -44,7 +44,7 @@ public class ContactMediumController {
 
     @DeleteMapping("{id}/soft")
     @ResponseStatus(HttpStatus.OK)
-    public void softDelete(@PathVariable UUID id){
+    public void softDelete(@PathVariable String id){
         contactMediumService.softDelete(id);
     }
 
@@ -77,6 +77,9 @@ public class ContactMediumController {
         return contactMediumService.getListByCustomerId(customerId);
     }
 
-
+    @GetMapping("/contacts-for-customer/{customerId}")
+    public List<GetContactMediumResponse> getByCustomerId(@PathVariable String customerId) {
+        return contactMediumService.getByCustomerId(customerId);
+    }
 
 }
