@@ -3,6 +3,8 @@ package com.etiya.customerservice.service.concretes;
 
 
 import com.etiya.common.crosscuttingconcerns.exceptions.types.BusinessException;
+import com.etiya.common.events.CreateAddressEvent;
+import com.etiya.common.events.CreateContactMediumEvent;
 import com.etiya.common.events.CreateCustomerEvent;
 import com.etiya.customerservice.domain.entities.*;
 import com.etiya.customerservice.domain.enums.ContactMediumType;
@@ -21,6 +23,8 @@ import com.etiya.customerservice.service.responses.individualcustomer.CreatedInd
 import com.etiya.customerservice.service.responses.individualcustomer.GetIndividualCustomerResponse;
 import com.etiya.customerservice.service.responses.individualcustomer.GetListIndividualCustomerResponse;
 import com.etiya.customerservice.service.rules.IndividualCustomerBusinessRules;
+import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
+import com.etiya.customerservice.transport.kafka.producer.contactMedium.CreateContactMediumProducer;
 import com.etiya.customerservice.transport.kafka.producer.customer.CreateCustomerProducer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +46,11 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
 
     private final DistrictService districtService;
 
+    private final CreateAddressProducer createAddressProducer;
+    private final CreateContactMediumProducer createContactMediumProducer;
 
-    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer, AddressRepository addressRepository, ContactMediumRepository contactMediumRepository, DistrictService districtService) {
+
+    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer, AddressRepository addressRepository, ContactMediumRepository contactMediumRepository, DistrictService districtService, CreateAddressProducer createAddressProducer, CreateContactMediumProducer createContactMediumProducer) {
         this.individualCustomerRepository = individualCustomerRepository; //Dependency injection
         this.rules = rules;
         this.createCustomerProducer = createCustomerProducer;
@@ -51,6 +58,8 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
         this.addressRepository = addressRepository;
         this.contactMediumRepository = contactMediumRepository;
         this.districtService = districtService;
+        this.createAddressProducer = createAddressProducer;
+        this.createContactMediumProducer = createContactMediumProducer;
     }
 
     @Override
@@ -145,6 +154,20 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                     customer.getGender()
             );
 
+            CreateCustomerEvent customerEvent = new CreateCustomerEvent(
+                    customer.getId().toString(),
+                    String.valueOf(customer.getCustomerNumber()),
+                    customer.getFirstName(),
+                    customer.getMiddleName(),
+                    customer.getLastName(),
+                    customer.getNationalId(),
+                    customer.getMotherName(),
+                    customer.getFatherName(),
+                    customer.getGender(),
+                    customer.getDateOfBirth()
+            );
+            createCustomerProducer.produceCustomerCreated(customerEvent);
+
             List<CreatedAddressResponse> addressResponses = request.getAddressRequestList().stream().map(addrReq -> {
                 Address address = new Address();
                 address.setStreet(addrReq.getStreet());
@@ -157,6 +180,18 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                 address.setCustomer(customer);
                 Address saved = addressRepository.save(address);
 
+                CreateAddressEvent addressEvent = new CreateAddressEvent(
+                        saved.getId().toString(),
+                        customer.getId().toString(),
+                        saved.getDistrict().getName(),
+                        saved.getDistrict().getCity().getName(),
+                        saved.getStreet(),
+                        saved.getHouseNumber(),
+                        saved.getDescription(),
+                        saved.isDefault()
+                );
+                createAddressProducer.produceAddressCreated(addressEvent);
+
                 return new CreatedAddressResponse(
                         saved.getId(),
                         saved.getStreet(),
@@ -166,6 +201,7 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                         saved.getDistrict().getId(),
                         saved.getCustomer().getId()
                 );
+
             }).toList();
 
             List<CreatedContactMediumResponse> contactResponses = request.getCreateContactMediumRequests().stream().map(conReq -> {
@@ -175,6 +211,15 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                 contact.setPrimary(conReq.isPrimary());
                 contact.setCustomer(customer);
                 ContactMedium saved = contactMediumRepository.save(contact);
+
+                CreateContactMediumEvent contactEvent = new CreateContactMediumEvent(
+                        saved.getId().toString(),
+                        saved.getCustomer().getId().toString(),
+                        saved.getType().toString(),
+                        saved.getValue(),
+                        saved.isPrimary()
+                );
+                createContactMediumProducer.produceContactMediumCreated(contactEvent);
 
                 return new CreatedContactMediumResponse(
                         saved.getId(),
