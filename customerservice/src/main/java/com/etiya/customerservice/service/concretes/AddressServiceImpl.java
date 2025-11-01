@@ -139,25 +139,50 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public UpdatedAddressResponse update(UpdateAddressRequest request) {
-        Address oldAddress = addressRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("Address not found"));
+    public UpdatedAddressResponse update(UpdateAddressRequest request) {// 1️⃣ Mevcut adresi bul
+        Address oldAddress = addressRepository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("Address not found"));
 
-        Address address =  AddressMapper.INSTANCE.addressFromUpdateAddressRequest(request,oldAddress);
-        Address updatedAddress = addressRepository.save(address);
+        // 2️⃣ Manuel olarak alanları güncelle
+        oldAddress.setStreet(request.getStreet());
+        oldAddress.setHouseNumber(request.getHouseNumber());
+        oldAddress.setDescription(request.getDescription());
+        oldAddress.setDefault(request.getDefault() != null ? request.getDefault() : false);
 
-        UpdatedAddressEvent event =
-                new UpdatedAddressEvent(updatedAddress.getId().toString(),
-                        updatedAddress.getCustomer().getId().toString(),
-                        updatedAddress.getStreet(),
-                        updatedAddress.getHouseNumber(),
-                        updatedAddress.getDescription(),
-                        updatedAddress.getDistrict().getName(),
-                        updatedAddress.getDistrict().getCity().getName(),
-                        updatedAddress.isDefault());
+        // District bilgisi güncellenmiş olabilir
+        District district = districtService.findById(request.getDistrictId());
+        oldAddress.setDistrict(district);
+
+        // 3️⃣ Güncellenmiş adresi kaydet
+        Address updatedAddress = addressRepository.save(oldAddress);
+
+        // City bilgisini district üzerinden al
+        City city = district.getCity();
+
+        // 4️⃣ Event gönder (Kafka veya Stream için)
+        UpdatedAddressEvent event = new UpdatedAddressEvent(
+                updatedAddress.getId().toString(),
+                updatedAddress.getCustomer().getId().toString(),
+                updatedAddress.getStreet(),
+                updatedAddress.getHouseNumber(),
+                updatedAddress.getDescription(),
+                district.getName(),
+                city.getName(),
+                updatedAddress.isDefault()
+        );
 
         updatedAddressProducer.produceAddressUpdated(event);
 
-        UpdatedAddressResponse response = AddressMapper.INSTANCE.updatedAddressResponseFromAddress(updatedAddress);
+        // 5️⃣ Response objesini manuel oluştur
+        UpdatedAddressResponse response = new UpdatedAddressResponse();
+        response.setId(updatedAddress.getId());
+        response.setStreet(updatedAddress.getStreet());
+        response.setHouseNumber(updatedAddress.getHouseNumber());
+        response.setDescription(updatedAddress.getDescription());
+        response.setDefault(updatedAddress.isDefault());
+        response.setDistrictId(district.getId());
+        response.setCustomerId(updatedAddress.getCustomer().getId());
+
         return response;
     }
 

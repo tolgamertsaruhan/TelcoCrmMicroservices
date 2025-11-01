@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(indexName = "customersearch")
+@Document(indexName = "customer-search")
 //@Data
 //@AllArgsConstructor
 //@NoArgsConstructor
@@ -33,6 +33,18 @@ public class CustomerSearch {
 
     @Field(type = FieldType.Nested)
     List<ContactMedium> contactMediumSearchList = new ArrayList<>();
+
+
+    @Field(type = FieldType.Nested)
+    List<BillingAccount> billingAccountList = new ArrayList<>();
+
+    public List<BillingAccount> getBillingAccountList() {
+        return billingAccountList;
+    }
+
+    public void setBillingAccountList(List<BillingAccount> billingAccountList) {
+        this.billingAccountList = billingAccountList;
+    }
 
     public String getMiddleName() {
         return middleName;
@@ -178,5 +190,22 @@ public class CustomerSearch {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.deletedDate = deletedDate;
+    }
+
+    public CustomerSearch(String id, String customerNumber, String firstName, String middleName, String lastName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth, String deletedDate, List<Address> addressSearchList, List<ContactMedium> contactMediumSearchList, List<BillingAccount> billingAccountList) {
+        this.id = id;
+        this.customerNumber = customerNumber;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.nationalId = nationalId;
+        this.motherName = motherName;
+        this.fatherName = fatherName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.deletedDate = deletedDate;
+        this.addressSearchList = addressSearchList;
+        this.contactMediumSearchList = contactMediumSearchList;
+        this.billingAccountList = billingAccountList;
     }
 }

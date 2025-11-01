@@ -4,11 +4,13 @@ package com.etiya.customerservice.controller;
 import com.etiya.customerservice.service.abstracts.BillingAccountService;
 import com.etiya.customerservice.service.requests.billingaccount.CreateBillingAccountRequest;
 import com.etiya.customerservice.service.requests.billingaccount.UpdateBillingAccountRequest;
+import com.etiya.customerservice.service.responses.address.GetAddressResponse;
 import com.etiya.customerservice.service.responses.billingaccount.CreatedBillingAccountResponse;
 import com.etiya.customerservice.service.responses.billingaccount.GetListBillingAccountResponse;
 import com.etiya.customerservice.service.responses.billingaccount.UpdatedBillingAccountResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,4 +55,11 @@ public class BillingAccountController {
     public void delete(@PathVariable UUID id) {
         billingAccountService.delete(id);
     }
+
+    @GetMapping("/by-customer-bill/{customerId}")
+    public ResponseEntity<List<GetListBillingAccountResponse>> getByCustomerId(@PathVariable String customerId) {
+        List<GetListBillingAccountResponse> responses = billingAccountService.getByCustomerId(customerId);
+        return ResponseEntity.ok(responses);
+    }
+
 }

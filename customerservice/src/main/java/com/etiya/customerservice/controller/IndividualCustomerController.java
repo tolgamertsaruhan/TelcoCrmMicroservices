@@ -85,11 +85,13 @@ public class IndividualCustomerController {
         individualCustomerService.softDelete(id);
     }
 
-    @PutMapping
+    @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public UpdatedIndividualCustomerResponse update(@RequestBody UpdateIndividualCustomerRequest request){
         return individualCustomerService.update(request);
     }
+
+
 
     // full customer get id için controller
     /*

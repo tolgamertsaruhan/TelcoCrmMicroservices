@@ -31,4 +31,6 @@ public interface IndividualCustomerService {
     void softDelete(String id);
 
     UpdatedIndividualCustomerResponse update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest);
+
+
 }

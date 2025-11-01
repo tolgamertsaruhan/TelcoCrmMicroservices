@@ -19,4 +19,6 @@ public interface BillingAccountService {
     void delete(UUID id);
 
     void softDelete(UUID id);
+
+    List<GetListBillingAccountResponse> getByCustomerId(String customerId);
 }

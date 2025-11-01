@@ -1,6 +1,7 @@
 package com.etiya.searchservice.service;
 
 import com.etiya.searchservice.domain.Address;
+import com.etiya.searchservice.domain.BillingAccount;
 import com.etiya.searchservice.domain.ContactMedium;
 import com.etiya.searchservice.domain.CustomerSearch;
 
@@ -44,4 +45,9 @@ public interface CustomerSearchService {
     void sofDeleteAddress(Address address);
     void softDeleteContactMedium(ContactMedium contactMedium);
     void softDeleteCustomer(CustomerSearch customerSearch);
+
+    void addBillingAccount(BillingAccount billingAccount);
+    void updateBillingAccount(BillingAccount billingAccount);
+
+    void sofDeleteBillingAccount(BillingAccount billingAccount);
 }

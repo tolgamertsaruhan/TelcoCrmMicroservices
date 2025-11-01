@@ -1,6 +1,7 @@
 package com.etiya.searchservice.service;
 
 import com.etiya.searchservice.domain.Address;
+import com.etiya.searchservice.domain.BillingAccount;
 import com.etiya.searchservice.domain.ContactMedium;
 import com.etiya.searchservice.domain.CustomerSearch;
 import com.etiya.searchservice.repository.CustomerSearchRepository;
@@ -83,6 +84,43 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
 
         customerSearchRepository.save(cs);
     }
+
+    @Override
+    public void addBillingAccount(BillingAccount billingAccount) {
+
+        var cs = customerSearchRepository.findById(billingAccount.getCustomerId()).orElseThrow();
+        cs.getBillingAccountList().removeIf(a -> Objects.equals(a.getBillingAccountId(), billingAccount.getBillingAccountId())); // idempotent
+
+        cs.getBillingAccountList().add(billingAccount);
+        customerSearchRepository.save(cs);
+
+
+    }
+
+    @Override
+    public void updateBillingAccount(BillingAccount billingAccount) {
+        var cs = customerSearchRepository.findById(billingAccount.getCustomerId()).orElseThrow();
+        cs.getBillingAccountList().removeIf(a -> Objects.equals(a.getBillingAccountId(), billingAccount.getBillingAccountId())); // idempotent
+        cs.getBillingAccountList().add(billingAccount);
+        customerSearchRepository.save(cs);
+    }
+
+    @Override
+    public void sofDeleteBillingAccount(BillingAccount billingAccount) {
+        var cs = customerSearchRepository.findById(billingAccount.getCustomerId()).orElseThrow();
+        if(billingAccount.getBillingAccountId() != null) {
+            cs.getBillingAccountList().removeIf(a -> Objects.equals(a.getBillingAccountId(), billingAccount.getBillingAccountId())); // idempotent
+            cs.getBillingAccountList().add(billingAccount);
+        }
+
+        customerSearchRepository.save(cs);
+    }
+
+
+
+
+
+
 
     @Override
     public List<CustomerSearch> searchAllFields(String keyword) {

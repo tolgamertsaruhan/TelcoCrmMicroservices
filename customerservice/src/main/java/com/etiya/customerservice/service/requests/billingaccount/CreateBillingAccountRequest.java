@@ -22,11 +22,9 @@ public class CreateBillingAccountRequest {
     private BillingAccountType type;
 
     @NotNull(message = "CustomerId cannot be null")
-    @Positive(message = "CustomerId must be a positive")
     private UUID customerId;
 
     @NotNull(message = "AddressId cannot be null")
-    @Positive(message = "AddressId must be a positive")
     private UUID addressId;
 
     public String getAccountName() {

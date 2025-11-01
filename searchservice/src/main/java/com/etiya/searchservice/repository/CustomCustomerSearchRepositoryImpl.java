@@ -22,14 +22,21 @@ public class CustomCustomerSearchRepositoryImpl implements CustomCustomerSearchR
     }
 
     @Override
-    public List<CustomerSearch> searchDynamic(String id, String customerNumber, String nationalId, String firstName, String middleName, String  lastName, String value,int page, int size) {
+    public List<CustomerSearch> searchDynamic(String id, String accountNumber, String nationalId, String firstName, String middleName, String  lastName, String value,int page, int size) {
         BoolQuery.Builder bool = QueryBuilders.bool();
 
         if (StringUtils.hasText(id)) {
             bool.must(m -> m.term(t -> t.field("id.keyword").value(id)));
         }
-        if (StringUtils.hasText(customerNumber)) {
+        /*if (StringUtils.hasText(customerNumber)) {
             bool.must(m -> m.term(t -> t.field("customerNumber.keyword").value(customerNumber)));
+        }*/
+
+        if (StringUtils.hasText(accountNumber)) {
+            bool.must(m -> m.nested(n -> n
+                    .path("billingAccountList")
+                    .query(q -> q.term(t -> t.field("billingAccountList.accountNumber.keyword").value(accountNumber)))
+            ));
         }
         if (StringUtils.hasText(nationalId)) {
             bool.must(m -> m.term(t -> t.field("nationalId.keyword").value(nationalId)));
