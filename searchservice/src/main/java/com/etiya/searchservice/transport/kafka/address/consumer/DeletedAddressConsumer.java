@@ -26,8 +26,8 @@ public class DeletedAddressConsumer {
     @Bean
     public Consumer<DeletedAddressEvent> addressDeleted() {
         return event -> {
-            Address addressSearch = new Address(event.addressId(), event.customerId());
-            customerSearchService.deleteAddress(addressSearch);
+            Address addressSearch = new Address(event.addressId(), event.customerId(), event.districtName(), event.cityName(), event.street(), event.houseNumber(), event.description(), event.isDefault(),event.deletedDate());
+            customerSearchService.sofDeleteAddress(addressSearch);
             LOGGER.info(String.format("Deleted address => %s", event.addressId()));
         };
     }

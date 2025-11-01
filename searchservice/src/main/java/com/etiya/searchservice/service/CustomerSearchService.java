@@ -40,4 +40,8 @@ public interface CustomerSearchService {
     );
 
     void updateCustomer(CustomerSearch customerSearch);
+
+    void sofDeleteAddress(Address address);
+    void softDeleteContactMedium(ContactMedium contactMedium);
+    void softDeleteCustomer(CustomerSearch customerSearch);
 }

@@ -13,7 +13,17 @@ public class ContactMedium {
     private String value;
     private boolean isPrimary;
 
+    private String deletedDate;
+
     public ContactMedium() {
+    }
+
+    public String getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(String deletedDate) {
+        this.deletedDate = deletedDate;
     }
 
     public String getContactMediumId() {
@@ -67,5 +77,14 @@ public class ContactMedium {
     public ContactMedium(String contactMediumId, String customerId) {
         this.contactMediumId = contactMediumId;
         this.customerId = customerId;
+    }
+
+    public ContactMedium(String contactMediumId, String customerId, String type, String value, boolean isPrimary, String deletedDate) {
+        this.contactMediumId = contactMediumId;
+        this.customerId = customerId;
+        this.type = type;
+        this.value = value;
+        this.isPrimary = isPrimary;
+        this.deletedDate = deletedDate;
     }
 }

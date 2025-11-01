@@ -74,6 +74,17 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
     }
 
     @Override
+    public void sofDeleteAddress(Address address) {
+        var cs = customerSearchRepository.findById(address.getCustomerId()).orElseThrow();
+        if(address.getAddressId() != null) {
+            cs.getAddressSearchList().removeIf(a -> Objects.equals(a.getAddressId(), address.getAddressId())); // idempotent
+            cs.getAddressSearchList().add(address);
+        }
+
+        customerSearchRepository.save(cs);
+    }
+
+    @Override
     public List<CustomerSearch> searchAllFields(String keyword) {
         return customerSearchRepository.searchAllFields(keyword);
     }
@@ -127,6 +138,16 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
         customerSearchRepository.save(cs);
     }
 
+
+    @Override
+    public void softDeleteContactMedium(ContactMedium contactMedium) {
+        var cs = customerSearchRepository.findById(contactMedium.getCustomerId()).orElseThrow();
+        if(contactMedium.getContactMediumId() != null) {
+            cs.getContactMediumSearchList().removeIf(a -> Objects.equals(a.getContactMediumId(), contactMedium.getContactMediumId()));
+            cs.getContactMediumSearchList().add(contactMedium);
+        }
+        customerSearchRepository.save(cs);
+    }
     /*@Override
     public List<CustomerSearch> searchDynamic(CustomerSearch request) {
          return customerSearchRepository.searchDynamic(request);
@@ -149,6 +170,24 @@ public class CustomerSearchServiceImpl implements CustomerSearchService {
         cs.setNationalId(customerSearch.getNationalId());
         cs.setMotherName(customerSearch.getMotherName());
         cs.setFatherName(customerSearch.getFatherName());
+
+        customerSearchRepository.save(cs);
+    }
+
+    @Override
+    public void softDeleteCustomer(CustomerSearch customerSearch) {
+        var cs = customerSearchRepository.findById(customerSearch.getId()).orElseThrow();
+        cs.setId(customerSearch.getId());
+        cs.setFirstName(customerSearch.getFirstName());
+        cs.setMiddleName(customerSearch.getMiddleName());
+        cs.setLastName(customerSearch.getLastName());
+        cs.setDateOfBirth(customerSearch.getDateOfBirth());
+        cs.setGender(customerSearch.getGender());
+        cs.setNationalId(customerSearch.getNationalId());
+        cs.setMotherName(customerSearch.getMotherName());
+        cs.setFatherName(customerSearch.getFatherName());
+        cs.setDeletedDate(customerSearch.getDeletedDate());
+        cs.setCustomerNumber(customerSearch.getCustomerNumber());
 
         customerSearchRepository.save(cs);
     }

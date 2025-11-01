@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(indexName = "customer-search")
+@Document(indexName = "customersearch")
 //@Data
 //@AllArgsConstructor
 //@NoArgsConstructor
@@ -25,6 +25,8 @@ public class CustomerSearch {
     private String fatherName;
     private String gender;
     private String dateOfBirth;
+
+    private String deletedDate;
 
     @Field(type = FieldType.Nested)
     List<Address> addressSearchList = new ArrayList<>();
@@ -128,6 +130,14 @@ public class CustomerSearch {
         this.gender = gender;
     }
 
+    public String getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(String deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
     public CustomerSearch() {
     }
 
@@ -154,5 +164,19 @@ public class CustomerSearch {
         this.fatherName = fatherName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public CustomerSearch(String id, String customerNumber, String firstName, String middleName, String lastName, String nationalId, String motherName, String fatherName, String gender, String dateOfBirth, String deletedDate) {
+        this.id = id;
+        this.customerNumber = customerNumber;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.nationalId = nationalId;
+        this.motherName = motherName;
+        this.fatherName = fatherName;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.deletedDate = deletedDate;
     }
 }

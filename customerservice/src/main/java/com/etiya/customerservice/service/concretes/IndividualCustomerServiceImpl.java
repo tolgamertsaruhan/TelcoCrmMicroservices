@@ -24,6 +24,7 @@ import com.etiya.customerservice.service.rules.IndividualCustomerBusinessRules;
 import com.etiya.customerservice.transport.kafka.producer.address.CreateAddressProducer;
 import com.etiya.customerservice.transport.kafka.producer.contactMedium.CreateContactMediumProducer;
 import com.etiya.customerservice.transport.kafka.producer.customer.CreateCustomerProducer;
+import com.etiya.customerservice.transport.kafka.producer.customer.DeleteCustomerProducer;
 import com.etiya.customerservice.transport.kafka.producer.customer.UpdateCustomerProducer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +52,10 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
 
     private final UpdateCustomerProducer updateCustomerProducer;
 
+    private final DeleteCustomerProducer deleteCustomerProducer;
 
-    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer, AddressRepository addressRepository, ContactMediumRepository contactMediumRepository, DistrictService districtService, CreateAddressProducer createAddressProducer, CreateContactMediumProducer createContactMediumProducer, UpdateCustomerProducer updateCustomerProducer) {
+
+    public IndividualCustomerServiceImpl(IndividualCustomerRepository individualCustomerRepository, IndividualCustomerBusinessRules rules, CreateCustomerProducer createCustomerProducer, AddressRepository addressRepository, ContactMediumRepository contactMediumRepository, DistrictService districtService, CreateAddressProducer createAddressProducer, CreateContactMediumProducer createContactMediumProducer, UpdateCustomerProducer updateCustomerProducer, DeleteCustomerProducer deleteCustomerProducer) {
         this.individualCustomerRepository = individualCustomerRepository; //Dependency injection
         this.rules = rules;
         this.createCustomerProducer = createCustomerProducer;
@@ -63,6 +66,7 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
         this.createAddressProducer = createAddressProducer;
         this.createContactMediumProducer = createContactMediumProducer;
         this.updateCustomerProducer = updateCustomerProducer;
+        this.deleteCustomerProducer = deleteCustomerProducer;
     }
 
     @Override
@@ -82,7 +86,8 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                         createdIndividualCustomer.getMotherName(),
                         createdIndividualCustomer.getFatherName(),
                         createdIndividualCustomer.getGender(),
-                        createdIndividualCustomer.getDateOfBirth());
+                        createdIndividualCustomer.getDateOfBirth(),
+                        "");
         createCustomerProducer.produceCustomerCreated(event);
         CreatedIndividualCustomerResponse response =
                 IndividualCustomerMapper.INSTANCE.createdIndividualCustomerResponseFromIndividualCustomer(createdIndividualCustomer);
@@ -168,7 +173,9 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
                     customer.getMotherName(),
                     customer.getFatherName(),
                     customer.getGender(),
-                    customer.getDateOfBirth()
+                    customer.getDateOfBirth(),
+                    //customer.getDeletedDate().toString()
+                    ""
             );
             createCustomerProducer.produceCustomerCreated(customerEvent);
 
@@ -280,6 +287,22 @@ public class IndividualCustomerServiceImpl implements IndividualCustomerService 
         UUID uuid  = UUID.fromString(id);
         IndividualCustomer individualCustomer = individualCustomerRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Individual customer not found"));
         individualCustomer.setDeletedDate(LocalDateTime.now());
+        DeletedCustomerEvent event = new DeletedCustomerEvent(
+                individualCustomer.getId().toString(),
+                individualCustomer.getCustomerNumber(),
+                individualCustomer.getFirstName(),
+                individualCustomer.getMiddleName(),
+                individualCustomer.getLastName(),
+                individualCustomer.getNationalId(),
+                individualCustomer.getMotherName(),
+                individualCustomer.getFatherName(),
+                individualCustomer.getGender(),
+                individualCustomer.getDateOfBirth(),
+                individualCustomer.getDeletedDate().toString()
+        );
+
+        deleteCustomerProducer.produceCustomerDeleted(event);
+
         individualCustomerRepository.save(individualCustomer);
     }
 

@@ -26,8 +26,8 @@ public class DeletedContactMediumConsumer {
     @Bean
     public Consumer<DeleteContactMediumEvent> contactMediumDeleted() {
         return event -> {
-            ContactMedium contactMediumSearch = new ContactMedium(event.contactMediumId(), event.customerId());
-            customerSearchService.deleteContactMedium(contactMediumSearch);
+            ContactMedium contactMediumSearch = new ContactMedium(event.contactMediumId(), event.customerId(), event.type(), event.value(),event.isPrimary(), event.deletedDate());
+            customerSearchService.softDeleteContactMedium(contactMediumSearch);
             LOGGER.info(String.format("Deleted contactMedium => %s", event.contactMediumId()));
         };
     }

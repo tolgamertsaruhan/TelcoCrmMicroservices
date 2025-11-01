@@ -29,9 +29,13 @@ public class UpdatedAddressConsumer {
     @Bean
     public Consumer<UpdatedAddressEvent> addressUpdated() {
         return event -> {
-            Address addressSearch = new Address(event.addressId(),  event.street(), event.houseNumber(), event.description(), event.isDefault());
+            Address addressSearch = new Address(event.addressId(), event.customerId()
+                    ,  event.districtName(), event.cityName(), event.street(), event.houseNumber(),
+                    event.description(),event.isDefault());
             customerSearchService.updateAddress(addressSearch);
             LOGGER.info(String.format("Updated address => %s", event.addressId()));
+
+
         };
     }
 

@@ -19,6 +19,17 @@ public class Address {
     String description;
     boolean isDefault;
 
+    String deletedDate;
+
+
+
+    public String getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(String deletedDate) {
+        this.deletedDate = deletedDate;
+    }
 
     public String getAddressId() {
         return addressId;
@@ -89,6 +100,8 @@ public class Address {
         this.customerId = customerId;
     }
 
+
+
     public Address(String addressId, String customerId, String districtName, String cityName, String street, String houseNumber, String description, boolean isDefault) {
         this.addressId = addressId;
         this.customerId = customerId;
@@ -100,17 +113,35 @@ public class Address {
         this.isDefault = isDefault;
     }
 
-    public Address(String addressId, String street, String houseNumber, String description, boolean isDefault) {
+    /*public Address(String addressId, String street, String houseNumber, String description, boolean isDefault) {
         this.addressId = addressId;
 
         this.street = street;
         this.houseNumber = houseNumber;
         this.description = description;
         this.isDefault = isDefault;
-    }
+    }*/
 
-    public Address(String addressId, String customerId) {
+    public Address(String addressId, String customerId, String deletedDate) {
         this.addressId = addressId;
         this.customerId = customerId;
+        this.deletedDate = deletedDate;
     }
+
+
+
+    // hem deleted hem de updated için kullanıyoruz consumer da.
+    public Address(String addressId, String customerId, String districtName, String cityName, String street, String houseNumber, String description, boolean isDefault, String deletedDate) {
+        this.addressId = addressId;
+        this.customerId = customerId;
+        this.districtName = districtName;
+        this.cityName = cityName;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.description = description;
+        this.isDefault = isDefault;
+        this.deletedDate = deletedDate;
+    }
+
+
 }

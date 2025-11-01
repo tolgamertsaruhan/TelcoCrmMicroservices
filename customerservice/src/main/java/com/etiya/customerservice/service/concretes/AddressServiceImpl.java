@@ -103,7 +103,14 @@ public class AddressServiceImpl implements AddressService {
 
         DeletedAddressEvent event =
                 new DeletedAddressEvent(deletedAddress.getId().toString(),
-                        deletedAddress.getCustomer().getId().toString());
+                        deletedAddress.getCustomer().getId().toString(),
+                        deletedAddress.getDistrict().getName(),
+                        deletedAddress.getDistrict().getCity().getName(),
+                        deletedAddress.getStreet(),
+                        deletedAddress.getHouseNumber(),
+                        deletedAddress.getDescription(),
+                        deletedAddress.isDefault(),
+                        deletedAddress.getDeletedDate().toString());
 
         deletedAddressProducer.produceAddressDeleted(event);
         addressRepository.deleteById(id);
@@ -115,6 +122,19 @@ public class AddressServiceImpl implements AddressService {
         UUID uuid = UUID.fromString(id);
         Address address = addressRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Address not found"));
         address.setDeletedDate(LocalDateTime.now());
+
+        DeletedAddressEvent event =
+                new DeletedAddressEvent(address.getId().toString(),
+                        address.getCustomer().getId().toString(),
+                        address.getDistrict().getName(),
+                        address.getDistrict().getCity().getName(),
+                        address.getStreet(),
+                        address.getHouseNumber(),
+                        address.getDescription(),
+                        address.isDefault(),
+                        address.getDeletedDate().toString());
+
+        deletedAddressProducer.produceAddressDeleted(event);
         addressRepository.save(address);
     }
 
@@ -131,6 +151,8 @@ public class AddressServiceImpl implements AddressService {
                         updatedAddress.getStreet(),
                         updatedAddress.getHouseNumber(),
                         updatedAddress.getDescription(),
+                        updatedAddress.getDistrict().getName(),
+                        updatedAddress.getDistrict().getCity().getName(),
                         updatedAddress.isDefault());
 
         updatedAddressProducer.produceAddressUpdated(event);

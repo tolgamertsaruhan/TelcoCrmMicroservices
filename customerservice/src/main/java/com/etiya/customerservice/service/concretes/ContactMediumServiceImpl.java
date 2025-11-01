@@ -106,7 +106,11 @@ public class ContactMediumServiceImpl implements ContactMediumService {
 
         DeleteContactMediumEvent event =
                 new DeleteContactMediumEvent(contactMedium.getId().toString(),
-                        contactMedium.getCustomer().getId().toString());
+                        contactMedium.getCustomer().getId().toString(),
+                        contactMedium.getType().toString(),
+                        contactMedium.getValue(),
+                        contactMedium.isPrimary(),
+                        contactMedium.getDeletedDate().toString());
 
         deleteContactMediumProducer.produceContactMediumDeleted(event);
 
@@ -120,6 +124,16 @@ public class ContactMediumServiceImpl implements ContactMediumService {
         ContactMedium contactMedium = contactMediumRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Contact not found"));
         contactMediumBusinessRules.checkIsPrimary(contactMedium);
         contactMedium.setDeletedDate(LocalDateTime.now());
+
+        DeleteContactMediumEvent event =
+                new DeleteContactMediumEvent(contactMedium.getId().toString(),
+                        contactMedium.getCustomer().getId().toString(),
+                        contactMedium.getType().toString(),
+                        contactMedium.getValue(),
+                        contactMedium.isPrimary(),
+                        contactMedium.getDeletedDate().toString());
+
+        deleteContactMediumProducer.produceContactMediumDeleted(event);
         contactMediumRepository.save(contactMedium);
     }
 
