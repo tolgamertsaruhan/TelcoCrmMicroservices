@@ -8,18 +8,19 @@ public final class AuthValidator {
     private AuthValidator() {}
 
     // Regex constants
-    public static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+    public static final String ETIYA_EMAIL_REGEX = "^[a-z]+\\.[a-z]+@etiya\\.com$";
+    private static final Pattern ETIYA_EMAIL_PATTERN = Pattern.compile(ETIYA_EMAIL_REGEX);
     public static final String STRONG_PASSWORD_REGEX =
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-\\=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$";
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
     private static final Pattern STRONG_PASSWORD_PATTERN = Pattern.compile(STRONG_PASSWORD_REGEX);
 
     public static void validateEmail(String email) {
         if (email == null || email.isBlank()) {
             throw new AuthException("Email cannot be empty");
         }
-        if (!EMAIL_PATTERN.matcher(email).matches()) {
+        if (!ETIYA_EMAIL_PATTERN.matcher(email).matches()) {
             throw new AuthException("Invalid email format");
         }
     }

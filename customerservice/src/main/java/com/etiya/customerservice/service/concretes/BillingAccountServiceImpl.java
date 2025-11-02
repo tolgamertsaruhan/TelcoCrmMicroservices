@@ -5,6 +5,7 @@ import com.etiya.common.events.*;
 import com.etiya.customerservice.domain.entities.Address;
 import com.etiya.customerservice.domain.entities.BillingAccount;
 import com.etiya.customerservice.domain.enums.BillingAccountStatus;
+import com.etiya.customerservice.repository.AddressRepository;
 import com.etiya.customerservice.repository.BillingAccountRepository;
 import com.etiya.customerservice.service.abstracts.BillingAccountService;
 import com.etiya.customerservice.service.mappings.BillingAccountMapper;
@@ -37,12 +38,15 @@ public class BillingAccountServiceImpl implements BillingAccountService {
 
     private final DeletedBillingAccountProducer deletedBillingAccountProducer;
 
-    public BillingAccountServiceImpl(BillingAccountRepository billingAccountRepository, BillingAccountBusinessRules billingAccountBusinessRules, CreateBillingAccountProducer createBillingAccountProducer, UpdatedBillingAccountProducer updatedBillingAccountProducer, DeletedBillingAccountProducer deletedBillingAccountProducer) {
+    private final AddressRepository addressRepository;
+
+    public BillingAccountServiceImpl(BillingAccountRepository billingAccountRepository, BillingAccountBusinessRules billingAccountBusinessRules, CreateBillingAccountProducer createBillingAccountProducer, UpdatedBillingAccountProducer updatedBillingAccountProducer, DeletedBillingAccountProducer deletedBillingAccountProducer, AddressRepository addressRepository) {
         this.billingAccountRepository = billingAccountRepository;
         this.billingAccountBusinessRules = billingAccountBusinessRules;
         this.createBillingAccountProducer = createBillingAccountProducer;
         this.updatedBillingAccountProducer = updatedBillingAccountProducer;
         this.deletedBillingAccountProducer = deletedBillingAccountProducer;
+        this.addressRepository = addressRepository;
     }
     @Override
     public CreatedBillingAccountResponse add(CreateBillingAccountRequest request) {
@@ -106,21 +110,36 @@ public class BillingAccountServiceImpl implements BillingAccountService {
 
         billingAccountBusinessRules.checkIfTypeCanBeChanged(request.getId(), request.getType());
 
-        if (billingAccount.getAddress().getId() != request.getAddressId()) {
+        // Eğer adres değişiyorsa kontrol et
+        if (!billingAccount.getAddress().getId().toString().equals(request.getAddressId())) {
             billingAccountBusinessRules.checkIfAddressBelongsToCustomer(
                     request.getAddressId(),
                     request.getCustomerId()
             );
+
+            // 🔹 Yeni adresi veritabanından getir ve set et
+            Address newAddress = addressRepository.findById(request.getAddressId())
+                    .orElseThrow(() -> new RuntimeException("Address not found"));
+            billingAccount.setAddress(newAddress);
         }
 
-        if (request.getStatus() != null && request.getStatus() != billingAccount.getStatus()) {
+        // Status değişimi kontrolü
+        if (request.getStatus() != null && !request.getStatus().equals(billingAccount.getStatus().toString())) {
             billingAccountBusinessRules.checkIfStatusTransitionIsValid(
                     request.getId(),
                     request.getStatus()
             );
         }
 
+        // Mapper address'i değiştirmesin diye özel alanları hariç güncelliyoruz
         BillingAccountMapper.INSTANCE.updateBillingAccountFromRequest(request, billingAccount);
+
+        // Tekrar address'i elle override etme
+        if (request.getAddressId() != null) {
+            Address currentAddress = addressRepository.findById(request.getAddressId())
+                    .orElseThrow(() -> new RuntimeException("Address not found"));
+            billingAccount.setAddress(currentAddress);
+        }
 
         BillingAccount updated = billingAccountRepository.save(billingAccount);
 

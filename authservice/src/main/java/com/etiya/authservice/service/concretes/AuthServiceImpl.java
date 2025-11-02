@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         if (email == null || email.isBlank()) {
             throw new AuthException("Email cannot be empty");
         }
-        if (!email.matches(AuthValidator.EMAIL_REGEX)) {
+        if (!email.matches(AuthValidator.ETIYA_EMAIL_REGEX)) {
             throw new AuthException("Invalid email format");
         }
 
