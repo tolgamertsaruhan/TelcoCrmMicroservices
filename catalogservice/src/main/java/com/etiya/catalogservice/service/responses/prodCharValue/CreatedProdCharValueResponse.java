@@ -1,0 +1,47 @@
+package com.etiya.catalogservice.service.responses.prodCharValue;
+
+import com.etiya.catalogservice.domain.entities.CharValue;
+import com.etiya.catalogservice.domain.entities.Product;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+import java.util.UUID;
+
+public class CreatedProdCharValueResponse {
+    private UUID id;
+    private UUID charValueId; // Hangi değere ait
+    private UUID productId;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getCharValueId() {
+        return charValueId;
+    }
+
+    public void setCharValueId(UUID charValueId) {
+        this.charValueId = charValueId;
+    }
+
+    public UUID getProductId() {
+        return productId;
+    }
+
+    public void setProductId(UUID productId) {
+        this.productId = productId;
+    }
+
+    public CreatedProdCharValueResponse(UUID id, UUID charValueId, UUID productId) {
+        this.id = id;
+        this.charValueId = charValueId;
+        this.productId = productId;
+    }
+
+    public CreatedProdCharValueResponse() {}
+}
