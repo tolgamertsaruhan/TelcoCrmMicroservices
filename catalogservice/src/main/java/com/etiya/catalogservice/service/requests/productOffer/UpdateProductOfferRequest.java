@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class UpdateProductOfferRequest {
+    private UUID id;
     private String name;
     private String description;
     private LocalDateTime startDate;
@@ -14,6 +15,13 @@ public class UpdateProductOfferRequest {
     private BigDecimal discountRate;
     private ProductOfferStatuses status;
     private UUID productId;
+
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

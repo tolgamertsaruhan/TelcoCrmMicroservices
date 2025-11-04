@@ -24,7 +24,6 @@ public class ProductSpecification extends BaseEntity {
     // 8 mbps e kadar internet hizmeti
     // Standart modem cihazının teknik tanımı.
     //Yeni hizmetin aktivasyonu için gereken süreç.
-    @Lob // text alanı için
     @Column(name = "description") // Not Null değil
     private String description; // text -> String
 

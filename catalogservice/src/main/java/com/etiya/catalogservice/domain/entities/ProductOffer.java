@@ -127,6 +127,14 @@ public class ProductOffer extends BaseEntity {
         this.status = status;
     }
 
+    public BigDecimal getDiscountRate() {
+        return discountRate;
+    }
+
+    public void setDiscountRate(BigDecimal discountRate) {
+        this.discountRate = discountRate;
+    }
+
     public ProductOffer() {
     }
 
