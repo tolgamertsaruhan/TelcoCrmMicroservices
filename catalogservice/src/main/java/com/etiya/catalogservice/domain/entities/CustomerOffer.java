@@ -20,7 +20,7 @@ public class CustomerOffer extends BaseEntity {
    /* // 2. customer_id (FOREIGN KEY - ManyToOne)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer; // İlişkili Customer Entity'si (Varsayımsal)*/
+    private Customer customer;// İlişkili Customer Entity'si (Varsayımsal)*/
 
     // 3. product_offer_id (FOREIGN KEY - ManyToOne)
     @ManyToOne(fetch = FetchType.LAZY)
