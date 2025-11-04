@@ -1,20 +1,21 @@
 package com.etiya.basketservice.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class BasketItem implements Serializable {
     private String id;
-    private String productId;
+    private UUID productId;
     private String productName;
-    private double price;
+    private BigDecimal price;
     private String productOfferId;
     private String campaignProductId;
-    private double discountRate;
+    private BigDecimal discountRate;
     private int quantity;
-    private double discountedPrice;
+    private BigDecimal discountedPrice;
 
-    public BasketItem(String id, String productId, String productName, double price, String productOfferId, String campaignProductId, double discountRate, int quantity, double discountedPrice) {
+    public BasketItem(String id, UUID productId, String productName, BigDecimal price, String productOfferId, String campaignProductId, BigDecimal discountRate, int quantity, BigDecimal discountedPrice) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -26,14 +27,24 @@ public class BasketItem implements Serializable {
         this.discountedPrice = discountedPrice;
     }
 
-    public BasketItem(String id, String productId, String productName, double price) {
+    public BasketItem(String id, UUID productId, String productName, BigDecimal price) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.price = price;
     }
 
-    public BasketItem() {}
+    public BasketItem() {
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public UUID getProductId() {
+        return productId;
+    }
+
+    public void setProductId(UUID productId) {
+        this.productId = productId;
+    }
 
     public String getId() {
         return id;
@@ -41,14 +52,6 @@ public class BasketItem implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
     }
 
     public String getProductName() {
@@ -59,11 +62,51 @@ public class BasketItem implements Serializable {
         this.productName = productName;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getProductOfferId() {
+        return productOfferId;
+    }
+
+    public void setProductOfferId(String productOfferId) {
+        this.productOfferId = productOfferId;
+    }
+
+    public String getCampaignProductId() {
+        return campaignProductId;
+    }
+
+    public void setCampaignProductId(String campaignProductId) {
+        this.campaignProductId = campaignProductId;
+    }
+
+    public BigDecimal getDiscountRate() {
+        return discountRate;
+    }
+
+    public void setDiscountRate(BigDecimal discountRate) {
+        this.discountRate = discountRate;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 }

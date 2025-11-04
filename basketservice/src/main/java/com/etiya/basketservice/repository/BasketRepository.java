@@ -14,20 +14,36 @@ public class BasketRepository {
     private final RedisTemplate<String, Object> redisTemplate;
     private final HashOperations<String, String, Basket> basketHashOperations;
 
-    public BasketRepository(RedisTemplate<String, Object> redisTemplate, HashOperations<String, String, Basket> basketHashOperations) {
+    public BasketRepository(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.basketHashOperations = basketHashOperations;
+        this.basketHashOperations = redisTemplate.opsForHash();
     }
 
     public void add(Basket  basket) {
-        this.basketHashOperations.put(Key,basket.getId() + "_" + basket.getBillinAccountId(), basket);
+        this.basketHashOperations.put(Key,basket.getId() + "_" + basket.getBillingAccountId(), basket);
     }
 
     public Basket getBasketByBillingAccountId(UUID billingAccountId) {
-        return basketHashOperations.entries(Key).values().stream().filter(basket -> billingAccountId.equals(basket.getBillinAccountId())).findFirst().orElse(null);
+        return basketHashOperations.entries(Key).values().stream().filter(basket -> billingAccountId.equals(basket.getBillingAccountId())).findFirst().orElse(null);
     }
 
     public Map<String, Basket> getBaskets() {
         return this.basketHashOperations.entries(Key);
+    }
+
+    public void clearBasket(UUID billingAccountId) {
+        Basket basket = getBasketByBillingAccountId(billingAccountId);
+        if (basket != null) {
+            basketHashOperations.delete(Key, basket.getId() + "_" + basket.getBillingAccountId());
+        }
+    }
+
+    public void clearBasketItems(UUID billingAccountId) {
+        Basket basket = getBasketByBillingAccountId(billingAccountId);
+        if (basket != null) {
+            basket.getBasketItems().clear();
+            basket.setTotalPrice(null); //önyüzde 0 yazdırırız
+            add(basket);
+        }
     }
 }

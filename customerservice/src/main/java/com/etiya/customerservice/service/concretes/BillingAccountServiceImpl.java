@@ -1,7 +1,9 @@
 package com.etiya.customerservice.service.concretes;
 
 
+import com.etiya.common.crosscuttingconcerns.exceptions.types.BusinessException;
 import com.etiya.common.events.*;
+import com.etiya.common.responses.BillingAccountResponse;
 import com.etiya.customerservice.domain.entities.Address;
 import com.etiya.customerservice.domain.entities.BillingAccount;
 import com.etiya.customerservice.domain.enums.BillingAccountStatus;
@@ -210,5 +212,16 @@ public class BillingAccountServiceImpl implements BillingAccountService {
 
         deletedBillingAccountProducer.produceBillingAccountDeleted(event);
         billingAccountRepository.save(billingAccount);
+    }
+
+    @Override
+    public BillingAccountResponse getById(UUID id) {
+        return billingAccountRepository.findById(id).stream().map(this::mapToResponse).findFirst().orElseThrow(()->new BusinessException("BillingAccount Not Found"));
+    }
+
+    private BillingAccountResponse mapToResponse(BillingAccount billingAccount){
+        BillingAccountResponse response = new BillingAccountResponse();
+        response.setId(billingAccount.getId());
+        return response;
     }
 }

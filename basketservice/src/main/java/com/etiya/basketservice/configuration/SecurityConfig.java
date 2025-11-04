@@ -1,9 +1,8 @@
-package com.etiya.customerservice.configuration;
+package com.etiya.basketservice.configuration;
 
 import com.etiya.common.configuration.BaseSecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -17,11 +16,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        baseSecurityService.configureCoreSecurity(http);
-        http.authorizeHttpRequests(req -> req.requestMatchers("/api/**").permitAll().anyRequest().authenticated());
-        //http.authorizeHttpRequests(req -> req.anyRequest().authenticated());
-
-        return http.build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+        baseSecurityService.configureCoreSecurity(httpSecurity);
+        httpSecurity.authorizeHttpRequests(req->req.anyRequest().authenticated());
+        return httpSecurity.build();
     }
 }
