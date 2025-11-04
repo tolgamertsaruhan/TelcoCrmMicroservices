@@ -1,5 +1,6 @@
 package com.etiya.basketservice.client;
 
+import com.etiya.basketservice.configuration.FeignClientInterceptorConfig;
 import com.etiya.common.responses.ProductResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-@FeignClient(name = "catalogservice")
+@FeignClient(name = "catalogservice", configuration = FeignClientInterceptorConfig.class)
 public interface CatalogServiceClient {
 
     @GetMapping("/api/products/{id}")

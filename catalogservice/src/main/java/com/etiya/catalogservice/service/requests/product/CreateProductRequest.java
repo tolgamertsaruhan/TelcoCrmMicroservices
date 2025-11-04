@@ -1,5 +1,7 @@
 package com.etiya.catalogservice.service.requests.product;
 
+import org.mapstruct.Mapper;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
