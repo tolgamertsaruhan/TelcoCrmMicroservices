@@ -6,6 +6,7 @@ import com.etiya.catalogservice.service.responses.campaignProduct.CreatedCampaig
 import com.etiya.catalogservice.service.responses.campaignProduct.GetCampaignProductResponse;
 import com.etiya.catalogservice.service.responses.campaignProduct.GetListCampaignProductResponse;
 import com.etiya.catalogservice.service.responses.campaignProduct.UpdatedCampaignProductResponse;
+import com.etiya.common.responses.CampaignProductResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,4 +23,6 @@ public interface CampaignProductService {
     void delete(UUID id);
 
     void softDelete(UUID id);
+
+    GetCampaignProductResponse findCampaignsByProductId(UUID productId);
 }

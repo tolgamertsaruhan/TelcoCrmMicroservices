@@ -51,4 +51,9 @@ public class CampaignProductController {
     public void softDelete(@PathVariable UUID id) {
         campaignProductService.softDelete(id);
     }
+
+    @GetMapping("/by-product/{productId}")
+    public GetCampaignProductResponse getCampaignsByProductId(@PathVariable UUID productId) {
+        return campaignProductService.findCampaignsByProductId(productId);
+    }
 }

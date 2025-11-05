@@ -10,6 +10,7 @@ public class ExceptionMessage {
     public static final String TYPE_VALIDATION = "https://example.com/probs/validation";
     public static final String TYPE_INTERNAL = "https://example.com/probs/internal";
     public static final String TYPE_AUTH = "https://example.com/probs/auth";
+    public static final String TYPE_EXCEPTION = "https://example.com/probs/exception";
 
     //Internal Server Messages
     public static final String INTERNAL_ERROR = "Internal Server Error";

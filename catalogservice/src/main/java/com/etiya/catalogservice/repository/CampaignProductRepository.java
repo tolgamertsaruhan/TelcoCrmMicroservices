@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface CampaignProductRepository extends JpaRepository<CampaignProduct, UUID> {
+    CampaignProduct findByProduct_Id(UUID productId);
 }

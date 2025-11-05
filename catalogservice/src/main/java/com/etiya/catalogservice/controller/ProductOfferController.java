@@ -43,6 +43,12 @@ public class ProductOfferController {
         return response != null ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("get-product-offer-with-productId-control/{id}/{productId}")
+    public ResponseEntity<GetProductOfferResponse> getProductOfferWithProductIdControl(@PathVariable UUID id,  @PathVariable UUID productId) {
+        GetProductOfferResponse response = productOfferService.getProductOffer(id);
+        return response != null ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("getAll")
     public ResponseEntity<List<GetListProductOfferResponse>> getAllProductOffers() {
         List<GetListProductOfferResponse> response = productOfferService.getAllProductOffers();

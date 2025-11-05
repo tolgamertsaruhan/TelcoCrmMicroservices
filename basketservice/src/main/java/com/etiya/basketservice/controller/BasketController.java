@@ -20,8 +20,8 @@ public class BasketController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestParam UUID billingAccountId, @RequestParam UUID productId){
-        basketService.add(billingAccountId,productId);
+    public void add(@RequestParam UUID billingAccountId, @RequestParam UUID productId, @RequestParam UUID productOfferId) {
+        basketService.add(billingAccountId,productId,productOfferId);
     }
 
     @GetMapping

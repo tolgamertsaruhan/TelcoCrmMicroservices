@@ -23,4 +23,6 @@ public interface ProductOfferService {
     void softDelete(UUID id);
 
     void delete(UUID id);
+
+    GetProductOfferResponse getProductOfferWithProductIdControl(UUID id, UUID productId);
 }

@@ -60,6 +60,17 @@ public class ProductOfferServiceImpl implements ProductOfferService {
     }
 
     @Override
+    public GetProductOfferResponse getProductOfferWithProductIdControl(UUID id, UUID productId) {
+        ProductOffer productOffer = productOfferRepository.findByIdAndDeletedDateIsNull(id);
+        if (productOffer != null) {
+            if (productOffer.getProduct().getId().equals(productId)) {
+                return ProductOfferMapper.INSTANCE.getProductOfferResponseFromProductOffer(productOffer);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<GetListProductOfferResponse> getAllProductOffers() {
         List<ProductOffer> productOffers = productOfferRepository.findByDeletedDateIsNull();
         return ProductOfferMapper.INSTANCE.getListProductOfferResponseFromProductOfferList(productOffers);

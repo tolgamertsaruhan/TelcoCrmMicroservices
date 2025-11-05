@@ -10,6 +10,7 @@ import com.etiya.catalogservice.service.responses.campaignProduct.CreatedCampaig
 import com.etiya.catalogservice.service.responses.campaignProduct.GetCampaignProductResponse;
 import com.etiya.catalogservice.service.responses.campaignProduct.GetListCampaignProductResponse;
 import com.etiya.catalogservice.service.responses.campaignProduct.UpdatedCampaignProductResponse;
+import com.etiya.common.responses.CampaignProductResponse;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -92,5 +93,11 @@ public class CampaignProductServiceImpl implements CampaignProductService {
                 .orElseThrow(() -> new RuntimeException("CampaignProduct not found"));
         campaignProduct.setDeletedDate(LocalDateTime.now());
         campaignProductRepository.save(campaignProduct);
+    }
+
+    @Override
+    public GetCampaignProductResponse findCampaignsByProductId(UUID productId) {
+        CampaignProduct campaignProducts = campaignProductRepository.findByProduct_Id(productId);
+        return CampaignProductMapper.INSTANCE.getCampaignProductResponseFromEntity(campaignProducts);
     }
 }

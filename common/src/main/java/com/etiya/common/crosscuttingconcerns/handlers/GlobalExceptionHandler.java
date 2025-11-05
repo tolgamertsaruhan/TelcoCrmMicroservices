@@ -8,6 +8,8 @@ import com.etiya.common.crosscuttingconcerns.exceptions.problemdetails.ProblemDe
 import com.etiya.common.crosscuttingconcerns.exceptions.problemdetails.ValidationProblemDetails;
 import com.etiya.common.crosscuttingconcerns.exceptions.types.BusinessException;
 import com.etiya.common.crosscuttingconcerns.exceptions.types.InternalServerException;
+import com.etiya.common.crosscuttingconcerns.exceptions.types.AccessDeniedException;
+import com.etiya.common.crosscuttingconcerns.exceptions.types.AuthException;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,5 +52,32 @@ public class GlobalExceptionHandler {
         });
         validationProblemDetails.setValidationErrors(validationErrors);
         return validationProblemDetails;
+    }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ProblemDetails handleException(Exception exception){
+        ProblemDetails problemDetails = new ProblemDetails();
+        problemDetails.setTitle("Exception failed");
+        problemDetails.setStatus(HttpStatus.BAD_REQUEST.value());
+        problemDetails.setType(ExceptionMessage.TYPE_EXCEPTION);
+        problemDetails.setDetail(exception.getMessage());
+        return problemDetails;
+    }
+
+    @ExceptionHandler(AuthException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ProblemDetails handleUnauthorizedException(AuthException exception) {
+        ProblemDetails problemDetails = new ProblemDetails();
+        problemDetails.setDetail(exception.getMessage());
+        return problemDetails;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ProblemDetails handleForbiddenException(AccessDeniedException exception) {
+        ProblemDetails problemDetails = new ProblemDetails();
+        problemDetails.setDetail(exception.getMessage());
+        return problemDetails;
     }
 }

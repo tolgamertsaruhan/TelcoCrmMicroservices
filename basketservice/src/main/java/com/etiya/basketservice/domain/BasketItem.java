@@ -9,13 +9,13 @@ public class BasketItem implements Serializable {
     private UUID productId;
     private String productName;
     private BigDecimal price;
-    private String productOfferId;
-    private String campaignProductId;
+    private UUID productOfferId;
+    private UUID campaignProductId;
     private BigDecimal discountRate;
     private int quantity;
     private BigDecimal discountedPrice;
 
-    public BasketItem(String id, UUID productId, String productName, BigDecimal price, String productOfferId, String campaignProductId, BigDecimal discountRate, int quantity, BigDecimal discountedPrice) {
+    public BasketItem(String id, UUID productId, String productName, BigDecimal price, UUID productOfferId, UUID campaignProductId, BigDecimal discountRate, int quantity, BigDecimal discountedPrice) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -70,19 +70,19 @@ public class BasketItem implements Serializable {
         this.price = price;
     }
 
-    public String getProductOfferId() {
+    public UUID getProductOfferId() {
         return productOfferId;
     }
 
-    public void setProductOfferId(String productOfferId) {
+    public void setProductOfferId(UUID productOfferId) {
         this.productOfferId = productOfferId;
     }
 
-    public String getCampaignProductId() {
+    public UUID getCampaignProductId() {
         return campaignProductId;
     }
 
-    public void setCampaignProductId(String campaignProductId) {
+    public void setCampaignProductId(UUID campaignProductId) {
         this.campaignProductId = campaignProductId;
     }
 
