@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void add(String customerId) {
+    public void add(String billingAccountId) {
 
         // TODO: Bu alanda basketservice tarafına istek atılıp sepetteki veriyi sipariş tarafına göndermek
         // => basketserviceclient.getByCustomerId(customerId)
