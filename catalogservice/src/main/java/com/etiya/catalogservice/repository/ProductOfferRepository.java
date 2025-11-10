@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface ProductOfferRepository extends JpaRepository<ProductOffer, UUID> {
-    List<ProductOffer> findByProductId(UUID productId);
+    //List<ProductOffer> findByProductId(UUID productId);
     ProductOffer findByIdAndDeletedDateIsNull(UUID id);
     void deleteById(UUID id);
     List<ProductOffer> findByDeletedDateIsNull();

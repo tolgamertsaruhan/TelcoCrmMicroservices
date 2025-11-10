@@ -11,9 +11,8 @@ public class CreateProductOfferRequest {
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private BigDecimal discountRate;
+    private BigDecimal price;
     private ProductOfferStatuses status;
-    private UUID productId;
 
     public String getName() {
         return name;
@@ -47,14 +46,6 @@ public class CreateProductOfferRequest {
         this.endDate = endDate;
     }
 
-    public BigDecimal getDiscountRate() {
-        return discountRate;
-    }
-
-    public void setDiscountRate(BigDecimal discountRate) {
-        this.discountRate = discountRate;
-    }
-
     public ProductOfferStatuses getStatus() {
         return status;
     }
@@ -63,22 +54,21 @@ public class CreateProductOfferRequest {
         this.status = status;
     }
 
-    public UUID getProductId() {
-        return productId;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setProductId(UUID productId) {
-        this.productId = productId;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public CreateProductOfferRequest(String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal discountRate, ProductOfferStatuses status, UUID productId) {
+    public CreateProductOfferRequest(String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.discountRate = discountRate;
+        this.price = price;
         this.status = status;
-        this.productId = productId;
     }
 
     public CreateProductOfferRequest() {

@@ -1,11 +1,13 @@
 package com.etiya.common.responses;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ProductOfferResponse {
     private UUID id;
-    BigDecimal discountRate;
+    private String name;
+    private BigDecimal price;
 
     public UUID getId() {
         return id;
@@ -15,11 +17,19 @@ public class ProductOfferResponse {
         this.id = id;
     }
 
-    public BigDecimal getDiscountRate() {
-        return discountRate;
+    public String getName() {
+        return name;
     }
 
-    public void setDiscountRate(BigDecimal discountRate) {
-        this.discountRate = discountRate;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

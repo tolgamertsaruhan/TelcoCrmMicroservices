@@ -6,30 +6,30 @@ import java.util.UUID;
 
 public class BasketItem implements Serializable {
     private String id;
-    private UUID productId;
+    private UUID campaignProductOfferId;
     private String productName;
     private BigDecimal price;
     private UUID productOfferId;
-    private UUID campaignProductId;
+    private UUID campaignId;
     private BigDecimal discountRate;
     private int quantity;
     private BigDecimal discountedPrice;
 
-    public BasketItem(String id, UUID productId, String productName, BigDecimal price, UUID productOfferId, UUID campaignProductId, BigDecimal discountRate, int quantity, BigDecimal discountedPrice) {
+    public BasketItem(String id, UUID campaignProductOfferId, String productName, BigDecimal price, UUID productOfferId, UUID campaignId, BigDecimal discountRate, int quantity, BigDecimal discountedPrice) {
         this.id = id;
-        this.productId = productId;
+        this.campaignProductOfferId = campaignProductOfferId;
         this.productName = productName;
         this.price = price;
         this.productOfferId = productOfferId;
-        this.campaignProductId = campaignProductId;
+        this.campaignId = campaignId;
         this.discountRate = discountRate;
         this.quantity = quantity;
         this.discountedPrice = discountedPrice;
     }
 
-    public BasketItem(String id, UUID productId, String productName, BigDecimal price) {
+    public BasketItem(String id, UUID campaignProductOfferId, String productName, BigDecimal price) {
         this.id = id;
-        this.productId = productId;
+        this.campaignProductOfferId = campaignProductOfferId;
         this.productName = productName;
         this.price = price;
     }
@@ -38,12 +38,12 @@ public class BasketItem implements Serializable {
         this.id = UUID.randomUUID().toString();
     }
 
-    public UUID getProductId() {
-        return productId;
+    public UUID getCampaignProductOfferId() {
+        return campaignProductOfferId;
     }
 
-    public void setProductId(UUID productId) {
-        this.productId = productId;
+    public void setCampaignProductOfferId(UUID campaignProductOfferId) {
+        this.campaignProductOfferId = campaignProductOfferId;
     }
 
     public String getId() {
@@ -78,12 +78,12 @@ public class BasketItem implements Serializable {
         this.productOfferId = productOfferId;
     }
 
-    public UUID getCampaignProductId() {
-        return campaignProductId;
+    public UUID getCampaignId() {
+        return campaignId;
     }
 
-    public void setCampaignProductId(UUID campaignProductId) {
-        this.campaignProductId = campaignProductId;
+    public void setCampaignId(UUID campaignId) {
+        this.campaignId = campaignId;
     }
 
     public BigDecimal getDiscountRate() {

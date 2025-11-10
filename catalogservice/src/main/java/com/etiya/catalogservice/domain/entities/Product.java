@@ -25,11 +25,15 @@ public class Product extends BaseEntity {
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
 
+    @Column(name = "discounted_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal discountedPrice;
+
     @Column(name = "description")
     private String description;
 
-    @Column(name = "stock")
-    private int stock;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_offer_id", nullable = false)
+    private ProductOffer productOffer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catalog_id", nullable = false)
@@ -46,14 +50,6 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<ProdCharValue> productCharValues;
 
-    // 1 ürün birçok kampanyaya sahip olabilir.
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<CampaignProduct> campaignProducts;
-
-    // 1 ürün için birden fazla product offer sunulabilinir.
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<ProductOffer> productOffers;
-
 
     public String getName() {
         return name;
@@ -61,14 +57,6 @@ public class Product extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public Catalog getCatalog() {
@@ -95,22 +83,6 @@ public class Product extends BaseEntity {
         this.productCharValues = productCharValues;
     }
 
-    public List<CampaignProduct> getCampaignProducts() {
-        return campaignProducts;
-    }
-
-    public void setCampaignProducts(List<CampaignProduct> campaignProducts) {
-        this.campaignProducts = campaignProducts;
-    }
-
-    public List<ProductOffer> getProductOffers() {
-        return productOffers;
-    }
-
-    public void setProductOffers(List<ProductOffer> productOffers) {
-        this.productOffers = productOffers;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -135,31 +107,48 @@ public class Product extends BaseEntity {
         this.price = price;
     }
 
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public ProductOffer getProductOffer() {
+        return productOffer;
+    }
+
+    public void setProductOffer(ProductOffer productOffer) {
+        this.productOffer = productOffer;
+    }
+
     public Product() {
     }
 
-    public Product(UUID id, String name, BigDecimal price, int stock) {
+    public Product(UUID id, String name, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.stock = stock;
     }
 
-    public Product(UUID id, String name, BigDecimal price, int stock, Catalog catalog, ProductSpecification productSpecification, List<ProdCharValue> productCharValues, List<CampaignProduct> campaignProducts, List<ProductOffer> productOffers) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.catalog = catalog;
-        this.productSpecification = productSpecification;
-        this.productCharValues = productCharValues;
-        this.campaignProducts = campaignProducts;
-        this.productOffers = productOffers;
-    }
 
     public Product(String name, String description, BigDecimal price) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
+
+    public Product(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, ProductOffer productOffer, Catalog catalog, ProductSpecification productSpecification) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.discountedPrice = discountedPrice;
+        this.productOffer = productOffer;
+        this.catalog = catalog;
+        this.productSpecification = productSpecification;
+    }
+
+
 }

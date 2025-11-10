@@ -33,19 +33,14 @@ public class ProductOffer extends BaseEntity {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
-    @Column(name = "discount_rate", precision = 3, scale = 2, nullable = false)
-    private BigDecimal discountRate;
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
 
     // Bu alanı Enum olarak modellemek iyi bir uygulamadır
     // ACTIVE
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ProductOfferStatuses status;
-
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
 
     // 1 ürün teklifi birden fazla catalog product offer sahip olablr
     @OneToMany(mappedBy = "productOffer")
@@ -54,6 +49,13 @@ public class ProductOffer extends BaseEntity {
     // 1 ürün teklifi birden fazla customer offer a sahip olabilir
     @OneToMany(mappedBy = "productOffer")
     private List<CustomerOffer> customerOffers;
+
+    // 1 ürün teklifi birçok kampanyaya sahip olabilir.
+    @OneToMany(mappedBy = "productOffer", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<CampaignProductOffer> campaignProductOffers;
+
+    @OneToMany(mappedBy = "productOffer", fetch = FetchType.LAZY)
+    private List<Product> products;
 
     public String getName() {
         return name;
@@ -69,14 +71,6 @@ public class ProductOffer extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public List<CatalogProductOffer> getCatalogProductOffers() {
@@ -127,37 +121,42 @@ public class ProductOffer extends BaseEntity {
         this.status = status;
     }
 
-    public BigDecimal getDiscountRate() {
-        return discountRate;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setDiscountRate(BigDecimal discountRate) {
-        this.discountRate = discountRate;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public List<CampaignProductOffer> getCampaignProductOffers() {
+        return campaignProductOffers;
+    }
+
+    public void setCampaignProductOffers(List<CampaignProductOffer> campaignProductOffers) {
+        this.campaignProductOffers = campaignProductOffers;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public ProductOffer() {
     }
 
-    public ProductOffer(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal discountRate, ProductOfferStatuses status) {
+    public ProductOffer(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.discountRate = discountRate;
+        this.price = price;
         this.status = status;
     }
 
-    public ProductOffer(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal discountRate, ProductOfferStatuses status, Product product, List<CatalogProductOffer> catalogProductOffers, List<CustomerOffer> customerOffers) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.discountRate = discountRate;
-        this.status = status;
-        this.product = product;
-        this.catalogProductOffers = catalogProductOffers;
-        this.customerOffers = customerOffers;
-    }
+
 }

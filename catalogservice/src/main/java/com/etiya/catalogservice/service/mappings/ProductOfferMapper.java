@@ -19,21 +19,18 @@ public interface ProductOfferMapper {
 
     ProductOfferMapper INSTANCE = Mappers.getMapper(ProductOfferMapper.class);
 
-    @Mapping(target = "discountRate", source = "discountRate")
+    @Mapping(source = "price", target = "price")
     ProductOffer productOfferFromCreateProductOfferRequest(CreateProductOfferRequest request);
 
     void updateProductOfferFromRequest(UpdateProductOfferRequest request, @MappingTarget ProductOffer productOffer);
 
-    @Mapping(target = "discountRate", source = "discountRate")
+    @Mapping(source = "price", target = "price")
     CreatedProductOfferResponse createdProductOfferResponseFromProductOffer(ProductOffer productOffer);
 
-    @Mapping(target = "productId", source = "product.id")
     UpdatedProductOfferResponse updatedProductOfferResponseFromProductOffer(ProductOffer productOffer);
 
-    @Mapping(target = "productId", source = "product.id")
     GetProductOfferResponse getProductOfferResponseFromProductOffer(ProductOffer productOffer);
 
-    @Mapping(target = "productId", source = "product.id")
     List<GetListProductOfferResponse> getListProductOfferResponseFromProductOfferList(List<ProductOffer> productOffers);
 
     @Mapping(target = "id", source = "id")  // Explicit mapping for id

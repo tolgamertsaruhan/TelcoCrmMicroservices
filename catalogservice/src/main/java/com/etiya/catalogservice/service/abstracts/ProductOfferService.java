@@ -24,5 +24,5 @@ public interface ProductOfferService {
 
     void delete(UUID id);
 
-    GetProductOfferResponse getProductOfferWithProductIdControl(UUID id, UUID productId);
+    GetProductOfferResponse getProductOfferWithProductIdControl(UUID id);
 }

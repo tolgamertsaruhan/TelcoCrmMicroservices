@@ -11,4 +11,5 @@ public interface BasketService {
     void clearBasket(UUID billingAccountId);
     void clearBasketItems(UUID billingAccountId);
     Basket getByBillingAccountId(UUID billingAccountId);
+    void removeItem(UUID billingAccountId, UUID productOfferId, UUID campaignProductOfferId);
 }

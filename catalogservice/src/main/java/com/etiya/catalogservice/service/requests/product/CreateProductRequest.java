@@ -9,9 +9,10 @@ public class CreateProductRequest {
     private String name;
     private String description;
     private BigDecimal price;
+    private BigDecimal discountedPrice;
     private UUID catalogId;
-    private int stock;
     private UUID specificationId;
+    private UUID productOfferId;
 
     public String getName() {
         return name;
@@ -27,15 +28,6 @@ public class CreateProductRequest {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public UUID getCatalogId() {
@@ -62,13 +54,30 @@ public class CreateProductRequest {
         this.price = price;
     }
 
-    public CreateProductRequest(String name, String description, BigDecimal price, UUID catalogId, int stock, UUID specificationId) {
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public UUID getProductOfferId() {
+        return productOfferId;
+    }
+
+    public void setProductOfferId(UUID productOfferId) {
+        this.productOfferId = productOfferId;
+    }
+
+    public CreateProductRequest(String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID specificationId, UUID productOfferId) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.discountedPrice = discountedPrice;
         this.catalogId = catalogId;
-        this.stock = stock;
         this.specificationId = specificationId;
+        this.productOfferId = productOfferId;
     }
 
     public CreateProductRequest() {

@@ -1,6 +1,7 @@
 package com.etiya.basketservice.client;
 
-import com.etiya.common.responses.CampaignProductResponse;
+import com.etiya.common.responses.CampaignProductOfferResponse;
+import com.etiya.common.responses.CampaignResponse;
 import com.etiya.common.responses.ProductOfferResponse;
 import com.etiya.common.responses.ProductResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -15,9 +16,15 @@ public interface CatalogServiceClient {
     @GetMapping("/api/products/{id}")
     ProductResponse getProductId(@PathVariable("id") UUID id);
 
-    @GetMapping("/api/campaign-products/by-product/{productId}")
-    CampaignProductResponse getCampaignProductId(@PathVariable("productId") UUID id);
+//    @GetMapping("/api/campaign-product-offers/by-product-offer/{productOfferId}")
+//    CampaignProductOfferResponse getCampaignProductOfferId(@PathVariable("productOfferId") UUID id);
 
-    @GetMapping("/api/product-offers/get-product-offer-with-productId-control/{id}/{productId}")
-    ProductOfferResponse getProductOffer(@PathVariable("id") UUID id, @PathVariable("productId") UUID productId);
+    @GetMapping("/api/product-offers/{id}")
+    ProductOfferResponse getProductOffer(@PathVariable("id") UUID id);
+
+    @GetMapping("api/campaign-product-offers/get-campaign-product-offer-by-id/{campaignProductOfferId}")
+    CampaignProductOfferResponse getCampaignProductOffer (@PathVariable("campaignProductOfferId") UUID campaignProductOfferId);
+
+    @GetMapping("api/campaigns/{id}")
+    CampaignResponse getCampaignId(@PathVariable("id") UUID id);
 }

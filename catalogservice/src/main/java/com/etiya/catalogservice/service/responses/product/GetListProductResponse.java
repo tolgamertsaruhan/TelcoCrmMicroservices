@@ -8,8 +8,9 @@ public class GetListProductResponse {
     private String name;
     private String description;
     private BigDecimal price;
+    private BigDecimal discountedPrice;
     private UUID catalogId;
-    private int stock;
+    private UUID prdouctOfferId;
     private UUID specificationId;
 
     public UUID getId() {
@@ -44,14 +45,6 @@ public class GetListProductResponse {
         this.catalogId = catalogId;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public UUID getSpecificationId() {
         return specificationId;
     }
@@ -68,14 +61,31 @@ public class GetListProductResponse {
         this.price = price;
     }
 
-    public GetListProductResponse(UUID specificationId, int stock, UUID catalogId, BigDecimal price, String description, String name, UUID id) {
-        this.specificationId = specificationId;
-        this.stock = stock;
-        this.catalogId = catalogId;
-        this.price = price;
-        this.description = description;
-        this.name = name;
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public UUID getPrdouctOfferId() {
+        return prdouctOfferId;
+    }
+
+    public void setPrdouctOfferId(UUID prdouctOfferId) {
+        this.prdouctOfferId = prdouctOfferId;
+    }
+
+    public GetListProductResponse(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID prdouctOfferId, UUID specificationId) {
         Id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.discountedPrice = discountedPrice;
+        this.catalogId = catalogId;
+        this.prdouctOfferId = prdouctOfferId;
+        this.specificationId = specificationId;
     }
 
     public GetListProductResponse() {

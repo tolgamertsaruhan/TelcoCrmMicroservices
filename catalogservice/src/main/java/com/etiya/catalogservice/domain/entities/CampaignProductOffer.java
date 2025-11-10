@@ -10,9 +10,9 @@ import java.util.UUID;
 // Aynı ürün-kampanya kombinasyonunun tekrar etmesini engelleyen bir Bileşik UNIQUE KEY kısıtlamasına sahiptir.
 // Veritabanındaki 'campaign_products_product_id_campaign_id_key'
 // kısıtlaması, JPA'da @Table annotation'ı içinde tanımlanabilir:
-@Table(name = "campaign_products", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"product_id", "campaign_id"})})
-public class CampaignProduct extends BaseEntity {
+@Table(name = "campaign_products_offers", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"product_offer_id", "campaign_id"})})
+public class CampaignProductOffer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,8 +26,8 @@ public class CampaignProduct extends BaseEntity {
 
     // product_id (Yabancı Anahtar - Product Entity'sine bağlanır)
     @ManyToOne(fetch = FetchType.LAZY) // Bir ürün kaydı, tek bir ürüne bağlıdır
-    @JoinColumn(name = "product_id", nullable = false) // Veritabanındaki sütun adı
-    private Product product; // Product: Ürün Entity'sinin adı olmalı
+    @JoinColumn(name = "product_offer_id", nullable = false) // Veritabanındaki sütun adı
+    private ProductOffer productOffer; // Product: Ürün Entity'sinin adı olmalı
 
     public Campaign getCampaign() {
         return campaign;
@@ -35,14 +35,6 @@ public class CampaignProduct extends BaseEntity {
 
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public UUID getId() {
@@ -53,14 +45,20 @@ public class CampaignProduct extends BaseEntity {
         this.id = id;
     }
 
-    public CampaignProduct() {
+    public CampaignProductOffer() {
     }
 
+    public ProductOffer getProductOffer() {
+        return productOffer;
+    }
 
+    public void setProductOffer(ProductOffer productOffer) {
+        this.productOffer = productOffer;
+    }
 
-    public CampaignProduct(UUID id, Campaign campaign, Product product) {
+    public CampaignProductOffer(UUID id, Campaign campaign, ProductOffer productOffer) {
         this.id = id;
         this.campaign = campaign;
-        this.product = product;
+        this.productOffer = productOffer;
     }
 }

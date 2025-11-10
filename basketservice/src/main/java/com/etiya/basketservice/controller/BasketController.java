@@ -3,6 +3,7 @@ package com.etiya.basketservice.controller;
 import com.etiya.basketservice.domain.Basket;
 import com.etiya.basketservice.service.abstracts.BasketService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -22,6 +23,15 @@ public class BasketController {
     @ResponseStatus(HttpStatus.CREATED)
     public void add(@RequestParam UUID billingAccountId, @RequestParam UUID productId, @RequestParam UUID productOfferId) {
         basketService.add(billingAccountId,productId,productOfferId);
+    }
+    @PostMapping("/add")
+    public ResponseEntity<Void> addToBasket(
+            @RequestParam UUID billingAccountId,
+            @RequestParam UUID productOfferId,
+            @RequestParam(required = false) UUID campaignProductOfferId) {
+
+        basketService.add(billingAccountId, productOfferId, campaignProductOfferId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -46,5 +56,17 @@ public class BasketController {
     @ResponseStatus(HttpStatus.OK)
     public Basket getByBillingAccountId(@PathVariable UUID billingAccountId) {
         return basketService.getByBillingAccountId(billingAccountId);
+    }
+
+    // 🔴 Sepetten ürün çıkarma / quantity azaltma
+    @DeleteMapping("/remove")
+    public ResponseEntity<Basket> removeFromBasket(
+            @RequestParam UUID billingAccountId,
+            @RequestParam UUID productOfferId,
+            @RequestParam(required = false) UUID campaignProductOfferId
+    ) {
+        basketService.removeItem(billingAccountId, productOfferId, campaignProductOfferId);
+        Basket basket = basketService.getByBillingAccountId(billingAccountId);
+        return ResponseEntity.ok(basket);
     }
 }

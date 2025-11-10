@@ -33,10 +33,6 @@ public class ProductOfferServiceImpl implements ProductOfferService {
     @Override
     public CreatedProductOfferResponse addProductOffer(CreateProductOfferRequest request) {
         ProductOffer productOffer = ProductOfferMapper.INSTANCE.productOfferFromCreateProductOfferRequest(request);
-        Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        productOffer.setProduct(product);
         productOfferRepository.save(productOffer);
         return ProductOfferMapper.INSTANCE.createdProductOfferResponseFromProductOffer(productOffer);
     }
@@ -60,14 +56,9 @@ public class ProductOfferServiceImpl implements ProductOfferService {
     }
 
     @Override
-    public GetProductOfferResponse getProductOfferWithProductIdControl(UUID id, UUID productId) {
+    public GetProductOfferResponse getProductOfferWithProductIdControl(UUID id) {
         ProductOffer productOffer = productOfferRepository.findByIdAndDeletedDateIsNull(id);
-        if (productOffer != null) {
-            if (productOffer.getProduct().getId().equals(productId)) {
-                return ProductOfferMapper.INSTANCE.getProductOfferResponseFromProductOffer(productOffer);
-            }
-        }
-        return null;
+        return ProductOfferMapper.INSTANCE.getProductOfferResponseFromProductOffer(productOffer);
     }
 
     @Override

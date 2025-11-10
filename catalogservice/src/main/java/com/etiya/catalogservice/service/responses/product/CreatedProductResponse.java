@@ -8,8 +8,9 @@ public class CreatedProductResponse {
     private String name;
     private String description;
     private BigDecimal price;
+    private BigDecimal discountedPrice;
     private UUID catalogId;
-    private int stock;
+    private UUID productOfferId;
     private UUID specificationId;
 
     public UUID getId() {
@@ -44,14 +45,6 @@ public class CreatedProductResponse {
         this.catalogId = catalogId;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public UUID getSpecificationId() {
         return specificationId;
     }
@@ -60,14 +53,39 @@ public class CreatedProductResponse {
         this.specificationId = specificationId;
     }
 
-    public CreatedProductResponse(UUID specificationId, int stock, UUID catalogId, BigDecimal price, String description, String name, UUID id) {
-        this.specificationId = specificationId;
-        this.stock = stock;
-        this.catalogId = catalogId;
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
         this.price = price;
-        this.description = description;
-        this.name = name;
+    }
+
+    public BigDecimal getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public UUID getProductOfferId() {
+        return productOfferId;
+    }
+
+    public void setProductOfferId(UUID productOfferId) {
+        this.productOfferId = productOfferId;
+    }
+
+    public CreatedProductResponse(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID productOfferId, UUID specificationId) {
         Id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.discountedPrice = discountedPrice;
+        this.catalogId = catalogId;
+        this.productOfferId = productOfferId;
+        this.specificationId = specificationId;
     }
 
     public CreatedProductResponse() {
