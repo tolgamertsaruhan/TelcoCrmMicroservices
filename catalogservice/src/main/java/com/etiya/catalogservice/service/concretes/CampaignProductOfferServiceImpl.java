@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CampaignProductOfferServiceImpl implements CampaignProductOfferService {
@@ -105,5 +106,14 @@ public class CampaignProductOfferServiceImpl implements CampaignProductOfferServ
     public GetCampaignProductOfferResponse findCampaignProductOfferById(UUID campaignProductOfferId){
         CampaignProductOffer campaignProductOffer = campaignProductOfferRepository.findById(campaignProductOfferId).orElseThrow(() -> new RuntimeException("CampaignProduct not found"));
         return CampaignProductOfferMapper.INSTANCE.getCampaignProductResponseFromEntity(campaignProductOffer);
+    }
+
+    @Override
+    public List<GetCampaignProductOfferResponse> getCampaignProductOffersByCampaignId(UUID campaignId) {
+        var campaignOffers = campaignProductOfferRepository.findByCampaign_Id(campaignId);
+
+        return campaignOffers.stream()
+                .map(CampaignProductOfferMapper.INSTANCE::getCampaignProductResponseFromEntity)
+                .collect(Collectors.toList());
     }
 }

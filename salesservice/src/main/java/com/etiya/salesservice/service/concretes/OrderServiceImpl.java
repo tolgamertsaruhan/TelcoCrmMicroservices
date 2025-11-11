@@ -19,6 +19,8 @@ public class OrderServiceImpl implements OrderService {
         // TODO: Bu alanda basketservice tarafına istek atılıp sepetteki veriyi sipariş tarafına göndermek
         // => basketserviceclient.getByCustomerId(customerId)
 
+
+
         //Todo: Sipariş onaylandıktan sonra basket service tarafına sepetin boşaltılması için event fırlatılacak.
         // orderRepository.save(order);
         // var basketClearEvent = new BasketClearEvent(order.CustomerId);

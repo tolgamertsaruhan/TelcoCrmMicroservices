@@ -61,4 +61,9 @@ public class CampaignProductOfferController {
     public GetCampaignProductOfferResponse getCampaignProductOfferById(@PathVariable UUID campaignProductOfferId) {
         return campaignProductOfferService.findCampaignProductOfferById(campaignProductOfferId);
     }
+
+    @GetMapping("/by-campaign/{campaignId}")
+    public List<GetCampaignProductOfferResponse> getCampaignProductOffersByCampaignId(@PathVariable UUID campaignId) {
+        return campaignProductOfferService.getCampaignProductOffersByCampaignId(campaignId);
+    }
 }

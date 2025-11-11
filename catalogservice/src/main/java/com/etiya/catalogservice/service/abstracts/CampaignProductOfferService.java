@@ -6,6 +6,7 @@ import com.etiya.catalogservice.service.responses.campaignProductOffer.CreatedCa
 import com.etiya.catalogservice.service.responses.campaignProductOffer.GetCampaignProductOfferResponse;
 import com.etiya.catalogservice.service.responses.campaignProductOffer.GetListCampaignProductOfferResponse;
 import com.etiya.catalogservice.service.responses.campaignProductOffer.UpdatedCampaignProductOfferResponse;
+import com.etiya.common.responses.CampaignProductOfferResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,4 +27,6 @@ public interface CampaignProductOfferService {
     GetCampaignProductOfferResponse findCampaignsByProductOfferId(UUID productOfferId);
 
     GetCampaignProductOfferResponse findCampaignProductOfferById(UUID campaignProductOfferId);
+
+    List<GetCampaignProductOfferResponse> getCampaignProductOffersByCampaignId(UUID campaignId);
 }
