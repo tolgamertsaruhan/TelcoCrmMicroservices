@@ -78,13 +78,13 @@ public class ProductController {
         return ResponseEntity.ok(responses);
     }
 
-    @GetMapping("/by-catalog/{catalogId}")
-    public ResponseEntity<List<GetListProductResponse>> getByCatalogId(@PathVariable UUID catalogId) {
-        return ResponseEntity.ok(productService.getByCatalogId(catalogId));
-    }
-
-    @GetMapping("/by-specification/{specificationId}")
-    public ResponseEntity<List<GetListProductResponse>> getBySpecificationId(@PathVariable UUID specificationId) {
-        return ResponseEntity.ok(productService.getBySpecificationId(specificationId));
-    }
+//    @GetMapping("/by-catalog/{catalogId}")
+//    public ResponseEntity<List<GetListProductResponse>> getByCatalogId(@PathVariable UUID catalogId) {
+//        return ResponseEntity.ok(productService.getByCatalogId(catalogId));
+//    }
+//
+//    @GetMapping("/by-specification/{specificationId}")
+//    public ResponseEntity<List<GetListProductResponse>> getBySpecificationId(@PathVariable UUID specificationId) {
+//        return ResponseEntity.ok(productService.getBySpecificationId(specificationId));
+//    }
 }

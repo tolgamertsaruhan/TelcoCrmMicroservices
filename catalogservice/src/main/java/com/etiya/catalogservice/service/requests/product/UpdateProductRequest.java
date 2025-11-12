@@ -11,7 +11,6 @@ public class UpdateProductRequest {
     private BigDecimal discountedPrice;
     private UUID catalogId;
     private UUID productOfferId;
-    private UUID specificationId;
 
     public UUID getId() {
         return Id;
@@ -53,14 +52,6 @@ public class UpdateProductRequest {
         this.catalogId = catalogId;
     }
 
-    public UUID getSpecificationId() {
-        return specificationId;
-    }
-
-    public void setSpecificationId(UUID specificationId) {
-        this.specificationId = specificationId;
-    }
-
     public BigDecimal getDiscountedPrice() {
         return discountedPrice;
     }
@@ -77,7 +68,7 @@ public class UpdateProductRequest {
         this.productOfferId = productOfferId;
     }
 
-    public UpdateProductRequest(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID productOfferId, UUID specificationId) {
+    public UpdateProductRequest(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID productOfferId) {
         Id = id;
         this.name = name;
         this.description = description;
@@ -85,7 +76,6 @@ public class UpdateProductRequest {
         this.discountedPrice = discountedPrice;
         this.catalogId = catalogId;
         this.productOfferId = productOfferId;
-        this.specificationId = specificationId;
     }
 
     public UpdateProductRequest() {

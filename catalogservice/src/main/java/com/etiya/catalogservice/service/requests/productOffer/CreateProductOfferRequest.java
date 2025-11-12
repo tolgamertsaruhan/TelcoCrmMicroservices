@@ -13,6 +13,15 @@ public class CreateProductOfferRequest {
     private LocalDateTime endDate;
     private BigDecimal price;
     private ProductOfferStatuses status;
+    private UUID specificationId;
+
+    public UUID getSpecificationId() {
+        return specificationId;
+    }
+
+    public void setSpecificationId(UUID specificationId) {
+        this.specificationId = specificationId;
+    }
 
     public String getName() {
         return name;
@@ -62,13 +71,14 @@ public class CreateProductOfferRequest {
         this.price = price;
     }
 
-    public CreateProductOfferRequest(String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status) {
+    public CreateProductOfferRequest(String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status,  UUID specificationId) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
         this.status = status;
+        this.specificationId = specificationId;
     }
 
     public CreateProductOfferRequest() {

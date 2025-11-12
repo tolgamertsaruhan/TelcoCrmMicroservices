@@ -20,34 +20,28 @@ public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
     @Mapping(source = "catalogId", target = "catalog.id")
-    @Mapping(source = "specificationId", target = "productSpecification.id")
     @Mapping(source = "productOfferId", target = "productOffer.id")
     Product productFromCreateProductRequest(CreateProductRequest request);
 
     @Mapping(source = "catalogId", target = "catalog.id")
-    @Mapping(source = "specificationId", target = "productSpecification.id")
     @Mapping(source = "productOfferId", target = "productOffer.id")
     Product productFromUpdateProductRequest(UpdateProductRequest request);
 
     void updateProductFromRequest(UpdateProductRequest request, @MappingTarget Product product);
 
     @Mapping(source = "catalog.id", target = "catalogId")
-    @Mapping(source = "productSpecification.id", target = "specificationId")
     @Mapping(source = "productOffer.id", target = "productOfferId")
     CreatedProductResponse createdProductResponseFromProduct(Product product);
 
     @Mapping(source = "catalog.id", target = "catalogId")
-    @Mapping(source = "productSpecification.id", target = "specificationId")
     @Mapping(source = "productOffer.id", target = "productOfferId")
     UpdatedProductResponse UpdatedProductResponseFromProduct(Product product);
 
     @Mapping(source = "catalog.id", target = "catalogId")
-    @Mapping(source = "productSpecification.id", target = "specificationId")
     @Mapping(source = "productOffer.id", target = "productOfferId")
     GetProductResponse GetProductResponseProduct(Product product);
 
     @Mapping(source = "catalog.id", target = "catalogId")
-    @Mapping(source = "productSpecification.id", target = "specificationId")
     @Mapping(source = "productOffer.id", target = "productOfferId")
     List<GetListProductResponse> GetListProductResponseFromProductList(List<Product> products);
 }

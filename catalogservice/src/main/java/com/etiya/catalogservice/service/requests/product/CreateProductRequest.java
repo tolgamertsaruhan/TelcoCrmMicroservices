@@ -11,7 +11,6 @@ public class CreateProductRequest {
     private BigDecimal price;
     private BigDecimal discountedPrice;
     private UUID catalogId;
-    private UUID specificationId;
     private UUID productOfferId;
 
     public String getName() {
@@ -38,14 +37,6 @@ public class CreateProductRequest {
         this.catalogId = catalogId;
     }
 
-    public UUID getSpecificationId() {
-        return specificationId;
-    }
-
-    public void setSpecificationId(UUID specificationId) {
-        this.specificationId = specificationId;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -70,13 +61,12 @@ public class CreateProductRequest {
         this.productOfferId = productOfferId;
     }
 
-    public CreateProductRequest(String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID specificationId, UUID productOfferId) {
+    public CreateProductRequest(String name, String description, BigDecimal price, BigDecimal discountedPrice, UUID catalogId, UUID productOfferId) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.discountedPrice = discountedPrice;
         this.catalogId = catalogId;
-        this.specificationId = specificationId;
         this.productOfferId = productOfferId;
     }
 

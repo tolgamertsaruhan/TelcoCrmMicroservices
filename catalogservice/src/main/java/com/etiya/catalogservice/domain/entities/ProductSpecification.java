@@ -39,7 +39,7 @@ public class ProductSpecification extends BaseEntity {
 
     // Bir özellik seti birden fazla ürüne ait olabilir.
     @OneToMany(mappedBy = "productSpecification", cascade = CascadeType.ALL)
-    private List<Product> products;
+    private List<ProductOffer> productOffers;
 
     // Bir özellik seti birden fazla Characteristic içerir.
     @OneToMany(mappedBy = "productSpecification", cascade = CascadeType.ALL)
@@ -69,12 +69,12 @@ public class ProductSpecification extends BaseEntity {
         this.productType = productType;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<ProductOffer> getProductOffer() {
+        return productOffers;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProductOffers(List<ProductOffer> productOffers) {
+        this.productOffers = productOffers;
     }
 
     public List<ProductSpecCharacteristic> getProductSpecCharacteristics() {
@@ -112,13 +112,13 @@ public class ProductSpecification extends BaseEntity {
         this.productType = productType;
     }
 
-    public ProductSpecification(UUID id, String name, String description, ProductSpecificationLifeCycleStatuses lifecycleStatus, String productType, List<Product> products, List<ProductSpecCharacteristic> productSpecCharacteristics) {
+    public ProductSpecification(UUID id, String name, String description, ProductSpecificationLifeCycleStatuses lifecycleStatus, String productType, List<ProductOffer> productOffers, List<ProductSpecCharacteristic> productSpecCharacteristics) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.lifecycleStatus = lifecycleStatus;
         this.productType = productType;
-        this.products = products;
+        this.productOffers = productOffers;
         this.productSpecCharacteristics = productSpecCharacteristics;
     }
 }

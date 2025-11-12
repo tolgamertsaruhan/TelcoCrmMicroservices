@@ -42,6 +42,10 @@ public class ProductOffer extends BaseEntity {
     @Column(name = "status", nullable = false)
     private ProductOfferStatuses status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spec_id", nullable = false)
+    private ProductSpecification productSpecification;
+
     // 1 ürün teklifi birden fazla catalog product offer sahip olablr
     @OneToMany(mappedBy = "productOffer")
     private List<CatalogProductOffer> catalogProductOffers;
@@ -56,6 +60,25 @@ public class ProductOffer extends BaseEntity {
 
     @OneToMany(mappedBy = "productOffer", fetch = FetchType.LAZY)
     private List<Product> products;
+
+    @OneToMany(mappedBy = "productOffer", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<ProdCharValue> productCharValues;
+
+    public List<ProdCharValue> getProductCharValues() {
+        return productCharValues;
+    }
+
+    public void setProductCharValues(List<ProdCharValue> productCharValues) {
+        this.productCharValues = productCharValues;
+    }
+
+    public ProductSpecification getProductSpecification() {
+        return productSpecification;
+    }
+
+    public void setProductSpecification(ProductSpecification productSpecification) {
+        this.productSpecification = productSpecification;
+    }
 
     public String getName() {
         return name;
@@ -148,7 +171,7 @@ public class ProductOffer extends BaseEntity {
     public ProductOffer() {
     }
 
-    public ProductOffer(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status) {
+    public ProductOffer(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status, ProductSpecification productSpecification) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -156,6 +179,7 @@ public class ProductOffer extends BaseEntity {
         this.endDate = endDate;
         this.price = price;
         this.status = status;
+        this.productSpecification = productSpecification;
     }
 
 

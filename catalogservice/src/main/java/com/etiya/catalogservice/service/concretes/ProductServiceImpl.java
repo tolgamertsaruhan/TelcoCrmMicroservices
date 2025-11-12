@@ -51,9 +51,9 @@ public class ProductServiceImpl implements ProductService {
         catalog.setId(request.getCatalogId());
         product.setCatalog(catalog);
 
-        ProductSpecification spec = new ProductSpecification();
-        spec.setId(request.getSpecificationId());
-        product.setProductSpecification(spec);
+//        ProductSpecification spec = new ProductSpecification();
+//        spec.setId(request.getSpecificationId());
+//        product.setProductSpecification(spec);
 
         product = productRepository.save(product);
         return ProductMapper.INSTANCE.createdProductResponseFromProduct(product);
@@ -109,17 +109,17 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    @Override
-    public List<GetListProductResponse> getByCatalogId(UUID catalogId) {
-        List<Product> products = productRepository.findAllByCatalog_IdAndDeletedDateIsNull(catalogId);
-        return ProductMapper.INSTANCE.GetListProductResponseFromProductList(products);
-    }
+//    @Override
+//    public List<GetListProductResponse> getByCatalogId(UUID catalogId) {
+//        List<Product> products = productRepository.findAllByCatalog_IdAndDeletedDateIsNull(catalogId);
+//        return ProductMapper.INSTANCE.GetListProductResponseFromProductList(products);
+//    }
 
-    @Override
-    public List<GetListProductResponse> getBySpecificationId(UUID specificationId) {
-        List<Product> products = productRepository.findAllByProductSpecification_IdAndDeletedDateIsNull(specificationId);
-        return ProductMapper.INSTANCE.GetListProductResponseFromProductList(products);
-    }
+//    @Override
+//    public List<GetListProductResponse> getBySpecificationId(UUID specificationId) {
+//        List<Product> products = productRepository.findAllByProductSpecification_IdAndDeletedDateIsNull(specificationId);
+//        return ProductMapper.INSTANCE.GetListProductResponseFromProductList(products);
+//    }
 
     private ProductResponse mapToResponse(Product product){
         ProductResponse response = new ProductResponse();

@@ -10,7 +10,7 @@ import java.util.UUID;
 // UNIQUE KEY kısıtlamasını Entity seviyesinde tanımlıyoruz
 @Entity
 @Table(name = "prod_char_values", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"char_value_id", "product_id"}, name = "UK_prod_char_value")
+        @UniqueConstraint(columnNames = {"char_value_id", "product_offer_id"}, name = "UK_prod_char_value")
 })
 public class ProdCharValue extends BaseEntity {
 
@@ -24,8 +24,8 @@ public class ProdCharValue extends BaseEntity {
     private CharValue charValue; // Hangi değere ait
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product; // Hangi ürüne ait
+    @JoinColumn(name = "product_offer_id", nullable = false)
+    private ProductOffer productOffer; // Hangi ürüne ait
 
     public CharValue getCharValue() {
         return charValue;
@@ -35,12 +35,12 @@ public class ProdCharValue extends BaseEntity {
         this.charValue = charValue;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductOffer getProductOffer() {
+        return productOffer;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductOffer(ProductOffer productOffer) {
+        this.productOffer = productOffer;
     }
 
     public UUID getId() {
@@ -54,9 +54,9 @@ public class ProdCharValue extends BaseEntity {
     public ProdCharValue() {
     }
 
-    public ProdCharValue(UUID id, CharValue charValue, Product product) {
+    public ProdCharValue(UUID id, CharValue charValue, ProductOffer productOffer) {
         this.id = id;
         this.charValue = charValue;
-        this.product = product;
+        this.productOffer = productOffer;
     }
 }

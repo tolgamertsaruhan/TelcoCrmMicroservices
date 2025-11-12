@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<Product, UUID> {
-    @EntityGraph(attributePaths = {"catalog", "productSpecification"})
-    List<Product> findAllByCatalog_IdAndDeletedDateIsNull(UUID catalogId);
-
-    @EntityGraph(attributePaths = {"catalog", "productSpecification"})
-    List<Product> findAllByProductSpecification_IdAndDeletedDateIsNull(UUID specificationId);
+//    @EntityGraph(attributePaths = {"catalog", "productSpecification"})
+//    List<Product> findAllByCatalog_IdAndDeletedDateIsNull(UUID catalogId);
+//
+//    @EntityGraph(attributePaths = {"catalog", "productSpecification"})
+//    List<Product> findAllByProductSpecification_IdAndDeletedDateIsNull(UUID specificationId);
 }

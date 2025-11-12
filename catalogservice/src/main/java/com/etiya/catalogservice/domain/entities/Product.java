@@ -41,14 +41,14 @@ public class Product extends BaseEntity {
 
     // Ürüne özel teknik özellikleri işaret eder.
     // Spec_id Not Null olduğu için nullable = false olmalı.
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spec_id", nullable = false)
-    private ProductSpecification productSpecification;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "spec_id", nullable = false)
+//    private ProductSpecification productSpecification;
 
     // prod_char_values tablosundan gelen ilişki
     // Bir ürünün birden fazla özellik değeri olabilir.
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<ProdCharValue> productCharValues;
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    private List<ProdCharValue> productCharValues;
 
 
     public String getName() {
@@ -67,21 +67,21 @@ public class Product extends BaseEntity {
         this.catalog = catalog;
     }
 
-    public ProductSpecification getProductSpecification() {
-        return productSpecification;
-    }
+//    public ProductSpecification getProductSpecification() {
+//        return productSpecification;
+//    }
+//
+//    public void setProductSpecification(ProductSpecification productSpecification) {
+//        this.productSpecification = productSpecification;
+//    }
 
-    public void setProductSpecification(ProductSpecification productSpecification) {
-        this.productSpecification = productSpecification;
-    }
-
-    public List<ProdCharValue> getProductCharValues() {
-        return productCharValues;
-    }
-
-    public void setProductCharValues(List<ProdCharValue> productCharValues) {
-        this.productCharValues = productCharValues;
-    }
+//    public List<ProdCharValue> getProductCharValues() {
+//        return productCharValues;
+//    }
+//
+//    public void setProductCharValues(List<ProdCharValue> productCharValues) {
+//        this.productCharValues = productCharValues;
+//    }
 
     public UUID getId() {
         return id;
@@ -139,7 +139,7 @@ public class Product extends BaseEntity {
         this.price = price;
     }
 
-    public Product(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, ProductOffer productOffer, Catalog catalog, ProductSpecification productSpecification) {
+    public Product(UUID id, String name, String description, BigDecimal price, BigDecimal discountedPrice, ProductOffer productOffer, Catalog catalog) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -147,7 +147,6 @@ public class Product extends BaseEntity {
         this.discountedPrice = discountedPrice;
         this.productOffer = productOffer;
         this.catalog = catalog;
-        this.productSpecification = productSpecification;
     }
 
 

@@ -14,6 +14,7 @@ public class GetProductOfferResponse {
     private LocalDateTime endDate;
     private BigDecimal price;
     private ProductOfferStatuses status;
+    private UUID specificationId;
 
     public UUID getId() {
         return id;
@@ -71,7 +72,15 @@ public class GetProductOfferResponse {
         this.price = price;
     }
 
-    public GetProductOfferResponse(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status) {
+    public UUID getSpecificationId() {
+        return specificationId;
+    }
+
+    public void setSpecificationId(UUID specificationId) {
+        this.specificationId = specificationId;
+    }
+
+    public GetProductOfferResponse(UUID id, String name, String description, LocalDateTime startDate, LocalDateTime endDate, BigDecimal price, ProductOfferStatuses status, UUID specificationId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -79,6 +88,7 @@ public class GetProductOfferResponse {
         this.endDate = endDate;
         this.price = price;
         this.status = status;
+        this.specificationId = specificationId;
     }
 
     public GetProductOfferResponse() {

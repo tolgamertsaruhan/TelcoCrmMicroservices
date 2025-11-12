@@ -20,6 +20,6 @@ public interface ProductService {
     void delete(UUID id);  // Hard delete
     void softDelete(UUID id);
 
-    List<GetListProductResponse> getByCatalogId(UUID catalogId);
-    List<GetListProductResponse> getBySpecificationId(UUID specificationId);
+//    List<GetListProductResponse> getByCatalogId(UUID catalogId);
+//    List<GetListProductResponse> getBySpecificationId(UUID specificationId);
 }

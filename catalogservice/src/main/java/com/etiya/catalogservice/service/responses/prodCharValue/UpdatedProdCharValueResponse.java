@@ -5,7 +5,7 @@ import java.util.UUID;
 public class UpdatedProdCharValueResponse {
     private UUID id;
     private UUID charValueId; // Hangi değere ait
-    private UUID productId;
+    private UUID productOfferId;
 
     public UUID getId() {
         return id;
@@ -23,18 +23,18 @@ public class UpdatedProdCharValueResponse {
         this.charValueId = charValueId;
     }
 
-    public UUID getProductId() {
-        return productId;
+    public UUID getProductOfferId() {
+        return productOfferId;
     }
 
-    public void setProductId(UUID productId) {
-        this.productId = productId;
+    public void setProductOfferId(UUID productOfferId) {
+        this.productOfferId = productOfferId;
     }
 
-    public UpdatedProdCharValueResponse(UUID id, UUID charValueId, UUID productId) {
+    public UpdatedProdCharValueResponse(UUID id, UUID charValueId, UUID productOfferId) {
         this.id = id;
         this.charValueId = charValueId;
-        this.productId = productId;
+        this.productOfferId = productOfferId;
     }
 
     public UpdatedProdCharValueResponse() {}

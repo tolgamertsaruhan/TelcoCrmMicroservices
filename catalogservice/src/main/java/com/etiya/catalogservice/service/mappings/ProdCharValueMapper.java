@@ -20,26 +20,26 @@ public interface ProdCharValueMapper {
     ProdCharValueMapper INSTANCE = Mappers.getMapper(ProdCharValueMapper.class);
 
     @Mapping(source = "charValueId", target = "charValue.id")
-    @Mapping(source = "productId", target = "product.id")
+    @Mapping(source = "productOfferId", target = "productOffer.id")
     ProdCharValue prodCharValueFromCreateRequest(CreateProdCharValueRequest request);
 
     @Mapping(target = "charValueId", source = "charValue.id")
-    @Mapping(target = "productId", source = "product.id")
+    @Mapping(target = "productOfferId", source = "productOffer.id")
     CreatedProdCharValueResponse createdResponseFromProdCharValue(ProdCharValue prodCharValue);
 
     @Mapping(source = "charValueId", target = "charValue.id")
-    @Mapping(source = "productId", target = "product.id")
+    @Mapping(source = "productOfferId", target = "productOffer.id")
     ProdCharValue prodCharValueFromUpdateRequest(UpdateProdCharValueRequest request, @MappingTarget ProdCharValue prodCharValue);
 
     @Mapping(target = "charValueId", source = "charValue.id")
-    @Mapping(target = "productId", source = "product.id")
+    @Mapping(target = "productOfferId", source = "productOffer.id")
     UpdatedProdCharValueResponse updatedResponseFromProdCharValue(ProdCharValue prodCharValue);
 
     @Mapping(target = "charValueId", source = "charValue.id")
-    @Mapping(target = "productId", source = "product.id")
+    @Mapping(target = "productOfferId", source = "productOffer.id")
     GetProdCharValueResponse getProdCharValueResponseFromProdCharValue(ProdCharValue prodCharValue);
 
     @Mapping(target = "charValueId", source = "charValue.id")
-    @Mapping(target = "productId", source = "product.id")
+    @Mapping(target = "productOfferId", source = "productOffer.id")
     List<GetListProdCharValueResponse> getListProdCharValueResponsesFromProdCharValues(List<ProdCharValue> prodCharValues);
 }

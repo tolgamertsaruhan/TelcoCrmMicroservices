@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class CreateProdCharValueRequest {
     private UUID charValueId; // Hangi değere ait
-    private UUID productId;
+    private UUID productOfferId;
 
     public UUID getCharValueId() {
         return charValueId;
@@ -14,17 +14,17 @@ public class CreateProdCharValueRequest {
         this.charValueId = charValueId;
     }
 
-    public UUID getProductId() {
-        return productId;
+    public UUID getProductOfferId() {
+        return productOfferId;
     }
 
     public void setProductId(UUID productId) {
-        this.productId = productId;
+        this.productOfferId = productId;
     }
 
-    public CreateProdCharValueRequest(UUID charValueId, UUID productId) {
+    public CreateProdCharValueRequest(UUID charValueId, UUID productOfferId) {
         this.charValueId = charValueId;
-        this.productId = productId;
+        this.productOfferId = productOfferId;
     }
 
     public CreateProdCharValueRequest() {}
