@@ -4,9 +4,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Document(collection = "orders")
 public class Order {
@@ -37,7 +39,7 @@ public class Order {
     private LocalDate orderDate;
 
     @Field(name = "totalPrice")
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     private List<OrderItem> orderItems;
 
@@ -45,7 +47,7 @@ public class Order {
         this.orderItems = new ArrayList<>();
     }
 
-    public Order(String id, String customerId, String firstName, String lastName, String email, String billingAccountId, String addressId, LocalDate orderDate, double totalPrice, List<OrderItem> orderItems) {
+    public Order(String id, String customerId, String firstName, String lastName, String email, String billingAccountId, String addressId, LocalDate orderDate, BigDecimal totalPrice, List<OrderItem> orderItems) {
         this.id = id;
         this.customerId = customerId;
         this.firstName = firstName;
@@ -122,11 +124,11 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

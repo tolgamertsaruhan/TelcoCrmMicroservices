@@ -2,6 +2,10 @@ package com.etiya.salesservice.domain;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
+import java.util.Map;
+import java.util.UUID;
+
 public class OrderItem {
 
     @Field(name = "id")
@@ -16,20 +20,28 @@ public class OrderItem {
     @Field(name = "productOfferId")
     private String productOfferId;
 
-    @Field(name = "sourceType")
-    private String sourceType;
-
     @Field(name = "productName")
     private String productName;
 
     @Field(name = "price")
-    private double price;
+    private BigDecimal price;
 
     @Field(name = "discountedPrice")
-    private double discountedPrice;
+    private BigDecimal discountedPrice;
 
     @Field(name = "discountRate")
-    private double discountRate;
+    private BigDecimal discountRate;
+
+    @Field(name = "configurationValues")
+    private Map<String, String> configurationValues;
+
+    public Map<String, String> getConfigurationValues() {
+        return configurationValues;
+    }
+
+    public void setConfigurationValues(Map<String, String> configurationValues) {
+        this.configurationValues = configurationValues;
+    }
 
     public String getCampaignProductId() {
         return campaignProductId;
@@ -47,27 +59,19 @@ public class OrderItem {
         this.productOfferId = productOfferId;
     }
 
-    public String getSourceType() {
-        return sourceType;
-    }
-
-    public void setSourceType(String sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    public double getDiscountedPrice() {
+    public BigDecimal getDiscountedPrice() {
         return discountedPrice;
     }
 
-    public void setDiscountedPrice(double discountedPrice) {
+    public void setDiscountedPrice(BigDecimal discountedPrice) {
         this.discountedPrice = discountedPrice;
     }
 
-    public double getDiscountRate() {
+    public BigDecimal getDiscountRate() {
         return discountRate;
     }
 
-    public void setDiscountRate(double discountRate) {
+    public void setDiscountRate(BigDecimal discountRate) {
         this.discountRate = discountRate;
     }
 
@@ -95,11 +99,26 @@ public class OrderItem {
         this.productName = productName;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public OrderItem(String id, String productId, String campaignProductId, String productOfferId, String productName, BigDecimal price, BigDecimal discountedPrice, BigDecimal discountRate, Map<String, String> configurationValues) {
+        this.id = id;
+        this.productId = productId;
+        this.campaignProductId = campaignProductId;
+        this.productOfferId = productOfferId;
+        this.productName = productName;
+        this.price = price;
+        this.discountedPrice = discountedPrice;
+        this.discountRate = discountRate;
+        this.configurationValues = configurationValues;
+    }
+
+    public OrderItem() {
     }
 }
