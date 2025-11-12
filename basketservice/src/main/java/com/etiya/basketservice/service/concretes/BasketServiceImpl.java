@@ -6,9 +6,11 @@ import com.etiya.basketservice.domain.Basket;
 import com.etiya.basketservice.domain.BasketItem;
 import com.etiya.basketservice.repository.BasketRepository;
 import com.etiya.basketservice.service.abstracts.BasketService;
+import com.etiya.common.responses.CampaignProductOfferResponse;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -109,22 +111,21 @@ public class BasketServiceImpl implements BasketService {
 //        basketRepository.add(basket);
 //    }
 
-    public void add(UUID billingAccountId, UUID productOfferId, UUID campaignProductOfferId) {
+    public void add(UUID billingAccountId, UUID productOfferId, UUID campaignId) {
         // 1️⃣ BillingAccount bilgisi al
         var billingAccount = customerServiceClient.getBillingAccountById(billingAccountId);
 
-        // 2️⃣ ProductOffer bilgisi al
-        var productOffer = catalogServiceClient.getProductOffer(productOfferId);
+
 
         // 3️⃣ Kampanya varsa kampanya bilgisi al
         BigDecimal discountRate = BigDecimal.ZERO;
-        UUID campaignId = null;
-        if (campaignProductOfferId != null) {
-            var campaignProductOffer = catalogServiceClient.getCampaignProductOffer(campaignProductOfferId);
-            var campaign = catalogServiceClient.getCampaignId(campaignProductOffer.getCampaignId());
+
+        if (campaignId != null) {
+            var campaign = catalogServiceClient.getCampaignId(campaignId);
             discountRate = campaign.getDiscountRate();
-            campaignId = campaign.getId();
+
         }
+
 
         // 4️⃣ Sepeti al veya oluştur
         var basket = basketRepository.getBasketByBillingAccountId(billingAccount.getId());
@@ -134,32 +135,71 @@ public class BasketServiceImpl implements BasketService {
             basket.setTotalPrice(BigDecimal.ZERO);
         }
 
-        // 5️⃣ Sepette aynı ürün varsa miktarı artır
-        BasketItem existingItem = basket.getBasketItems().stream()
-                .filter(item -> item.getProductOfferId().equals(productOfferId)
-                        && Objects.equals(item.getCampaignProductOfferId(), campaignProductOfferId))
-                .findFirst()
-                .orElse(null);
+        if(campaignId!=null){
+            List<CampaignProductOfferResponse> campaignOffers =
+                    catalogServiceClient.getAllCampaignProductOffersByCampaignId(campaignId);
 
-        if (existingItem != null) {
-            existingItem.setQuantity(existingItem.getQuantity() + 1);
+            for (var campaignOffer : campaignOffers) {
+                var productOfferItem = catalogServiceClient.getProductOffer(campaignOffer.getProductOfferId());
+
+                // 5️⃣ Sepette aynı ürün varsa miktarı artır
+                BasketItem existingItem = basket.getBasketItems().stream()
+                        .filter(item -> item.getProductOfferId().equals(campaignOffer.getProductOfferId())
+                                && Objects.equals(item.getCampaignProductOfferId(), campaignOffer.getId()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingItem != null) {
+                    existingItem.setQuantity(existingItem.getQuantity() + 1);
+                } else {
+                    BasketItem basketItem = new BasketItem();
+                    basketItem.setProductOfferId(productOfferItem.getId());
+                    basketItem.setProductName(productOfferItem.getName());
+                    basketItem.setPrice(productOfferItem.getPrice());
+                    basketItem.setDiscountRate(discountRate);
+                    basketItem.setQuantity(1);
+                    basketItem.setCampaignProductOfferId(campaignOffer.getId());
+                    basketItem.setCampaignId(campaignId);
+
+
+                    BigDecimal discountedPrice = productOfferItem.getPrice()
+                            .multiply(BigDecimal.ONE.subtract(discountRate));
+                    basketItem.setDiscountedPrice(discountedPrice);
+
+                    basket.getBasketItems().add(basketItem);
+                }
+            }
         } else {
-            BasketItem basketItem = new BasketItem();
-            basketItem.setProductOfferId(productOffer.getId());
-            basketItem.setProductName(productOffer.getName());
-            basketItem.setPrice(productOffer.getPrice());
-            basketItem.setDiscountRate(discountRate);
-            basketItem.setQuantity(1);
-            basketItem.setCampaignProductOfferId(campaignProductOfferId);
-            basketItem.setCampaignId(campaignId);
-            basketItem.setProductOfferId(productOffer.getId());
+            // 5️⃣ Sepette aynı ürün varsa miktarı artır
+            BasketItem existingItem = basket.getBasketItems().stream()
+                    .filter(item -> item.getProductOfferId().equals(productOfferId)
+                            && Objects.equals(item.getCampaignProductOfferId(), null))
+                    .findFirst()
+                    .orElse(null);
 
-            BigDecimal discountedPrice = productOffer.getPrice()
-                    .multiply(BigDecimal.ONE.subtract(discountRate));
-            basketItem.setDiscountedPrice(discountedPrice);
+            if (existingItem != null) {
+                existingItem.setQuantity(existingItem.getQuantity() + 1);
+            } else {
 
-            basket.getBasketItems().add(basketItem);
+                var productOffer = catalogServiceClient.getProductOffer(productOfferId);
+                BasketItem basketItem = new BasketItem();
+                basketItem.setProductOfferId(productOffer.getId());
+                basketItem.setProductName(productOffer.getName());
+                basketItem.setPrice(productOffer.getPrice());
+                basketItem.setDiscountRate(discountRate);
+                basketItem.setQuantity(1);
+                basketItem.setCampaignProductOfferId(null);
+                basketItem.setCampaignId(null);
+                basketItem.setProductOfferId(productOffer.getId());
+
+                BigDecimal discountedPrice = productOffer.getPrice()
+                        .multiply(BigDecimal.ONE.subtract(discountRate));
+                basketItem.setDiscountedPrice(discountedPrice);
+
+                basket.getBasketItems().add(basketItem);
+            }
         }
+
 
         // 6️⃣ Toplam fiyatı güncelle
         BigDecimal total = basket.getBasketItems().stream()
@@ -192,40 +232,70 @@ public class BasketServiceImpl implements BasketService {
         return basketRepository.getBasketByBillingAccountId(billingAccountId);
     }
 
-    public void removeItem(UUID billingAccountId, UUID productOfferId, UUID campaignProductOfferId) {
+    public void removeItem(UUID billingAccountId, UUID productOfferId, UUID campaignId) {
         // 1️⃣ Sepeti al
         var basket = basketRepository.getBasketByBillingAccountId(billingAccountId);
         if (basket == null || basket.getBasketItems().isEmpty()) {
             return; // Sepet yoksa veya boşsa çık
         }
 
-        // 2️⃣ Sepette ilgili item'i bul
-        BasketItem existingItem = basket.getBasketItems().stream()
-                .filter(item -> item.getProductOfferId().equals(productOfferId)
-                        && Objects.equals(item.getCampaignProductOfferId(), campaignProductOfferId))
-                .findFirst()
-                .orElse(null);
+        if (campaignId != null) {
+            List<CampaignProductOfferResponse> campaignOffers =
+                    catalogServiceClient.getAllCampaignProductOffersByCampaignId(campaignId);
 
-        if (existingItem == null) {
-            return; // Sepette böyle bir ürün yok
-        }
+            for (var campaignOffer : campaignOffers) {
+                var productOfferItem = catalogServiceClient.getProductOffer(campaignOffer.getProductOfferId());
 
-        // 3️⃣ Quantity kontrolü
-        if (existingItem.getQuantity() > 1) {
-            existingItem.setQuantity(existingItem.getQuantity() - 1);
+                // 2️⃣ Sepette ilgili item'i bul
+                BasketItem existingItem = basket.getBasketItems().stream()
+                        .filter(item -> item.getProductOfferId().equals(productOfferItem.getId())
+                                && Objects.equals(item.getCampaignId(), campaignId))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingItem == null) {
+                    return; // Sepette böyle bir ürün yok
+                }
+
+                // 3️⃣ Quantity kontrolü
+                if (existingItem.getQuantity() > 1) {
+                    existingItem.setQuantity(existingItem.getQuantity() - 1);
+                } else {
+                    // Quantity 1 ise item'i sepetten çıkar
+                    basket.getBasketItems().remove(existingItem);
+                }
+            }
+
         } else {
-            // Quantity 1 ise item'i sepetten çıkar
-            basket.getBasketItems().remove(existingItem);
+            // 2️⃣ Sepette ilgili item'i bul
+            BasketItem existingItem = basket.getBasketItems().stream()
+                    .filter(item -> item.getProductOfferId().equals(productOfferId)
+                            && Objects.equals(item.getCampaignId(), campaignId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingItem == null) {
+                return; // Sepette böyle bir ürün yok
+            }
+
+            // 3️⃣ Quantity kontrolü
+            if (existingItem.getQuantity() > 1) {
+                existingItem.setQuantity(existingItem.getQuantity() - 1);
+            } else {
+                // Quantity 1 ise item'i sepetten çıkar
+                basket.getBasketItems().remove(existingItem);
+            }
         }
 
-        // 4️⃣ Sepet toplam fiyatını güncelle
-        BigDecimal total = basket.getBasketItems().stream()
-                .map(item -> item.getDiscountedPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            // 4️⃣ Sepet toplam fiyatını güncelle
+            BigDecimal total = basket.getBasketItems().stream()
+                    .map(item -> item.getDiscountedPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        basket.setTotalPrice(total);
+            basket.setTotalPrice(total);
 
-        // 5️⃣ Sepeti kaydet
-        basketRepository.add(basket);
+            // 5️⃣ Sepeti kaydet
+            basketRepository.add(basket);
+
     }
 }

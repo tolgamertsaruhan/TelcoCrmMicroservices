@@ -27,10 +27,10 @@ public class BasketController {
     @PostMapping("/add")
     public ResponseEntity<Void> addToBasket(
             @RequestParam UUID billingAccountId,
-            @RequestParam UUID productOfferId,
-            @RequestParam(required = false) UUID campaignProductOfferId) {
+            @RequestParam(required = false) UUID productOfferId,
+            @RequestParam(required = false) UUID campaignId) {
 
-        basketService.add(billingAccountId, productOfferId, campaignProductOfferId);
+        basketService.add(billingAccountId, productOfferId, campaignId);
         return ResponseEntity.ok().build();
     }
 
@@ -62,10 +62,10 @@ public class BasketController {
     @DeleteMapping("/remove")
     public ResponseEntity<Basket> removeFromBasket(
             @RequestParam UUID billingAccountId,
-            @RequestParam UUID productOfferId,
-            @RequestParam(required = false) UUID campaignProductOfferId
+            @RequestParam(required = false) UUID productOfferId,
+            @RequestParam(required = false) UUID campaignId
     ) {
-        basketService.removeItem(billingAccountId, productOfferId, campaignProductOfferId);
+        basketService.removeItem(billingAccountId, productOfferId, campaignId);
         Basket basket = basketService.getByBillingAccountId(billingAccountId);
         return ResponseEntity.ok(basket);
     }
