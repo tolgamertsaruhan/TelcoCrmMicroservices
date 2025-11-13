@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CatalogProductOfferServiceImpl implements CatalogProductOfferService {
@@ -75,5 +76,31 @@ public class CatalogProductOfferServiceImpl implements CatalogProductOfferServic
                 .orElseThrow(() -> new RuntimeException("CatalogProductOffer not found"));
         offer.setDeletedDate(LocalDateTime.now());
         catalogProductOfferRepository.save(offer);
+    }
+
+    @Override
+    public List<GetListCatalogProductOfferResponse> getCatalogProductOfferByCatalogId(UUID catalogId) {
+        List<CatalogProductOffer> catalogProductOffers = catalogProductOfferRepository.findAllByCatalog_Id(catalogId);
+
+        // Entity -> Response dönüşümü
+        return catalogProductOffers.stream()
+                .map(cpo -> new GetListCatalogProductOfferResponse(
+                        cpo.getId(),
+                        cpo.getCatalog().getId(),
+                        cpo.getProductOffer().getId()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GetListCatalogProductOfferResponse> searchByCatalogIdAndProductOfferName(UUID catalogId, String productOfferName) {
+        return catalogProductOfferRepository.searchByCatalogIdAndProductOfferName(catalogId, productOfferName)
+                .stream()
+                .map(cpo -> new GetListCatalogProductOfferResponse(
+                        cpo.getId(),
+                        cpo.getCatalog().getId(),
+                        cpo.getProductOffer().getId()
+                ))
+                .collect(Collectors.toList());
     }
 }

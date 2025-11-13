@@ -54,4 +54,17 @@ public class CatalogProductOfferController {
     public void softDelete(@PathVariable UUID id) {
         catalogProductOfferService.softDelete(id);
     }
+
+    @GetMapping("/get-product-offers-by-catalog/{catalogId}")
+    public List<GetListCatalogProductOfferResponse> getByCatalogId(@PathVariable UUID catalogId) {
+        return catalogProductOfferService.getCatalogProductOfferByCatalogId(catalogId);
+    }
+
+    @GetMapping("/search-by-catalog-prod-offer")
+    public List<GetListCatalogProductOfferResponse> search(
+            @RequestParam UUID catalogId,
+            @RequestParam String productOfferName
+    ) {
+        return catalogProductOfferService.searchByCatalogIdAndProductOfferName(catalogId, productOfferName);
+    }
 }

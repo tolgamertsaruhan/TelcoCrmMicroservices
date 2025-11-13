@@ -18,4 +18,6 @@ public interface CatalogProductOfferService {
     GetCatalogProductOfferResponse getById(UUID id);
     List<GetListCatalogProductOfferResponse> getAll();
     void softDelete(UUID id);
+    List<GetListCatalogProductOfferResponse> getCatalogProductOfferByCatalogId(UUID id);
+    List<GetListCatalogProductOfferResponse> searchByCatalogIdAndProductOfferName(UUID catalogId, String productOfferName);
 }
