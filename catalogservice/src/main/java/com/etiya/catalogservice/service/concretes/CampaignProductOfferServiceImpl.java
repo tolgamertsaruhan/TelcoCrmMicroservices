@@ -116,4 +116,16 @@ public class CampaignProductOfferServiceImpl implements CampaignProductOfferServ
                 .map(CampaignProductOfferMapper.INSTANCE::getCampaignProductResponseFromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<GetListCampaignProductOfferResponse> searchByCampaignIdAndProductOfferName(UUID campaignId, String productOfferName) {
+        return campaignProductOfferRepository.searchByCampaignIdAndProductOfferName(campaignId, productOfferName)
+                .stream()
+                .map(cpo -> new GetListCampaignProductOfferResponse(
+                        cpo.getId(),
+                        cpo.getProductOffer().getId(),
+                        cpo.getCampaign().getId()
+                ))
+                .collect(Collectors.toList());
+    }
 }

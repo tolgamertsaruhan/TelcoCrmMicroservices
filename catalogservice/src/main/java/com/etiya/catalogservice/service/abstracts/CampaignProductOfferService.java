@@ -29,4 +29,6 @@ public interface CampaignProductOfferService {
     GetCampaignProductOfferResponse findCampaignProductOfferById(UUID campaignProductOfferId);
 
     List<GetCampaignProductOfferResponse> getCampaignProductOffersByCampaignId(UUID campaignId);
+
+    List<GetListCampaignProductOfferResponse> searchByCampaignIdAndProductOfferName(UUID campaignId, String productOfferName);
 }

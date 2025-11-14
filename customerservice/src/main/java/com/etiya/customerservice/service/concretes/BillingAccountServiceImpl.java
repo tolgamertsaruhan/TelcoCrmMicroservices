@@ -224,4 +224,15 @@ public class BillingAccountServiceImpl implements BillingAccountService {
         response.setId(billingAccount.getId());
         return response;
     }
+
+    @Override
+    public UUID getCustomerIdByBillingAccountId(UUID billingAccountId) {
+        UUID customerId = billingAccountRepository.getCustomerIdByBillingAccountId(billingAccountId);
+
+        if (customerId == null) {
+            throw new RuntimeException("Customer not found for billing account id: " + billingAccountId);
+        }
+
+        return customerId;
+    }
 }

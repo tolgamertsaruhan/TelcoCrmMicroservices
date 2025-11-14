@@ -1,12 +1,14 @@
 package com.etiya.catalogservice.service.concretes;
 
-import com.etiya.catalogservice.domain.entities.Product;
-import com.etiya.catalogservice.domain.entities.ProductOffer;
+import com.etiya.catalogservice.domain.entities.*;
 import com.etiya.catalogservice.repository.ProductOfferRepository;
 import com.etiya.catalogservice.service.abstracts.ProductOfferService;
 import com.etiya.catalogservice.service.mappings.ProductOfferMapper;
 import com.etiya.catalogservice.service.requests.productOffer.CreateProductOfferRequest;
 import com.etiya.catalogservice.service.requests.productOffer.UpdateProductOfferRequest;
+import com.etiya.catalogservice.service.responses.ProductConfigration.CharacteristicValueResponse;
+import com.etiya.catalogservice.service.responses.ProductConfigration.ProductCharacteristicResponse;
+import com.etiya.catalogservice.service.responses.ProductConfigration.ProductOfferConfigurationResponse;
 import com.etiya.catalogservice.service.responses.productOffer.CreatedProductOfferResponse;
 import com.etiya.catalogservice.service.responses.productOffer.GetProductOfferResponse;
 import com.etiya.catalogservice.service.responses.productOffer.GetListProductOfferResponse;
@@ -79,5 +81,41 @@ public class ProductOfferServiceImpl implements ProductOfferService {
     @Override
     public void delete(UUID id) {
         productOfferRepository.deleteById(id);  // Hard delete işlemi
+    }
+
+
+    public ProductOfferConfigurationResponse getConfigurationForProductOffer(UUID productOfferId) {
+
+        ProductOffer offer = productOfferRepository.findById(productOfferId)
+                .orElseThrow(() -> new RuntimeException("Product Offer not found"));
+
+        ProductSpecification spec = offer.getProductSpecification();
+
+        List<ProductSpecCharacteristic> specs = spec.getProductSpecCharacteristics();
+
+        List<ProductCharacteristicResponse> characteristics = specs.stream()
+                .map(psc -> {
+                    Characteristic c = psc.getCharacteristic();
+                    return new ProductCharacteristicResponse(
+                            c.getId(),
+                            c.getName(),
+                            c.getDescription(),
+                            c.getDataType(),
+                            c.getUnitOfMeasure(),
+                            psc.isRequiredIs(),
+                            c.getCharValues().stream()
+                                    .map(v -> new CharacteristicValueResponse(
+                                            v.getId(),
+                                            v.getValue()
+                                    )).toList()
+                    );
+                }).toList();
+
+        return new ProductOfferConfigurationResponse(
+                offer.getId(),
+                offer.getName(),
+                offer.getPrice(),
+                characteristics
+        );
     }
 }

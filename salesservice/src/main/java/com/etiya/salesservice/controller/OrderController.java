@@ -1,12 +1,12 @@
 package com.etiya.salesservice.controller;
 
+import com.etiya.salesservice.domain.Order;
 import com.etiya.salesservice.service.abstracts.OrderService;
 import com.etiya.salesservice.service.requests.OrderRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.etiya.salesservice.service.responses.OrderIdResponse;
+import com.etiya.salesservice.service.responses.OrderResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -19,14 +19,18 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody OrderRequest orderRequest) {
-        try {
-            orderService.add(orderRequest);
-            return ResponseEntity.ok("Order created successfully and product events sent.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Order creation failed: " + e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Unexpected error: " + e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderIdResponse createOrder(@RequestBody OrderRequest orderRequest) {
+
+        OrderIdResponse orderResponse = new OrderIdResponse();
+        orderResponse.setOrderId(orderService.add(orderRequest));
+
+        return  orderResponse;
+
+    }
+
+    @GetMapping("/{id}")
+    public OrderResponse getOrderById(@PathVariable String id) {
+        return orderService.getById(id);
     }
 }

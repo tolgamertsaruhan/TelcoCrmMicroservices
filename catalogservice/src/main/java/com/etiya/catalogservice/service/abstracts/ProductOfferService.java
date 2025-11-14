@@ -2,6 +2,7 @@ package com.etiya.catalogservice.service.abstracts;
 
 import com.etiya.catalogservice.service.requests.productOffer.CreateProductOfferRequest;
 import com.etiya.catalogservice.service.requests.productOffer.UpdateProductOfferRequest;
+import com.etiya.catalogservice.service.responses.ProductConfigration.ProductOfferConfigurationResponse;
 import com.etiya.catalogservice.service.responses.productOffer.CreatedProductOfferResponse;
 import com.etiya.catalogservice.service.responses.productOffer.GetListProductOfferResponse;
 import com.etiya.catalogservice.service.responses.productOffer.GetProductOfferResponse;
@@ -25,4 +26,6 @@ public interface ProductOfferService {
     void delete(UUID id);
 
     GetProductOfferResponse getProductOfferWithProductIdControl(UUID id);
+
+    ProductOfferConfigurationResponse getConfigurationForProductOffer(UUID productOfferId);
 }

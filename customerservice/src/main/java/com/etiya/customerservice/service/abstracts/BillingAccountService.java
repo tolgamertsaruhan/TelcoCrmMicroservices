@@ -25,4 +25,6 @@ public interface BillingAccountService {
     List<GetListBillingAccountResponse> getByCustomerId(String customerId);
 
     BillingAccountResponse getById(UUID id);
+
+    UUID getCustomerIdByBillingAccountId(UUID billingAccountId);
 }

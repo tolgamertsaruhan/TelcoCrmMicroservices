@@ -3,6 +3,7 @@ package com.etiya.catalogservice.controller;
 import com.etiya.catalogservice.service.abstracts.ProductOfferService;
 import com.etiya.catalogservice.service.requests.productOffer.CreateProductOfferRequest;
 import com.etiya.catalogservice.service.requests.productOffer.UpdateProductOfferRequest;
+import com.etiya.catalogservice.service.responses.ProductConfigration.ProductOfferConfigurationResponse;
 import com.etiya.catalogservice.service.responses.productOffer.CreatedProductOfferResponse;
 import com.etiya.catalogservice.service.responses.productOffer.GetListProductOfferResponse;
 import com.etiya.catalogservice.service.responses.productOffer.GetProductOfferResponse;
@@ -67,5 +68,10 @@ public class ProductOfferController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         productOfferService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{productOfferId}/configuration")
+    public ProductOfferConfigurationResponse getConfiguration(@PathVariable UUID productOfferId) {
+        return productOfferService.getConfigurationForProductOffer(productOfferId);
     }
 }

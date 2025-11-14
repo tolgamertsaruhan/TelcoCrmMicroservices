@@ -11,6 +11,8 @@ import com.etiya.salesservice.service.requests.OrderItemConfiguration;
 import com.etiya.salesservice.service.requests.OrderRequest;
 import com.etiya.salesservice.service.responses.BasketItemResponse;
 import com.etiya.salesservice.service.responses.BasketResponse;
+import com.etiya.salesservice.service.responses.OrderItemResponse;
+import com.etiya.salesservice.service.responses.OrderResponse;
 import com.etiya.salesservice.transport.kafka.producer.basket.ClearBasketProducer;
 import com.etiya.salesservice.transport.kafka.producer.product.CreateProductProducer;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -38,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void add(OrderRequest orderRequest) {
+    public String add(OrderRequest orderRequest) {
 
         // TODO: Bu alanda basketservice tarafına istek atılıp sepetteki veriyi sipariş tarafına göndermek
         // => basketserviceclient.getByCustomerId(customerId)
@@ -109,5 +111,39 @@ public class OrderServiceImpl implements OrderService {
         ClearBasketEvent clearEvent = new ClearBasketEvent(order.getBillingAccountId());
         clearBasketProducer.produceBasketClear(clearEvent);
 
+        return order.getId();
+
     }
+
+
+        @Override
+        public OrderResponse getById(String id) {
+
+            Order order = orderRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+
+            // ---- Order Item dönüşümü ----
+            List<OrderItemResponse> itemResponses = order.getOrderItems()
+                    .stream()
+                    .map(item -> new OrderItemResponse(
+                            item.getProductName(),
+                            item.getPrice(),
+                            item.getDiscountedPrice(),
+                            item.getConfigurationValues()
+                    ))
+                    .toList();
+
+            // ---- OrderResponse oluştur ----
+            OrderResponse response = new OrderResponse(
+                    order.getId(),
+                    order.getTotalPrice(),
+                    order.getAddressId(),   // serviceAddress = addressId
+                    itemResponses
+            );
+
+            return response;
+        }
+
+
+
 }
