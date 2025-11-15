@@ -8,6 +8,9 @@ import com.etiya.salesservice.service.responses.OrderResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -32,5 +35,16 @@ public class OrderController {
     @GetMapping("/{id}")
     public OrderResponse getOrderById(@PathVariable String id) {
         return orderService.getById(id);
+    }
+
+    @GetMapping("/{orderId}/billing-account")
+    public UUID getBillingAccountId(@PathVariable String orderId) {
+        return orderService.getBillingAccountIdByOrderId(orderId);
+    }
+
+    @GetMapping("/by-billing-account/{billingAccountId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<OrderResponse> getOrdersByBillingAccountId(@PathVariable String billingAccountId) {
+        return orderService.getOrdersByBillingAccountId(billingAccountId);
     }
 }

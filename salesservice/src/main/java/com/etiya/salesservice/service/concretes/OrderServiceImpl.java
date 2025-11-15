@@ -72,25 +72,30 @@ public class OrderServiceImpl implements OrderService {
                     .findFirst()
                     .orElse(null);
 
-            OrderItem orderItem = new OrderItem();
-            orderItem.setId(UUID.randomUUID().toString());
-            orderItem.setProductOfferId(item.getProductOfferId().toString());
-            orderItem.setProductName(item.getProductName());
-            orderItem.setPrice(item.getPrice());
-            orderItem.setDiscountedPrice(item.getDiscountedPrice());
-            orderItem.setDiscountRate(item.getDiscountRate());
-            orderItem.setProductId(UUID.randomUUID().toString());
-            if (config != null) {
-                orderItem.setConfigurationValues(config.getConfigurationValues());
+            if(item.getQuantity() > 1){
+                for(int i = 0; i < item.getQuantity(); i++){
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setId(UUID.randomUUID().toString());
+                    orderItem.setProductOfferId(item.getProductOfferId().toString());
+                    orderItem.setProductName(item.getProductName());
+                    orderItem.setPrice(item.getPrice());
+                    orderItem.setDiscountedPrice(item.getDiscountedPrice());
+                    orderItem.setDiscountRate(item.getDiscountRate());
+                    orderItem.setProductId(UUID.randomUUID().toString());
+                    if (config != null) {
+                        orderItem.setConfigurationValues(config.getConfigurationValues());
+                    }
+
+                    BigDecimal priceToAdd = (item.getDiscountedPrice() != null && item.getDiscountedPrice().compareTo(BigDecimal.ZERO) > 0)
+                            ? item.getDiscountedPrice()
+                            : item.getPrice();
+
+                    total = total.add(priceToAdd);
+
+                    orderItems.add(orderItem);
+                }
             }
 
-            BigDecimal priceToAdd = (item.getDiscountedPrice() != null && item.getDiscountedPrice().compareTo(BigDecimal.ZERO) > 0)
-                    ? item.getDiscountedPrice()
-                    : item.getPrice();
-
-            total = total.add(priceToAdd);
-
-            orderItems.add(orderItem);
 
             // 3️⃣ Ürün oluşturulması için ProductCreateEvent fırlat
             /*CreateProductEvent productEvent = new CreateProductEvent(
@@ -144,6 +149,47 @@ public class OrderServiceImpl implements OrderService {
             return response;
         }
 
+    @Override
+    public UUID getBillingAccountIdByOrderId(String orderId) {
 
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+
+        if (order.getBillingAccountId() == null) {
+            throw new RuntimeException("Order has no billingAccountId");
+        }
+
+        return UUID.fromString(order.getBillingAccountId());
+    }
+
+    @Override
+    public List<OrderResponse> getOrdersByBillingAccountId(String billingAccountId) {
+
+        List<Order> orders = orderRepository.findByBillingAccountId(billingAccountId);
+
+        if (orders == null || orders.isEmpty()) {
+            throw new RuntimeException("No orders found for billingAccountId: " + billingAccountId);
+        }
+
+        return orders.stream().map(order -> {
+
+            List<OrderItemResponse> itemResponses = order.getOrderItems()
+                    .stream()
+                    .map(item -> new OrderItemResponse(
+                            item.getProductName(),
+                            item.getPrice(),
+                            item.getDiscountedPrice(),
+                            item.getConfigurationValues()
+                    ))
+                    .toList();
+
+            return new OrderResponse(
+                    order.getId(),
+                    order.getTotalPrice(),
+                    order.getAddressId(),
+                    itemResponses
+            );
+        }).toList();
+    }
 
 }
